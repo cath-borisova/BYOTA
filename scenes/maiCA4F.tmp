@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=18 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -6,6 +6,9 @@
 [ext_resource type="PackedScene" uid="uid://doel0ns5nc6bm" path="res://controllers/controller_r.fbx" id="4_5ti0a"]
 [ext_resource type="Texture2D" uid="uid://cgapaa2jfxlp2" path="res://textures/holodeck.png" id="4_vbrye"]
 [ext_resource type="PackedScene" uid="uid://dwhdmjwiwd0vl" path="res://models/Resource_Tree2.fbx" id="6_kjd1k"]
+[ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="7_s8amh"]
+[ext_resource type="Resource" path="res://terrain_data/data.hterrain" id="8_dt7wq"]
+[ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="9_oir21"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_osj4q"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -36,15 +39,19 @@ size = Vector3(100, 1, 100)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_li6rg"]
 
+[sub_resource type="Resource" id="Resource_xjvow"]
+script = ExtResource("9_oir21")
+mode = 0
+textures = [[], []]
+
 [node name="Main" type="Node3D"]
 script = ExtResource("1_xecma")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 script = ExtResource("2_wmrq2")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, 188.462, 400, 0)
 far = 1000.0
 
 [node name="LeftController" type="XRController3D" parent="XROrigin3D"]
@@ -98,10 +105,10 @@ shape = SubResource("BoxShape3D_li6rg")
 follow_viewport_enabled = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="CanvasLayer"]
-offset_left = -205.0
-offset_top = -1010.0
-offset_right = -5.0
-offset_bottom = -810.0
+offset_left = 83.0
+offset_top = 36.0
+offset_right = 283.0
+offset_bottom = 236.0
 size_flags_horizontal = 8
 size_flags_vertical = 0
 metadata/_edit_group_ = true
@@ -113,11 +120,31 @@ size = Vector2i(200, 200)
 render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="CanvasLayer/SubViewportContainer/SubViewport"]
-process_mode = 3
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.283, 387.423, -7.44)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.283191, 12.5578, -7.44009)
 projection = 1
 current = true
 size = 30.0
+
+[node name="Terrain" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -200, 0, -200)
+visible = false
+script = ExtResource("7_s8amh")
+_terrain_data = ExtResource("8_dt7wq")
+chunk_size = 32
+collision_enabled = true
+collision_layer = 1
+collision_mask = 1
+shader_type = "Classic4Lite"
+custom_shader = null
+custom_globalmap_shader = null
+texture_set = SubResource("Resource_xjvow")
+render_layers = 1
+cast_shadow = 1
+shader_params/u_ground_uv_scale = 20
+shader_params/u_depth_blending = true
+shader_params/u_triplanar = null
+shader_params/u_tile_reduction = null
 
 [connection signal="input_vector2_changed" from="XROrigin3D/LeftController" to="XROrigin3D" method="_process_input"]
 [connection signal="button_pressed" from="XROrigin3D/RightController" to="." method="_on_button_pressed"]
