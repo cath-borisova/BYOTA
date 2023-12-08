@@ -40,7 +40,6 @@ size = Vector3(100, 1, 100)
 script = ExtResource("1_xecma")
 
 [node name="XROrigin3D" type="XROrigin3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 3, 0)
 script = ExtResource("2_wmrq2")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
@@ -87,7 +86,7 @@ visible = false
 shape = SubResource("BoxShape3D_trsr2")
 
 [node name="StaticBody3D" type="StaticBody3D" parent="."]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, -0.202134, -1.39502, -6.79111)
+transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, -0.202, 0, -6.791)
 
 [node name="Resource_Tree2" parent="StaticBody3D" instance=ExtResource("6_kjd1k")]
 
@@ -114,7 +113,7 @@ render_target_update_mode = 4
 
 [node name="Camera3D" type="Camera3D" parent="CanvasLayer/SubViewportContainer/SubViewport"]
 process_mode = 3
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.283, 387.423, -7.44)
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, 1, 0, -1, -4.37114e-08, -0.283, 100, -7.44)
 projection = 1
 current = true
 size = 30.0

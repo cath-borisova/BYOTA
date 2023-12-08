@@ -45,17 +45,18 @@ func _ready():
 	terrain.set_shader_type(HTerrain.SHADER_CLASSIC4_LITE)
 	terrain.set_data(terrain_data)
 #	terrain.set_texture_set(texture_set)
-	terrain.position = Vector3(-200, -20, -200)
+	terrain.position = Vector3(-200, 0, -200)
 	add_child(terrain)
 
 	# No need to call this, but you may need to if you edit the terrain later on
 	#terrain.update_collider()
-
+var amplitude = 3
+#y = a * sin(b * (x)) where b is 2pi/b
+var frequency_interval = 4 #aka b
+var curr_frequency = 0
 func _on_button_pressed(name):
 	if (name == 'trigger_click'):
 		if (is_sin):
-			var noise = FastNoiseLite.new()
-			var noise_multiplier = 50.0
 			# Get access to terrain maps
 			var heightmap: Image = terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT)
 			var normalmap: Image = terrain_data.get_image(HTerrainData.CHANNEL_NORMAL)
@@ -65,16 +66,19 @@ func _on_button_pressed(name):
 			# Generate terrain maps
 			# Note: this is an example with some arbitrary formulas,
 			# you may want to come up with your owns
-			for z in heightmap.get_height():
+			var z_start = 220
+			var z_end = z_start + (amplitude * 3)
+			var z_middle = (z_end + z_start) / 2
+			for z in range(z_start, z_end):
 				for x in heightmap.get_width():
 					# Generate height
-					var h = noise_multiplier * noise.get_noise_2d(x, z)
+					var h = amplitude * sin(frequency_interval * x)
 
 					# Getting normal by generating extra heights directly from noise,
 					# so map borders won't have seams in case you stitch them
-					var h_right = noise_multiplier * noise.get_noise_2d(x + 0.1, z)
-					var h_forward = noise_multiplier * noise.get_noise_2d(x, z + 0.1)
-					var normal = Vector3(h - h_right, 0.1, h_forward - h).normalized()
+#					var h_right = amplitude * noise.get_noise_2d(x + 0.1, z)
+#					var h_forward = amplitude * noise.get_noise_2d(x, z + 0.1)
+					var normal = Vector3(h, 0.1, h).normalized()
 
 					heightmap.set_pixel(x, z, Color(h, 0, 0))
 					normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
