@@ -76,24 +76,14 @@ func _on_button_pressed(name):
 					var h_forward = noise_multiplier * noise.get_noise_2d(x, z + 0.1)
 					var normal = Vector3(h - h_right, 0.1, h_forward - h).normalized()
 
-					# Generate texture amounts
-					var splat = splatmap.get_pixel(x, z)
-					var slope = 4.0 * normal.dot(Vector3.UP) - 2.0
-					# Sand on the slopes
-					var sand_amount = clamp(1.0 - slope, 0.0, 1.0)
-					# Leaves below sea level
-					var leaves_amount = clamp(0.0 - h, 0.0, 1.0)
-					splat = splat.lerp(Color(0,1,0,0), sand_amount)
-					splat = splat.lerp(Color(0,0,1,0), leaves_amount)
-
 					heightmap.set_pixel(x, z, Color(h, 0, 0))
 					normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
-					splatmap.set_pixel(x, z, splat)
-					colormap.set_pixel(x, z, Color(1,0, 0))
+					colormap.set_pixel(x, z, Color(0, 1, 0))
 
 			# Commit modifications so they get uploaded to the graphics card
 			var modified_region = Rect2(Vector2(), heightmap.get_size())
 			terrain_data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
 			terrain_data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
-			terrain_data.notify_region_change(modified_region, HTerrainData.CHANNEL_SPLAT)
+			terrain_data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
+			print("d")
 
