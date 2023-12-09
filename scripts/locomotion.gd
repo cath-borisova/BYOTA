@@ -20,7 +20,6 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-
 	# Forward translation
 	if self.input_vector.y > self.dead_zone || self.input_vector.y < -self.dead_zone:
 		var movement_vector = Vector3(0, 0, max_speed * -self.input_vector.y * delta)
