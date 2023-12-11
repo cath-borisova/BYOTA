@@ -92,7 +92,7 @@ func _edit(node, data, z_start, z_end, amplitude):
 			var normal = 0
 			if (is_sin):
 				print("sin")
-				h = amplitude * sin(deg_to_rad(frequency_interval * x))
+				h = amplitude * sin(deg_to_rad(frequency_interval * x)) * cos(deg_to_rad(PI * z))
 				normal = Vector3(amplitude * cos(deg_to_rad(frequency_interval * x)), -1, 0).normalized()
 			else:
 				h = amplitude * cos(deg_to_rad(frequency_interval * x))
@@ -119,8 +119,9 @@ func _on_button_pressed(name):
 func _process(delta):
 	#print("here")
 	if map_visible:
-		map_terrain.position = Vector3(0,0.5, 0) + $XROrigin3D.position - (sign($XROrigin3D/XRCamera3D.position.y) * Vector3(0, 0 ,0.5))
-
+		map_terrain.position = Vector3(0,0.5, 0) + $XROrigin3D.position - (sign($XROrigin3D/XRCamera3D.position.y) * Vector3(0, 0 ,1))
+		#map_terrain.position = Vector3(0,0.5, 0) + $XROrigin3D.position + ($XROrigin3D/XRCamera3D.global_transform.basis.z * 0.5)
+		#map_terrain.look_at($XROrigin3D/XRCamera3D.position)
 
 func _on_button_released(name):
 	pass # Replace with function body.
