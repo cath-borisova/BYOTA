@@ -20,7 +20,7 @@ const SHADER_MULTISPLAT16 = "MultiSplat16"
 const SHADER_MULTISPLAT16_LITE = "MultiSplat16Lite"
 const SHADER_CUSTOM = "Custom"
 
-const MIN_MAP_SCALE = 0.01
+const MIN_MAP_SCALE = 0.001
 
 # Note, the `str()` syntax is no longer accepted in constants in Godot 4
 const _SHADER_TYPE_HINT_STRING = \
