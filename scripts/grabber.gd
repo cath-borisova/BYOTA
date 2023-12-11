@@ -28,7 +28,6 @@ func _on_button_pressed(button_name: String) -> void:
 
 	# Iterate through all grabbable objects and check if the collision area overlaps with them
 	for grabbable in grabbables:
-
 		# Cast the grabbable object to a RigidBody3D
 		var grabbable_body = grabbable as RigidBody3D
 

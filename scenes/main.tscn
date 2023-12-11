@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=19 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -8,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/grabber.gd" id="4_x0dxe"]
 [ext_resource type="Script" path="res://scripts/toolbox_movement.gd" id="6_543in"]
 [ext_resource type="PackedScene" uid="uid://cae7cbybsmbd3" path="res://FBX/CommonTree_Snow_3.fbx" id="7_6frer"]
+[ext_resource type="PackedScene" uid="uid://cya05sqfl5fqa" path="res://scenes/new_instance_tree.tscn" id="9_adyjp"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a20iy"]
 
@@ -105,16 +106,24 @@ surface_material_override/0 = SubResource("StandardMaterial3D_ym5vi")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.5, 0)
 shape = SubResource("BoxShape3D_trsr2")
 
-[node name="RigidBody3D" type="RigidBody3D" parent="." groups=["grabbable"]]
+[node name="menu" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="tree" type="RigidBody3D" parent="menu" groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.823346, 0.331812, 0)
 script = ExtResource("6_543in")
 
-[node name="CommonTree_Snow_3" parent="RigidBody3D" instance=ExtResource("7_6frer")]
+[node name="CommonTree_Snow_3" parent="menu/tree" instance=ExtResource("7_6frer")]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, -0.319186, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="RigidBody3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="menu/tree"]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.138248, 0)
 shape = SubResource("CylinderShape3D_mvuvt")
+
+[node name="tool_bar" type="Node3D" parent="."]
+visible = false
+
+[node name="new_instance_tree" parent="tool_bar" instance=ExtResource("9_adyjp")]
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]
 [connection signal="button_released" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_released"]
