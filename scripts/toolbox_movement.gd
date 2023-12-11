@@ -13,9 +13,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	#code to follow users view
-	self.global_position =  camera.global_position
-	self.global_position.z = camera.global_position.z - 0.5
-	self.global_position.x = camera.global_position.x + 0.4
+	#self.global_position =  camera.global_position
+	#self.global_position.z = camera.global_position.z - 0.5
+	#self.global_position.x = camera.global_position.x + 0.4
 	
 	#code to detect if right hand is close to object
 	#print(right_hand.global_position.distance_to(self.global_position))

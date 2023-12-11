@@ -3,13 +3,8 @@ extends Node3D
 var grabbed_object: RigidBody3D = null
 var previous_transform: Transform3D
 
-var target_left
-var target_right
-
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	target_left = %LeftController
-	target_right = %RightController
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -17,13 +12,9 @@ func _process(_delta):
 
 	# Copy the grabber's relative movement since the last frame to to the grabbed object
 	if self.grabbed_object:
-		self.grabbed_object.transform = self.transform * self.previous_transform.affine_inverse() * self.grabbed_object.transform
-		self.grabbed_object.scale.x = target_left.global_position.distance_to(target_right.global_position)
-		self.grabbed_object.scale.y = target_left.global_position.distance_to(target_right.global_position)
-		self.grabbed_object.scale.z = target_left.global_position.distance_to(target_right.global_position)
+		self.grabbed_object.transform = self.transform * self.previous_transform.inverse() * self.grabbed_object.transform
 	
 	self.previous_transform = self.transform
-	
 
 func _on_button_pressed(button_name: String) -> void:
 	print("button pressed: " + button_name)
@@ -37,6 +28,7 @@ func _on_button_pressed(button_name: String) -> void:
 
 	# Iterate through all grabbable objects and check if the collision area overlaps with them
 	for grabbable in grabbables:
+
 		# Cast the grabbable object to a RigidBody3D
 		var grabbable_body = grabbable as RigidBody3D
 
