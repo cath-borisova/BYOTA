@@ -58,7 +58,8 @@ func _ready():
 	map_terrain.add_child(map_collision)
 	map_terrain.name = "Map"
 #	terrain.set_texture_set(texture_set)
-	%MapContainer.add_child(map_terrain)
+	#%MapContainer.add_child(map_terrain)
+	add_child(map_terrain)
 
 	# No need to call this, but you may need to if you edit the terrain later on
 	#terrain.update_collider()
@@ -88,16 +89,13 @@ func _edit(node, data, z_start, z_end, amplitude):
 		
 	for z in range(z_start, z_end):
 		for x in heightmap.get_width():
-			var h = 0
-			var normal = 0
-			if (is_sin):
-				print("sin")
-				h = amplitude * sin(deg_to_rad(frequency_interval * x)) * cos(deg_to_rad(PI * z))
-				normal = Vector3(amplitude * cos(deg_to_rad(frequency_interval * x)), -1, 0).normalized()
-			else:
-				h = amplitude * cos(deg_to_rad(frequency_interval * x))
-				normal = Vector3(amplitude * sin(deg_to_rad(frequency_interval * x)), -1, 0).normalized()
-			heightmap.set_pixel(x, z, Color(h, 0, 0))
+			var y = amplitude * sin(frequency_interval * deg_to_rad(x)) * cos(frequency_interval * deg_to_rad(z));
+			var dy_dx = amplitude * frequency_interval * cos(frequency_interval * deg_to_rad(x)) * cos(frequency_interval * deg_to_rad(z));
+			var dy_dz = -amplitude * sin(frequency_interval * deg_to_rad(x)) * sin(frequency_interval * deg_to_rad(z));
+
+			#var normal = Vector3(amplitude * cos(deg_to_rad(frequency_interval * x)), -1, 0).normalized()
+			var normal = Vector3(dy_dx, 1, dy_dz)
+			heightmap.set_pixel(x, z, Color(y, 0, 0))
 			normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
 			colormap.set_pixel(x, z, color)
 	var modified_region = Rect2(Vector2(), heightmap.get_size())
@@ -109,8 +107,8 @@ func _edit(node, data, z_start, z_end, amplitude):
 func _on_button_pressed(name):
 	print(name)
 	if (name == 'trigger_click'):
-		_edit(1, terrain_data, 0, 100, 5)
-		_edit(0, map_data, 0, 100, 5)
+		_edit(1, terrain_data, 50, 300, 20)
+		_edit(0, map_data, 50, 300, 20)
 	if (name == 'ax_button'):
 		print(map_visible)
 		map_visible = !map_visible
@@ -119,9 +117,29 @@ func _on_button_pressed(name):
 func _process(delta):
 	#print("here")
 	if map_visible:
-		map_terrain.position = Vector3(0,0.5, 0) + $XROrigin3D.position - (sign($XROrigin3D/XRCamera3D.position.y) * Vector3(0, 0 ,1))
+		#map_terrain.position = Vector3(0,0.5, 0) + $XROrigin3D.position - (sign($XROrigin3D/XRCamera3D.position.y) * Vector3(0, 0 ,1))
 		#map_terrain.position = Vector3(0,0.5, 0) + $XROrigin3D.position + ($XROrigin3D/XRCamera3D.global_transform.basis.z * 0.5)
 		#map_terrain.look_at($XROrigin3D/XRCamera3D.position)
+#		var new_position = $XROrigin3D.global_position + $XROrigin3D/XRCamera3D.global_transform.basis.z
+#		new_position += $XROrigin3D/XRCamera3D.global_transform.basis.x
+#		new_position.y = 0.5
+#		new_position.z += 0.5
+#		new_position.z += 0.5
+#		#new_position.x = -new_position.x
+#		map_terrain.global_transform.origin = new_position
+#		map_terrain.look_at($XROrigin3D.position, Vector3(0, 1, 0))
+#		#map_terrain.rotation.x = 0
+#		#map_terrain.rotation.y = deg_to_rad(90)
 
+		var new_position = $XROrigin3D.position + -($XROrigin3D.global_transform).basis.z.normalized() * 0.3
+		new_position.y = 0.3
+		
+		# Set the new position for the map_terrain
+		map_terrain.global_transform.origin = new_position
+		
+		# Look at the user's position
+		map_terrain.look_at($XROrigin3D.position, Vector3(0, 1, 0))
+		#map_terrain.position.z += (-1 * map_terrain.position.x/map_terrain.position.x) * 3
+		#map_terrain.rotation.x = deg_to_rad(0)
 func _on_button_released(name):
 	pass # Replace with function body.
