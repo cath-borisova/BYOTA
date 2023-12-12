@@ -7,16 +7,16 @@ var released_object = null
 var map_collision = null
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	map_collision = get_node("../../%MapContainer/Map/Collision")
-
+	#map_collision = get_node("../../%MapContainer/Map/Collision")
+	pass
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 
 	# Copy the grabber's relative movement since the last frame to to the grabbed object
 	if self.grabbed_object:
-		self.grabbed_object.transform = self.transform * self.previous_transform.inverse() * self.grabbed_object.transform
+		self.grabbed_object.transform = self.global_transform * self.previous_transform.affine_inverse() * self.grabbed_object.transform
 
-	self.previous_transform = self.transform
+	self.previous_transform = self.global_transform
 #	print(map_collision)
 #	if released && map_collision.overlaps_body(released_object):
 #		map_collision.add_child(released_object)
