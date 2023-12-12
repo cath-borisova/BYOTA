@@ -29,9 +29,7 @@ func _ready():
 		get_viewport().use_xr = true
 	else:
 		print("OpenXR not initialized. Please check if your headset is connected.")
-
-
-func _on_button_pressed(name):
+		
 	terrain_data = HTerrainData.new()
 	terrain_data.resize(513)
 
@@ -134,7 +132,7 @@ func _process(delta):
 #		#map_terrain.rotation.x = 0
 #		#map_terrain.rotation.y = deg_to_rad(90)
 
-		var new_position = $XROrigin3D.position + -($XROrigin3D.global_transform).basis.z.normalized() * 0.3
+		var new_position = $XROrigin3D.position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.3
 		new_position.y = 0.3
 		
 		# Set the new position for the map_terrain

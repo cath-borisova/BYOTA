@@ -15,7 +15,7 @@ func _process(_delta):
 	# Copy the grabber's relative movement since the last frame to to the grabbed object
 	if self.grabbed_object:
 		self.grabbed_object.transform = self.global_transform * self.previous_transform.affine_inverse() * self.grabbed_object.transform
-
+		self.grabbed_object.scale = Vector3(0.1, 0.1, 0.1)
 	self.previous_transform = self.global_transform
 #	print(map_collision)
 #	if released && map_collision.overlaps_body(released_object):
@@ -54,7 +54,9 @@ func _on_button_pressed(button_name: String) -> void:
 
 			# Freeze the object physics and then grab it
 			grabbable_body.freeze = true
-			grabbable_body.scale = Vector3(0.1, 0.1, 0.1)
+			print(grabbable_body.name)
+			
+			print(grabbable_body.scale)
 			self.grabbed_object = grabbable_body
 			globals.active_grabbers.push_back(self)
 
