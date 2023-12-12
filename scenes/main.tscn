@@ -1,5 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://d46wrkgdeynk"]
 
+
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
 [ext_resource type="PackedScene" uid="uid://dw2kfbg15qqeu" path="res://controllers/controller_l.fbx" id="3_y2kpf"]
@@ -7,6 +8,7 @@
 [ext_resource type="Script" path="res://scripts/grabber.gd" id="4_chvv8"]
 [ext_resource type="Script" path="res://scripts/toolbox_movement.gd" id="6_543in"]
 [ext_resource type="PackedScene" uid="uid://cae7cbybsmbd3" path="res://FBX/CommonTree_Snow_3.fbx" id="7_6frer"]
+[ext_resource type="PackedScene" uid="uid://cya05sqfl5fqa" path="res://scenes/new_instance_tree.tscn" id="9_adyjp"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a20iy"]
 
@@ -27,7 +29,6 @@ fog_density = 0.001
 fog_sky_affect = 0.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_mvuvt"]
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fwram"]
 albedo_color = Color(0.85098, 0.560784, 0.286275, 1)
 
@@ -45,8 +46,9 @@ script = ExtResource("2_wmrq2")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+ Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 far = 1000.0
+
 
 [node name="LeftController" type="XRController3D" parent="XROrigin3D"]
 unique_name_in_owner = true
@@ -90,16 +92,22 @@ environment = SubResource("Environment_pi0m0")
 transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
 
-[node name="Toolbox_Tree" type="RigidBody3D" parent="." groups=["grabbable"]]
+[node name="menu" type="Node3D" parent="."]
+unique_name_in_owner = true
+
+[node name="tree" type="RigidBody3D" parent="menu" groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.823346, 0.331812, 0)
 script = ExtResource("6_543in")
 
-[node name="CommonTree_Snow_3" parent="Toolbox_Tree" instance=ExtResource("7_6frer")]
+[node name="CommonTree_Snow_3" parent="menu/tree" instance=ExtResource("7_6frer")]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, -0.319186, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Toolbox_Tree"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="menu/tree"]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.138248, 0)
 shape = SubResource("CylinderShape3D_mvuvt")
+
+[node name="tool_bar" type="Node3D" parent="."]
+visible = false
 
 [node name="Example" type="RigidBody3D" parent="." groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.035, 5, -4.124)
@@ -112,15 +120,11 @@ mesh = SubResource("SphereMesh_1dckk")
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("SphereShape3D_rnj6x")
 
-[node name="MapContainer" type="Node2D" parent="."]
-unique_name_in_owner = true
+[node name="new_instance_tree" parent="tool_bar" instance=ExtResource("9_adyjp")]
 
-[connection signal="button_pressed" from="XROrigin3D/LeftController" to="." method="_on_button_pressed"]
-[connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D" method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]
-[connection signal="button_released" from="XROrigin3D/LeftController" to="." method="_on_button_released"]
+[connection signal="button_released" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_released"]
 [connection signal="input_vector2_changed" from="XROrigin3D/LeftController" to="XROrigin3D" method="_process_input"]
-[connection signal="button_pressed" from="XROrigin3D/RightController" to="." method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/RightController" to="XROrigin3D/RightController" method="_on_button_pressed"]
 [connection signal="button_released" from="XROrigin3D/RightController" to="XROrigin3D/RightController" method="_on_button_released"]
 [connection signal="input_vector2_changed" from="XROrigin3D/RightController" to="XROrigin3D" method="_process_input"]

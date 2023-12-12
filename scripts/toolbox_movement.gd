@@ -2,11 +2,14 @@ extends RigidBody3D
 
 var camera
 var right_hand
-
+var left_hand
+var menu 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	camera = %XRCamera3D
 	right_hand = %RightController
+	left_hand =  %LeftController
+	menu = %menu
 	pass 
 
 
@@ -17,9 +20,16 @@ func _process(delta):
 	self.global_position.z = camera.global_position.z - 0.5
 	self.global_position.x = camera.global_position.x + 0.4
 	
-	#code to detect if right hand is close to object
-	#print(right_hand.global_position.distance_to(self.global_position))
-	#if right_hand.global_position.distance_to(self.global_position) < 1.2:
-		#self.mesh.material.albedo_color = Color(0.784, 0.592, 0.004)
+	#code that detects if object is grabbed
+	if self == right_hand.grabbed_object or self == left_hand.grabbed_object:
+		var new_shape_scene = load("res://scenes/new_instance_tree.tscn")
+		var new_shape = new_shape_scene.instantiate()
+		new_shape.set_position(self.position)
+		#cannot call method add_child on a null value
+		menu.add_child(new_shape)
+		right_hand.grabbed_object = new_shape
+		#set position?
+		
+		print("PIE") 
 	
 	pass

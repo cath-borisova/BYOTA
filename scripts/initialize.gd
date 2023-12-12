@@ -1,21 +1,6 @@
 extends Node3D
 
-const HTerrain = preload("res://addons/zylann.hterrain/hterrain.gd")
-const HTerrainData = preload("res://addons/zylann.hterrain/hterrain_data.gd")
-const HTerrainTextureSet = preload("res://addons/zylann.hterrain/hterrain_texture_set.gd")
-
-# You may want to change paths to your own textures
-#var grass_texture = load("res://addons/zylann.hterrain_demo/textures/ground/grass_albedo_bump.png")
-#var sand_texture = load("res://addons/zylann.hterrain_demo/textures/ground/sand_albedo_bump.png")
-#var leaves_texture = load("res://addons/zylann.hterrain_demo/textures/ground/leaves_albedo_bump.png")
-#@onready var _terrain = %Terrain
-var terrain_data = null
-var map_data = null
 var xr_interface: XRInterface
-var terrain = null
-var map_terrain = null
-var is_sin = false
-var map_visible = false
 
 func _ready():
 	xr_interface = XRServer.find_interface("OpenXR")
@@ -142,5 +127,6 @@ func _process(delta):
 		map_terrain.look_at($XROrigin3D.position, Vector3(0, 1, 0))
 		#map_terrain.position.z += (-1 * map_terrain.position.x/map_terrain.position.x) * 3
 		#map_terrain.rotation.x = deg_to_rad(0)
+    
 func _on_button_released(name):
 	pass # Replace with function body.
