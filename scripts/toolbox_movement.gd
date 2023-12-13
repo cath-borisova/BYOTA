@@ -22,18 +22,17 @@ func _process(delta):
 	if self == right_hand.grabbed_object or self == left_hand.grabbed_object:
 		var new_shape_scene = load("res://scenes/new_instance_tree.tscn")
 		var new_shape = new_shape_scene.instantiate()
+		get_node("/root/Main").add_child(new_shape)
 		if self == right_hand.grabbed_object:
 			right_hand.is_mini = true
-			print("i am here")
-			new_shape.position = right_hand.global_position
+			new_shape.global_position = right_hand.global_position
 		else:
 			left_hand.is_mini = true
 			new_shape.position = left_hand.position
-		
+		#grabbable_body.freeze = true
 		new_shape.name = "TEST"
 		#cannot call method add_child on a null value
-		
-		get_node("/root/Main").add_child(new_shape)
+		new_shape.freeze = true
 		right_hand.grabbed_object = new_shape
 		#set position?
 		print("PIE")

@@ -45,6 +45,8 @@ script = ExtResource("2_wmrq2")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 unique_name_in_owner = true
+near = 0.01
+far = 1000.0
 
 [node name="LeftController" type="XRController3D" parent="XROrigin3D"]
 unique_name_in_owner = true
@@ -92,7 +94,7 @@ shadow_enabled = true
 unique_name_in_owner = true
 
 [node name="tree" type="RigidBody3D" parent="menu" groups=["grabbable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.823346, 0.331812, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0197728, 0.331812, -1.70641)
 script = ExtResource("6_543in")
 
 [node name="CommonTree_Snow_3" parent="menu/tree" instance=ExtResource("7_6frer")]
@@ -104,7 +106,6 @@ shape = SubResource("CylinderShape3D_mvuvt")
 
 [node name="Example" type="RigidBody3D" parent="." groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0429056, 0.612006, -3.0638)
-visible = false
 
 [node name="Ball" type="MeshInstance3D" parent="Example"]
 mesh = SubResource("SphereMesh_1dckk")
