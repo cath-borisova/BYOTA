@@ -106,7 +106,7 @@ func _edit(node, data, z_start, z_end, amplitude):
 	print('done')
 			
 func _on_button_pressed(name):
-	print(name)
+	#print(name)
 	if (name == 'trigger_click'):
 		_edit(1, terrain_data, 50, 300, 20)
 		_edit(0, map_data, 50, 300, 20)
@@ -118,27 +118,10 @@ func _on_button_pressed(name):
 func _process(delta):
 	#print("here")
 	if map_visible:
-		#map_terrain.position = Vector3(0,0.5, 0) + $XROrigin3D.position - (sign($XROrigin3D/XRCamera3D.position.y) * Vector3(0, 0 ,1))
-		#map_terrain.position = Vector3(0,0.5, 0) + $XROrigin3D.position + ($XROrigin3D/XRCamera3D.global_transform.basis.z * 0.5)
-		#map_terrain.look_at($XROrigin3D/XRCamera3D.position)
-#		var new_position = $XROrigin3D.global_position + $XROrigin3D/XRCamera3D.global_transform.basis.z
-#		new_position += $XROrigin3D/XRCamera3D.global_transform.basis.x
-#		new_position.y = 0.5
-#		new_position.z += 0.5
-#		new_position.z += 0.5
-#		#new_position.x = -new_position.x
-#		map_terrain.global_transform.origin = new_position
-#		map_terrain.look_at($XROrigin3D.position, Vector3(0, 1, 0))
-#		#map_terrain.rotation.x = 0
-#		#map_terrain.rotation.y = deg_to_rad(90)
 
 		var new_position = $XROrigin3D.position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.3
 		new_position.y = 0.3
-		
-		# Set the new position for the map_terrain
 		map_terrain.global_transform.origin = new_position
-		
-		# Look at the user's position
 		map_terrain.look_at($XROrigin3D.position, Vector3(0, 1, 0))
 		#map_terrain.position.z += (-1 * map_terrain.position.x/map_terrain.position.x) * 3
 		#map_terrain.rotation.x = deg_to_rad(0)
