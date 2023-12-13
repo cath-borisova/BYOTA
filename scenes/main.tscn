@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=17 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -7,7 +7,6 @@
 [ext_resource type="Script" path="res://scripts/grabber.gd" id="4_chvv8"]
 [ext_resource type="Script" path="res://scripts/toolbox_movement.gd" id="6_543in"]
 [ext_resource type="PackedScene" uid="uid://cae7cbybsmbd3" path="res://FBX/CommonTree_Snow_3.fbx" id="7_6frer"]
-[ext_resource type="PackedScene" uid="uid://cya05sqfl5fqa" path="res://scenes/new_instance_tree.tscn" id="9_adyjp"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a20iy"]
 
@@ -46,6 +45,8 @@ script = ExtResource("2_wmrq2")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 unique_name_in_owner = true
+near = 0.01
+far = 1000.0
 
 [node name="LeftController" type="XRController3D" parent="XROrigin3D"]
 unique_name_in_owner = true
@@ -93,7 +94,7 @@ shadow_enabled = true
 unique_name_in_owner = true
 
 [node name="tree" type="RigidBody3D" parent="menu" groups=["grabbable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.823346, 0.331812, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0197728, 0.331812, -1.70641)
 script = ExtResource("6_543in")
 
 [node name="CommonTree_Snow_3" parent="menu/tree" instance=ExtResource("7_6frer")]
@@ -103,20 +104,13 @@ transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, -0.319186, 0)
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.138248, 0)
 shape = SubResource("CylinderShape3D_mvuvt")
 
-[node name="tool_bar" type="Node3D" parent="."]
-visible = false
-
-[node name="new_instance_tree" parent="tool_bar" instance=ExtResource("9_adyjp")]
-
 [node name="Example" type="RigidBody3D" parent="." groups=["grabbable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.035, 5, -4.124)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0429056, 0.612006, -3.0638)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Example"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+[node name="Ball" type="MeshInstance3D" parent="Example"]
 mesh = SubResource("SphereMesh_1dckk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Example"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("SphereShape3D_rnj6x")
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="." method="_on_button_pressed"]
