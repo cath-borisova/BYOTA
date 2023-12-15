@@ -39,7 +39,7 @@ func _ready():
 	terrain.set_data(terrain_data)
 #	terrain.set_texture_set(texture_set)
 	terrain.position = Vector3(-50, 0,-50)
-	terrain.map_scale = Vector3(0.1, 0.1, 0.1)
+	terrain.map_scale = Vector3(0.2, 0.2, 0.2)
 	_edit(1, terrain_data, 0, -1, 0)
 	add_child(terrain)
 	

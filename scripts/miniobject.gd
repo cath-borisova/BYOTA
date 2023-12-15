@@ -22,14 +22,14 @@ func _process(delta):
 			self.remove_from_group("grabbable")
 			self.freeze = true
 			self.global_position = position
-			self.position.y =0.01
+			self.position.y = 0.001
 			self.rotation = Vector3(0,0,0)
 			in_map = true
 			
 			var new_shape_scene = load("res://scenes/large_tree.tscn")
 			var new_shape = new_shape_scene.instantiate()
 			get_node("/root/Main").add_child(new_shape)
-			new_shape.global_position = Vector3(-3, 0.3, -3)
+			new_shape.global_position = Vector3((200 * self.position.x) - 50, 0.1, (200* self.position.z) - 50)
 
 			#set position?
 	#if collision.overlaps_body
