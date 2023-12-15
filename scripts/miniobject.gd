@@ -4,6 +4,7 @@ var map = null
 var area3d = null
 var ground = null
 var in_map = false
+var released = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -13,7 +14,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if !in_map:
+	if released && !in_map:
 		if area3d.overlaps_body(map):
 			var position = self.global_position
 			self.get_parent().remove_child(self)
