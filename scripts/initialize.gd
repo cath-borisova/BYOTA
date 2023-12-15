@@ -52,15 +52,16 @@ func _ready():
 	map_terrain.set_data(map_data)
 	map_terrain.map_scale = Vector3(0.001, 0.001, 0.001)
 	#map_terrain.rotation.x = deg_to_rad(90)
-	map_terrain.visible = false
+	
 	_edit(0, map_data, 0, -1, 0)
-	var map_collision = CollisionShape3D.new()
-	map_collision.name = "Collision"
-	map_terrain.add_child(map_collision)
+#	var map_collision = CollisionShape3D.new()
+#	map_collision.name = "Collision"
+#	map_terrain.add_child(map_collision)
 	map_terrain.name = "Map"
 #	terrain.set_texture_set(texture_set)
 	#%MapContainer.add_child(map_terrain)
-	add_child(map_terrain)
+	$MapRigidBody.add_child(map_terrain)
+	$MapRigidBody.visible = false
 
 	# No need to call this, but you may need to if you edit the terrain later on
 	#terrain.update_collider()
@@ -114,7 +115,7 @@ func _on_button_pressed(name):
 	if (name == 'ax_button'):
 		print(map_visible)
 		map_visible = !map_visible
-		map_terrain.visible = map_visible
+		$MapRigidBody.visible = map_visible
 		
 func _process(delta):
 	#print("here")
@@ -132,10 +133,10 @@ func _process(delta):
 #		camera_pos.z += 1
 		var new_position = camera_pos + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.15
 		new_position.y = 0.7
-		map_terrain.global_transform.origin = new_position
+		$MapRigidBody.global_transform.origin = new_position
 		var projected_camera_pos = camera_pos
 		projected_camera_pos.y = 0.7
-		map_terrain.look_at(projected_camera_pos, Vector3(0, 1, 0))
+		$MapRigidBody.look_at(projected_camera_pos, Vector3(0, 1, 0))
 		#map_terrain.position.z += (-1 * map_terrain.position.x/map_terrain.position.x) * 3
 		#map_terrain.rotation.x = deg_to_rad(0)
 	

@@ -8,7 +8,7 @@ var released = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	map = get_node("../Map")
+	map = get_node("../MapRigidBody")
 	area3d = $Area3D
 	#ground = get_node("../")
 

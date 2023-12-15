@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=18 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -35,6 +35,8 @@ albedo_color = Color(0.85098, 0.560784, 0.286275, 1)
 material = SubResource("StandardMaterial3D_fwram")
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_rnj6x"]
+
+[sub_resource type="HeightMapShape3D" id="HeightMapShape3D_gop3s"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_xecma")
@@ -112,6 +114,11 @@ mesh = SubResource("SphereMesh_1dckk")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Example"]
 shape = SubResource("SphereShape3D_rnj6x")
+
+[node name="MapRigidBody" type="RigidBody3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapRigidBody"]
+shape = SubResource("HeightMapShape3D_gop3s")
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="." method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]
