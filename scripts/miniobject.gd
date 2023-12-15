@@ -10,7 +10,7 @@ var released = false
 func _ready():
 	map = get_node("../MapRigidBody")
 	area3d = $Area3D
-	#ground = get_node("../")
+	ground = get_node("../Ground")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):

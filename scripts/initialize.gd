@@ -40,6 +40,7 @@ func _ready():
 #	terrain.set_texture_set(texture_set)
 	terrain.position = Vector3(-50, 0,-50)
 	terrain.map_scale = Vector3(0.2, 0.2, 0.2)
+	terrain.name = "Ground"
 	_edit(1, terrain_data, 0, -1, 0)
 	add_child(terrain)
 	
@@ -62,6 +63,7 @@ func _ready():
 	#%MapContainer.add_child(map_terrain)
 	$MapRigidBody.add_child(map_terrain)
 	$MapRigidBody.visible = false
+	map_terrain.position.x = -0.2
 
 	# No need to call this, but you may need to if you edit the terrain later on
 	#terrain.update_collider()
