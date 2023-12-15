@@ -41,4 +41,5 @@ func _process(delta):
 		self.global_position =  camera.global_position
 		self.global_position.z = camera.global_position.z - 0.5
 		self.global_position.x = camera.global_position.x + 0.4
+		
 	

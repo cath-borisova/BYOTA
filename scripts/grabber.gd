@@ -68,7 +68,8 @@ func _on_button_released(button_name: String) -> void:
 	if button_name != "grip_click" || self.grabbed_object == null:
 		return
 	if self.is_mini:
-		self.grabbed_object.scale = Vector3(0.3, 0.3, 0.3)
+		#self.grabbed_object.scale = Vector3(0.3, 0.3, 0.3)
+		self.grabbed_object.released = true
 		self.is_mini = false
 	# Release the grabbed object and unfreeze it
 	self.grabbed_object.freeze = false
