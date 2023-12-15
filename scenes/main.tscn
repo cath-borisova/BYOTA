@@ -105,7 +105,7 @@ transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.138248, 0)
 shape = SubResource("CylinderShape3D_mvuvt")
 
 [node name="Example" type="RigidBody3D" parent="." groups=["grabbable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0429056, 0.612006, -3.0638)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.69514, 0.612006, -4.88469)
 
 [node name="Ball" type="MeshInstance3D" parent="Example"]
 mesh = SubResource("SphereMesh_1dckk")

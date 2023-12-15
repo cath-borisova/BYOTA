@@ -130,11 +130,11 @@ func _process(delta):
 #			camera_pos.z += 1
 #		camera_pos.x += 1
 #		camera_pos.z += 1
-		var new_position = camera_pos + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.3
-		new_position.y = 0.3
+		var new_position = camera_pos + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.15
+		new_position.y = 0.7
 		map_terrain.global_transform.origin = new_position
 		var projected_camera_pos = camera_pos
-		projected_camera_pos.y = 0.3
+		projected_camera_pos.y = 0.7
 		map_terrain.look_at(projected_camera_pos, Vector3(0, 1, 0))
 		#map_terrain.position.z += (-1 * map_terrain.position.x/map_terrain.position.x) * 3
 		#map_terrain.rotation.x = deg_to_rad(0)
