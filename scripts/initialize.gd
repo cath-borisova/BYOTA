@@ -104,6 +104,7 @@ func _edit(node, data, z_start, z_end, amplitude):
 	data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
 	data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
 	data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
+	t.update_collider()
 	print('done')
 			
 func _on_button_pressed(name):
