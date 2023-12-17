@@ -5,7 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://dw2kfbg15qqeu" path="res://controllers/controller_l.fbx" id="3_y2kpf"]
 [ext_resource type="PackedScene" uid="uid://doel0ns5nc6bm" path="res://controllers/controller_r.fbx" id="4_5ti0a"]
 [ext_resource type="Script" path="res://scripts/grabber.gd" id="4_chvv8"]
-[ext_resource type="Script" path="res://scripts/toolbox_movement.gd" id="6_543in"]
+[ext_resource type="Script" path="res://scripts/toolbox_object.gd" id="6_oq7cr"]
 [ext_resource type="PackedScene" uid="uid://cae7cbybsmbd3" path="res://FBX/CommonTree_Snow_3.fbx" id="7_6frer"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a20iy"]
@@ -92,17 +92,14 @@ environment = SubResource("Environment_pi0m0")
 transform = Transform3D(-0.866024, -0.433016, 0.250001, 0, 0.499998, 0.866026, -0.500003, 0.749999, -0.43301, 0, 0, 0)
 shadow_enabled = true
 
-[node name="menu" type="Node3D" parent="."]
-unique_name_in_owner = true
+[node name="Tree" type="RigidBody3D" parent="." groups=["grabbable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+script = ExtResource("6_oq7cr")
 
-[node name="tree" type="RigidBody3D" parent="menu" groups=["grabbable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0197728, 0.331812, -1.70641)
-script = ExtResource("6_543in")
-
-[node name="CommonTree_Snow_3" parent="menu/tree" instance=ExtResource("7_6frer")]
+[node name="CommonTree_Snow_3" parent="Tree" instance=ExtResource("7_6frer")]
 transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, -0.319186, 0)
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="menu/tree"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Tree"]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.138248, 0)
 shape = SubResource("CylinderShape3D_mvuvt")
 

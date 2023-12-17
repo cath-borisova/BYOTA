@@ -112,7 +112,7 @@ func _edit(node, data, z_start, z_end, amplitude):
 func _on_button_pressed(name):
 	#print(name)
 	if (name == 'trigger_click'):
-		_edit(1, terrain_data, 50, 300, 20)
+		#_edit(1, terrain_data, 50, 300, 20)
 		_edit(0, map_data, 50, 300, 20)
 	if (name == 'ax_button'):
 		print(map_visible)
@@ -122,25 +122,12 @@ func _on_button_pressed(name):
 func _process(delta):
 	#print("here")
 	if map_visible:
-		var camera_pos = $XROrigin3D/XRCamera3D.global_position
-#		if camera_pos.x < 0:
-#			camera_pos.x -= 1
-#		else:
-#			camera_pos.x += 1
-#		if camera_pos.z < 0:
-#			camera_pos.z -= 1
-#		else:
-#			camera_pos.z += 1
-#		camera_pos.x += 1
-#		camera_pos.z += 1
-		var new_position = camera_pos + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.15
+		var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.15
 		new_position.y = 0.7
 		$MapRigidBody.global_transform.origin = new_position
-		var projected_camera_pos = camera_pos
+		var projected_camera_pos = $XROrigin3D/XRCamera3D.global_position
 		projected_camera_pos.y = 0.7
 		$MapRigidBody.look_at(projected_camera_pos, Vector3(0, 1, 0))
-		#map_terrain.position.z += (-1 * map_terrain.position.x/map_terrain.position.x) * 3
-		#map_terrain.rotation.x = deg_to_rad(0)
 	
 func _on_button_released(name):
 	pass # Replace with function body.
