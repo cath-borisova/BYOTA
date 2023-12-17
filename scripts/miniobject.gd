@@ -38,6 +38,7 @@ func _process(delta):
 			new_shape.name = "Large Tree " + str(count)
 			count += 1
 			get_node("/root/Main").add_child(new_shape)
+			#maybe ask ta?
 			new_shape.global_position = Vector3((200 * self.position.x)-50, 0.1, (200* self.position.z)-50)
 		elif area3d.overlaps_body(ground):
 			self.queue_free()
