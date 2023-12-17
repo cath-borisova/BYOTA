@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://dx5t1bchewgxu"]
+
+[ext_resource type="Script" path="res://scripts/miniobject.gd" id="1_n4c5r"]
+[ext_resource type="PackedScene" uid="uid://dx8axs4bepxp5" path="res://FBX/BushBerries_2.fbx" id="2_i1srw"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_otrah"]
+size = Vector3(1.3352, 1.23682, 1.42194)
+
+[node name="mini_bush" type="RigidBody3D" groups=["grabbable"]]
+script = ExtResource("1_n4c5r")
+
+[node name="BushBerries_2" parent="." instance=ExtResource("2_i1srw")]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0.0554568, 0)
+shape = SubResource("BoxShape3D_otrah")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0.0554568, 0)
+shape = SubResource("BoxShape3D_otrah")

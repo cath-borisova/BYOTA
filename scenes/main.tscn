@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=21 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -7,6 +7,8 @@
 [ext_resource type="Script" path="res://scripts/grabber.gd" id="4_chvv8"]
 [ext_resource type="Script" path="res://scripts/toolbox_object.gd" id="6_oq7cr"]
 [ext_resource type="PackedScene" uid="uid://cae7cbybsmbd3" path="res://FBX/CommonTree_Snow_3.fbx" id="7_6frer"]
+[ext_resource type="Script" path="res://scripts/toolbox_object_bush.gd" id="8_0e0tr"]
+[ext_resource type="PackedScene" uid="uid://dx8axs4bepxp5" path="res://FBX/BushBerries_2.fbx" id="8_gsa2q"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a20iy"]
 
@@ -27,6 +29,9 @@ fog_density = 0.001
 fog_sky_affect = 0.0
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_mvuvt"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_otrah"]
+size = Vector3(1.3352, 1.23682, 1.42194)
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fwram"]
 albedo_color = Color(0.85098, 0.560784, 0.286275, 1)
@@ -102,6 +107,16 @@ transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, -0.319186, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Tree"]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.138248, 0)
 shape = SubResource("CylinderShape3D_mvuvt")
+
+[node name="Bush" type="RigidBody3D" parent="." groups=["grabbable"]]
+script = ExtResource("8_0e0tr")
+
+[node name="BushBerries_2" parent="Bush" instance=ExtResource("8_gsa2q")]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Bush"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0.0554568, 0)
+shape = SubResource("BoxShape3D_otrah")
 
 [node name="Example" type="RigidBody3D" parent="." groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 52, 0.612, 52)

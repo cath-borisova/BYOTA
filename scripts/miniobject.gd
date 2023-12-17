@@ -31,7 +31,9 @@ func _process(delta):
 			self.rotation = Vector3(0,0,0)
 			in_map = true
 			
-			var new_shape_scene = load("res://scenes/large_tree.tscn")
+			var shape_name = self.name.substr(5, 4)
+			var new_shape_scene = load("res://scenes/large_"+shape_name+".tscn")
+			print("res://scenes/large_"+shape_name+".tscn")
 			var new_shape = new_shape_scene.instantiate()
 			new_shape.name = "Large Tree " + str(count)
 			count += 1

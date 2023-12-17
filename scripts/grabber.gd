@@ -39,7 +39,7 @@ func _on_button_pressed(button_name: String) -> void:
 	
 	var grabbables = get_tree().get_nodes_in_group("grabbable")
 	var collision_area = $Area3D as Area3D
-
+	print("MADE IT = ", grabbables )
 	# Iterate through all grabbable objects and check if the collision area overlaps with them
 	for grabbable in grabbables:
 		# Cast the grabbable object to a RigidBody3D
