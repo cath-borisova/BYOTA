@@ -25,6 +25,8 @@ func _process(delta):
 			self.remove_from_group("grabbable")
 			self.freeze = true
 			self.global_position = position
+			if self.position.x > 0.5 || self.position.x <0 || self.position.z > 0.5 || self.position.z < 0:
+				self.queue_free()
 			self.position.y = 0.001
 			self.rotation = Vector3(0,0,0)
 			in_map = true
