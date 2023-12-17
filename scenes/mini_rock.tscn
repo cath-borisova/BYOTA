@@ -10,14 +10,14 @@ size = Vector3(0.350462, 1, 0.314781)
 script = ExtResource("1_c4w16")
 
 [node name="Rock_Moss_1" parent="." instance=ExtResource("2_6b1xx")]
-transform = Transform3D(0.06, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 0, 0, 0)
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0)
 
 [node name="Area3D" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(0.06, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 0.00273679, 0.0232738, 0)
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0.000914613, 0.00847887, -0.000950176)
 shape = SubResource("BoxShape3D_6hb2v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.06, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 0.00273147, 0.0227572, 0)
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0.00150617, 0.00713642, -0.000988171)
 shape = SubResource("BoxShape3D_6hb2v")

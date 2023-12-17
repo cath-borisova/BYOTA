@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://b3ccjy31mqkkv" path="res://FBX/Rock_Moss_1.fbx" id="1_rbgpr"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6hb2v"]
-size = Vector3(0.603379, 0.880632, 0.696646)
+size = Vector3(0.603379, 0.861062, 0.696646)
 
 [node name="large_rock" type="StaticBody3D"]
 
@@ -11,5 +11,5 @@ size = Vector3(0.603379, 0.880632, 0.696646)
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0.0828378, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.080699, 0.626443, 0)
+transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.080699, 0.591132, 0)
 shape = SubResource("BoxShape3D_6hb2v")

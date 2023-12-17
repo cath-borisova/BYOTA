@@ -10,14 +10,14 @@ size = Vector3(1, 1.04974, 1)
 script = ExtResource("1_n4c5r")
 
 [node name="BushBerries_2" parent="." instance=ExtResource("2_i1srw")]
-transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0, 0)
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 
 [node name="Area3D" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0.0153047, 0)
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0.00417867, 0)
 shape = SubResource("BoxShape3D_otrah")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, -0.000260483, 0.0155748, 0)
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, -0.000260483, 0.00479217, 0)
 shape = SubResource("BoxShape3D_otrah")
