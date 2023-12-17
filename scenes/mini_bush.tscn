@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dx8axs4bepxp5" path="res://FBX/BushBerries_2.fbx" id="2_i1srw"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_otrah"]
-size = Vector3(1.3352, 1.23682, 1.42194)
+size = Vector3(1, 1.04974, 1)
 
 [node name="mini_bush" type="RigidBody3D" groups=["grabbable"]]
 script = ExtResource("1_n4c5r")
@@ -15,9 +15,9 @@ transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0, 0)
 [node name="Area3D" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0.0554568, 0)
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0.0153047, 0)
 shape = SubResource("BoxShape3D_otrah")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0.0554568, 0)
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 0.03, -0.000260483, 0.0155748, 0)
 shape = SubResource("BoxShape3D_otrah")

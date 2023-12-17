@@ -4,7 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://b3ccjy31mqkkv" path="res://FBX/Rock_Moss_1.fbx" id="2_6b1xx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6hb2v"]
-size = Vector3(0.603379, 1, 0.696646)
+size = Vector3(0.350462, 1, 0.314781)
 
 [node name="mini_rock" type="RigidBody3D" groups=["grabbable"]]
 script = ExtResource("1_c4w16")
