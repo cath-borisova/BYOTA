@@ -31,7 +31,10 @@ func _process(delta):
 		new_shape.name = "mini_bush " + str(count)
 		count += 1
 		new_shape.freeze = true
-		right_hand.grabbed_object = new_shape
+		if self == right_hand.grabbed_object:
+			right_hand.grabbed_object = new_shape
+		else:
+			left_hand.grabbed_object = new_shape
 	else:
 		var new_position = camera.global_position + -(camera.global_transform).basis.z.normalized() * 0.5 - -(camera.global_transform).basis.x.normalized() * 0.2
 		new_position.y = 1
