@@ -1,0 +1,23 @@
+[gd_scene load_steps=4 format=3 uid="uid://yq7nekalu0cv"]
+
+[ext_resource type="Script" path="res://scripts/miniobject.gd" id="1_c4w16"]
+[ext_resource type="PackedScene" uid="uid://b3ccjy31mqkkv" path="res://FBX/Rock_Moss_1.fbx" id="2_6b1xx"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_6hb2v"]
+size = Vector3(0.603379, 1, 0.696646)
+
+[node name="mini_rock" type="RigidBody3D" groups=["grabbable"]]
+script = ExtResource("1_c4w16")
+
+[node name="Rock_Moss_1" parent="." instance=ExtResource("2_6b1xx")]
+transform = Transform3D(0.06, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 0, 0, 0)
+
+[node name="Area3D" type="Area3D" parent="."]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(0.06, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 0.00273679, 0.0232738, 0)
+shape = SubResource("BoxShape3D_6hb2v")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.06, 0, 0, 0, 0.06, 0, 0, 0, 0.06, 0.00273147, 0.0227572, 0)
+shape = SubResource("BoxShape3D_6hb2v")
