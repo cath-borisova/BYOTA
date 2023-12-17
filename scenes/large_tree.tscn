@@ -4,7 +4,7 @@
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_mvuvt"]
 
-[node name="new_instance_tree" type="StaticBody3D" groups=["grabbable"]]
+[node name="Large Tree" type="StaticBody3D" groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.823, 0.134069, 0)
 
 [node name="Tree" parent="." instance=ExtResource("2_c48ya")]
