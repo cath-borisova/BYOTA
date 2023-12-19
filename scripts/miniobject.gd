@@ -34,7 +34,7 @@ func _process(delta):
 			var new_shape_scene = load("res://scenes/large_"+shape_name+".tscn")
 			print("res://scenes/large_"+shape_name+".tscn")
 			var new_shape = new_shape_scene.instantiate()
-			new_shape.name = "Large - " + self.name()
+			new_shape.name = "Large - " + self.name
 			get_node("/root/Main").add_child(new_shape)
 			new_shape.global_position = Vector3((200 * self.position.x)-50, 0.1, (200* self.position.z)-50)
 		elif area3d.overlaps_body(ground):

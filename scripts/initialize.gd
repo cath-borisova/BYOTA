@@ -50,6 +50,11 @@ func _ready():
 	$MapRigidBody.visible = false
 	map_terrain.position.x = -0.2
 	terrain.update_collider()
+	
+	$Tree.visible = map_visible
+	$Bush.visible = map_visible
+	
+	$Rock.visible = map_visible
 
 #y = a * sin(b * (x)) where b is 2pi/b
 var frequency_interval = 4 #aka b
@@ -95,9 +100,11 @@ func _on_button_pressed(name):
 		_edit(1, terrain_data, 50, 300, 20)
 		_edit(0, map_data, 50, 300, 20)
 	if (name == 'ax_button'):
-		print(map_visible)
 		map_visible = !map_visible
 		$MapRigidBody.visible = map_visible
+		$Tree.visible = map_visible
+		$Bush.visible = map_visible
+		$Rock.visible = map_visible
 		
 func _process(delta):
 	if map_visible:
