@@ -6,7 +6,6 @@ var area3d = null
 var ground = null
 var in_map = false
 var released = false
-var count = 0
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -35,10 +34,8 @@ func _process(delta):
 			var new_shape_scene = load("res://scenes/large_"+shape_name+".tscn")
 			print("res://scenes/large_"+shape_name+".tscn")
 			var new_shape = new_shape_scene.instantiate()
-			new_shape.name = "Large Tree " + str(count)
-			count += 1
+			new_shape.name = "Large - " + self.name()
 			get_node("/root/Main").add_child(new_shape)
-			#maybe ask ta?
 			new_shape.global_position = Vector3((200 * self.position.x)-50, 0.1, (200* self.position.z)-50)
 		elif area3d.overlaps_body(ground):
 			self.queue_free()

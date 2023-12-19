@@ -1,8 +1,8 @@
 extends RigidBody3D
 
-var camera
-var right_hand
-var left_hand
+var camera = null
+var right_hand = null
+var left_hand = null
 var count = 0
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -12,13 +12,9 @@ func _ready():
 	print(right_hand)
 	self.freeze = true
 
-
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	#code to follow users view
-	#code that detects if object is grabbed
 	if self == right_hand.grabbed_object or self == left_hand.grabbed_object:
-		print("I AM HERE ")
 		var new_shape_scene = load("res://scenes/mini_bush.tscn")
 		var new_shape = new_shape_scene.instantiate()
 		get_node("/root/Main").add_child(new_shape)

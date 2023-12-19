@@ -4,11 +4,6 @@ const HTerrain = preload("res://addons/zylann.hterrain/hterrain.gd")
 const HTerrainData = preload("res://addons/zylann.hterrain/hterrain_data.gd")
 const HTerrainTextureSet = preload("res://addons/zylann.hterrain/hterrain_texture_set.gd")
 
-# You may want to change paths to your own textures
-#var grass_texture = load("res://addons/zylann.hterrain_demo/textures/ground/grass_albedo_bump.png")
-#var sand_texture = load("res://addons/zylann.hterrain_demo/textures/ground/sand_albedo_bump.png")
-#var leaves_texture = load("res://addons/zylann.hterrain_demo/textures/ground/leaves_albedo_bump.png")
-#@onready var _terrain = %Terrain
 var terrain_data = null
 var map_data = null
 var xr_interface: XRInterface
@@ -33,11 +28,9 @@ func _ready():
 	terrain_data = HTerrainData.new()
 	terrain_data.resize(513)
 
-	# Create terrain node
 	terrain = HTerrain.new()
 	terrain.set_shader_type(HTerrain.SHADER_CLASSIC4_LITE)
 	terrain.set_data(terrain_data)
-#	terrain.set_texture_set(texture_set)
 	terrain.position = Vector3(-50, 0,-50)
 	terrain.map_scale = Vector3(0.2, 0.2, 0.2)
 	terrain.name = "Ground"
@@ -47,29 +40,19 @@ func _ready():
 	map_data = HTerrainData.new()
 	map_data.resize(513)
 
-	# Create terrain node
 	map_terrain = HTerrain.new()
 	map_terrain.set_shader_type(HTerrain.SHADER_CLASSIC4_LITE)
 	map_terrain.set_data(map_data)
 	map_terrain.map_scale = Vector3(0.001, 0.001, 0.001)
-	#map_terrain.rotation.x = deg_to_rad(90)
-	
 	_edit(0, map_data, 0, -1, 0)
-#	var map_collision = CollisionShape3D.new()
-#	map_collision.name = "Collision"
-#	map_terrain.add_child(map_collision)
 	map_terrain.name = "Map"
-#	terrain.set_texture_set(texture_set)
-	#%MapContainer.add_child(map_terrain)
 	$MapRigidBody.add_child(map_terrain)
 	$MapRigidBody.visible = false
 	map_terrain.position.x = -0.2
+	terrain.update_collider()
 
-	# No need to call this, but you may need to if you edit the terrain later on
-	#terrain.update_collider()
 #y = a * sin(b * (x)) where b is 2pi/b
 var frequency_interval = 4 #aka b
-var curr_frequency = 0
 
 func _edit(node, data, z_start, z_end, amplitude):
 	var heightmap: Image = data.get_image(HTerrainData.CHANNEL_HEIGHT)
@@ -90,16 +73,15 @@ func _edit(node, data, z_start, z_end, amplitude):
 	
 	if z_end == -1:
 		z_end = heightmap.get_height()
-	print("height: ", heightmap.get_height())
-	print("width: ", heightmap.get_width())
+
 	for z in range(z_start, z_end):
 		for x in heightmap.get_width():
 			var y = amplitude * sin(frequency_interval * deg_to_rad(x)) * cos(frequency_interval * deg_to_rad(z));
 			var dy_dx = amplitude * frequency_interval * cos(frequency_interval * deg_to_rad(x)) * cos(frequency_interval * deg_to_rad(z));
 			var dy_dz = -amplitude * sin(frequency_interval * deg_to_rad(x)) * sin(frequency_interval * deg_to_rad(z));
 
-			#var normal = Vector3(amplitude * cos(deg_to_rad(frequency_interval * x)), -1, 0).normalized()
 			var normal = Vector3(dy_dx, 1, dy_dz)
+
 			heightmap.set_pixel(x, z, Color(y, 0, 0))
 			normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
 			colormap.set_pixel(x, z, color)
@@ -107,12 +89,10 @@ func _edit(node, data, z_start, z_end, amplitude):
 	data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
 	data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
 	data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
-	print('done')
 			
 func _on_button_pressed(name):
-	#print(name)
 	if (name == 'trigger_click'):
-		#_edit(1, terrain_data, 50, 300, 20)
+		_edit(1, terrain_data, 50, 300, 20)
 		_edit(0, map_data, 50, 300, 20)
 	if (name == 'ax_button'):
 		print(map_visible)
@@ -120,7 +100,6 @@ func _on_button_pressed(name):
 		$MapRigidBody.visible = map_visible
 		
 func _process(delta):
-	#print("here")
 	if map_visible:
 		var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.15
 		new_position.y = 0.7

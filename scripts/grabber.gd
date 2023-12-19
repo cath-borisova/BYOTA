@@ -9,37 +9,23 @@ var is_mini = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	#map_collision = get_node("../../%MapContainer/Map/Collision")
 	pass
+
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	# Copy the grabber's relative movement since the last frame to to the grabbed object
 	if self.grabbed_object :
 		self.grabbed_object.transform = self.global_transform * self.previous_transform.affine_inverse() * self.grabbed_object.transform
-#		if self.is_mini:
-#			self.grabbed_object.scale = Vector3(0.3, 0.3, 0.3)
 	self.previous_transform = self.global_transform
-#	print(map_collision)
-#	if released && map_collision.overlaps_body(released_object):
-#		map_collision.add_child(released_object)
-#		released = false
-#		released_object = null
-#	elif released && released_object.y == 0:
-#		released_object.scale = Vector3(10, 10, 10)
-#		released = false
-#		released_object = null
-
 
 func _on_button_pressed(button_name: String) -> void:
-	#print("button pressed: " + button_name)
-	
 	# Stop if we have not clicked the grip button or we already are grabbing an object
 	if button_name != "grip_click" || self.grabbed_object != null:
 		return
 	
 	var grabbables = get_tree().get_nodes_in_group("grabbable")
 	var collision_area = $Area3D as Area3D
-	print("MADE IT = ", grabbables )
+
 	# Iterate through all grabbable objects and check if the collision area overlaps with them
 	for grabbable in grabbables:
 		# Cast the grabbable object to a RigidBody3D
@@ -63,14 +49,14 @@ func _on_button_pressed(button_name: String) -> void:
 			globals.active_grabbers.push_back(self)
 	
 func _on_button_released(button_name: String) -> void:
-	#print("button released: " + button_name)
 	# Stop if we have not clicked the grip button or we have no current grabbed object
 	if button_name != "grip_click" || self.grabbed_object == null:
 		return
+
 	if self.is_mini:
-		#self.grabbed_object.scale = Vector3(0.3, 0.3, 0.3)
 		self.grabbed_object.released = true
 		self.is_mini = false
+
 	# Release the grabbed object and unfreeze it
 	self.grabbed_object.freeze = false
 	self.grabbed_object.linear_velocity = Vector3(0, -0.1, 0)
