@@ -6,4 +6,4 @@ For the class project, we implemented the World In Miniature interaction. If the
 
 
 Third part assets:  
-All models were taken from the Polygon Adventure pack that we used in class.
+All models were taken from this Ultimate Nature Pack: https://quaternius.com/packs/ultimatenature.html
