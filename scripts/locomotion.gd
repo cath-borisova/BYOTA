@@ -19,9 +19,9 @@ func _ready():
 	pass # Replace with function body.
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if self.input_vector.y > self.dead_zone || self.input_vector.y < -self.dead_zone:
-		var movement_vector = Vector3(0, 0, max_speed * -self.input_vector.y * delta)
+		var movement_vector = Vector3(0, 0, max_speed * -self.input_vector.y * _delta)
 		if camera_view:
 			self.position += movement_vector.rotated(Vector3.UP, $XRCamera3D.global_rotation.y)
 	if snap_turn:

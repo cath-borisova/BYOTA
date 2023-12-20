@@ -15,7 +15,7 @@ func _ready():
 	ground = get_node("../Ground")
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if released && !in_map:
 		if area3d.overlaps_body(mapRigidBody):
 			var position = self.global_position

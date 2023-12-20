@@ -13,7 +13,7 @@ func _ready():
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if self == right_hand.grabbed_object or self == left_hand.grabbed_object:
 		var new_shape_scene = load("res://scenes/mini_rock.tscn")
 		var new_shape = new_shape_scene.instantiate()

@@ -65,7 +65,6 @@ var frequency_interval = 4 #aka b
 func _edit(node, data, z_start, z_end, amplitude):
 	var heightmap: Image = data.get_image(HTerrainData.CHANNEL_HEIGHT)
 	var normalmap: Image = data.get_image(HTerrainData.CHANNEL_NORMAL)
-	var splatmap: Image = data.get_image(HTerrainData.CHANNEL_SPLAT)
 	var colormap: Image = data.get_image(HTerrainData.CHANNEL_COLOR)
 	var t = null
 	var color = null
@@ -99,18 +98,18 @@ func _edit(node, data, z_start, z_end, amplitude):
 	data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
 	t.update_collider()
 			
-func _on_button_pressed(name):
-	if (name == 'trigger_click'):
+func _on_button_pressed(button_name):
+	if (button_name == 'trigger_click'):
 		_edit(1, terrain_data, 50, 300, 20)
 		_edit(0, map_data, 50, 300, 20)
-	if (name == 'ax_button'):
+	if (button_name == 'ax_button'):
 		map_visible = !map_visible
 		$MapRigidBody.visible = map_visible
 		$Tree.visible = map_visible
 		$Bush.visible = map_visible
 		$Rock.visible = map_visible
 		
-func _process(delta):
+func _process(_delta):
 	if map_visible:
 		var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.15
 		new_position.y = 0.7
@@ -120,6 +119,3 @@ func _process(delta):
 		$MapRigidBody.look_at(projected_camera_pos, Vector3(0, 1, 0))
 		var user_pos = %XROrigin3D.global_position
 		mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)
-	
-func _on_button_released(name):
-	pass # Replace with function body.
