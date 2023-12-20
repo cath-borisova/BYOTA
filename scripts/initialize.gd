@@ -26,7 +26,7 @@ func _ready():
 	else:
 		print("OpenXR not initialized. Please check if your headset is connected.")
 		
-	$XROrigin3D.rotate_y(deg_to_rad(180))
+	$XROrigin3D.rotate_y(deg_to_rad(90))
 	terrain_data = HTerrainData.new()
 	terrain_data.resize(513)
 
@@ -50,7 +50,7 @@ func _ready():
 	map_terrain.name = "Map"
 	$MapRigidBody.add_child(map_terrain)
 	$MapRigidBody.visible = false
-	map_terrain.position.x = -0.2
+	map_terrain.position.x = -0.25
 	mini_user = %MiniUser
 	mini_user.get_parent().remove_child(mini_user)
 	$MapRigidBody/Map.add_child(mini_user)
@@ -71,7 +71,7 @@ func _edit(node, data, z_start, z_end, amplitude):
 	if node == 1:
 		t = terrain
 		if z_end == -1:
-			color = Color(0.2, 0.7, 0.6)
+			color = Color(11.0/255.0, 82.0/255.0, 30/255.0, 1.0)
 		else:
 			color = Color(0, 0, 1)
 	else:
@@ -111,11 +111,11 @@ func _on_button_pressed(button_name):
 		
 func _process(_delta):
 	if map_visible:
-		var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.15
-		new_position.y = 0.7
+		var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.05
+		new_position.y = 0.9
 		$MapRigidBody.global_transform.origin = new_position
 		var projected_camera_pos = $XROrigin3D/XRCamera3D.global_position
-		projected_camera_pos.y = 0.7
+		projected_camera_pos.y = 0.9
 		$MapRigidBody.look_at(projected_camera_pos, Vector3(0, 1, 0))
 		var user_pos = %XROrigin3D.global_position
 		mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)

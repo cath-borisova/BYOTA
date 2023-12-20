@@ -107,10 +107,10 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
 script = ExtResource("6_oq7cr")
 
 [node name="CommonTree_Snow_3" parent="Tree" instance=ExtResource("7_6frer")]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, -0.319186, 0)
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0, 0, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Tree"]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, -0.138248, 0)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0.0797412, 0)
 shape = SubResource("CylinderShape3D_mvuvt")
 
 [node name="Bush" type="RigidBody3D" parent="." groups=["grabbable"]]
@@ -126,18 +126,20 @@ shape = SubResource("BoxShape3D_otrah")
 
 [node name="Rock" type="RigidBody3D" parent="." groups=["grabbable"]]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, 0)
 script = ExtResource("10_vjn4b")
 
 [node name="Rock_Moss_1" parent="Rock" instance=ExtResource("11_t863o")]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0.0174809, 0)
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Rock"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0.050386, 0)
 shape = SubResource("BoxShape3D_6hb2v")
 
 [node name="MapRigidBody" type="RigidBody3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MapRigidBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
 shape = SubResource("HeightMapShape3D_gop3s")
 
 [node name="MiniUser" type="RigidBody3D" parent="."]

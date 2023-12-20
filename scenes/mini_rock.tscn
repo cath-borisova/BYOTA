@@ -4,20 +4,20 @@
 [ext_resource type="PackedScene" uid="uid://b3ccjy31mqkkv" path="res://FBX/Rock_Moss_1.fbx" id="2_6b1xx"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6hb2v"]
-size = Vector3(0.350462, 1, 0.314781)
+size = Vector3(0.35, 4, 0.315)
 
 [node name="mini_rock" type="RigidBody3D" groups=["grabbable"]]
 script = ExtResource("1_c4w16")
 
 [node name="Rock_Moss_1" parent="." instance=ExtResource("2_6b1xx")]
-transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0, 0)
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0.00349374, 0)
 
 [node name="Area3D" type="Area3D" parent="."]
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
-transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0.000914613, 0.00847887, -0.000950176)
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0.001, -0.0202801, -0.001)
 shape = SubResource("BoxShape3D_6hb2v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0.00150617, 0.00713642, -0.000988171)
+transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0.002, -0.02, -0.001)
 shape = SubResource("BoxShape3D_6hb2v")
