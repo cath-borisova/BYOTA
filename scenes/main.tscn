@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=24 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -39,6 +39,13 @@ size = Vector3(1.3352, 1.23682, 1.42194)
 size = Vector3(0.603379, 1, 0.696646)
 
 [sub_resource type="HeightMapShape3D" id="HeightMapShape3D_gop3s"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_pcmcg"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_31yfa"]
+albedo_color = Color(1, 0.219608, 0.392157, 1)
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bk2rj"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_xecma")
@@ -132,6 +139,18 @@ shape = SubResource("BoxShape3D_6hb2v")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MapRigidBody"]
 shape = SubResource("HeightMapShape3D_gop3s")
+
+[node name="MiniUser" type="RigidBody3D" parent="."]
+unique_name_in_owner = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="MiniUser"]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+mesh = SubResource("SphereMesh_pcmcg")
+surface_material_override/0 = SubResource("StandardMaterial3D_31yfa")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MiniUser"]
+transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
+shape = SubResource("SphereShape3D_bk2rj")
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="." method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]
