@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://c2s25hb62jdnb"]
+
+[ext_resource type="PackedScene" uid="uid://q1nph74aom2p" path="res://h_terrain_detail_layer.tscn" id="1_e5yxi"]
+
+[node name="Node3D" type="Node3D"]
+
+[node name="HTerrainDetailLayer" parent="." instance=ExtResource("1_e5yxi")]
