@@ -43,7 +43,6 @@ func _on_button_pressed(button_name: String) -> void:
 					break
 
 			# Freeze the object physics and then grab it
-			print(grabbable_body)
 			grabbable_body.freeze = true
 			self.grabbed_object = grabbable_body
 			globals.active_grabbers.push_back(self)

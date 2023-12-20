@@ -32,7 +32,6 @@ func _process(_delta):
 			
 			var shape_name = self.name.substr(5, 4)
 			var new_shape_scene = load("res://scenes/large_"+shape_name+".tscn")
-			print("res://scenes/large_"+shape_name+".tscn")
 			var new_shape = new_shape_scene.instantiate()
 			new_shape.name = "Large - " + self.name
 			get_node("/root/Main").add_child(new_shape)

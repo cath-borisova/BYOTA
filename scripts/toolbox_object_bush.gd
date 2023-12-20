@@ -9,7 +9,6 @@ func _ready():
 	camera = %XRCamera3D
 	right_hand = %RightController
 	left_hand =  %LeftController
-	print(right_hand)
 	self.freeze = true
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
