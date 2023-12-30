@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=27 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -40,6 +40,12 @@ size = Vector3(1.3352, 1.23682, 1.42194)
 size = Vector3(0.603379, 1, 0.696646)
 
 [sub_resource type="HeightMapShape3D" id="HeightMapShape3D_gop3s"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_7r1g4"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3p3mk"]
+transparency = 1
+albedo_color = Color(0.00784314, 0.113725, 0.262745, 0.686275)
 
 [sub_resource type="SphereMesh" id="SphereMesh_pcmcg"]
 
@@ -144,10 +150,15 @@ script = ExtResource("12_fc24a")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
 shape = SubResource("HeightMapShape3D_gop3s")
 
+[node name="SelectionBox" type="MeshInstance3D" parent="MapRigidBody"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+mesh = SubResource("PlaneMesh_7r1g4")
+surface_material_override/0 = SubResource("StandardMaterial3D_3p3mk")
+
 [node name="MiniUser" type="RigidBody3D" parent="."]
 unique_name_in_owner = true
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="MiniUser"]
+[node name="UserCircle" type="MeshInstance3D" parent="MiniUser"]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 mesh = SubResource("SphereMesh_pcmcg")
 surface_material_override/0 = SubResource("StandardMaterial3D_31yfa")

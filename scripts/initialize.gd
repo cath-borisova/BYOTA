@@ -11,6 +11,7 @@ var terrain = null
 var map_terrain = null
 var is_sin = false
 var mini_user = null
+var selection_box = null
 
 func _ready():
 	xr_interface = XRServer.find_interface("OpenXR")
@@ -53,6 +54,15 @@ func _ready():
 	mini_user = %MiniUser
 	mini_user.get_parent().remove_child(mini_user)
 	$MapRigidBody/Map.add_child(mini_user)
+	selection_box = $MapRigidBody/SelectionBox
+	selection_box.visible = false
+	selection_box.get_parent().remove_child(selection_box)
+	$MapRigidBody/Map.add_child(selection_box)
+	selection_box.position.y = 0.05
+	var aabb = selection_box.get_aabb()
+	var size = aabb.size
+	print("MeshInstance3D Size: ", size)
+	
 	
 
 
