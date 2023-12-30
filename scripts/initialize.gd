@@ -10,7 +10,6 @@ var xr_interface: XRInterface
 var terrain = null
 var map_terrain = null
 var is_sin = false
-var map_visible = false
 var mini_user = null
 
 func _ready():
@@ -55,9 +54,7 @@ func _ready():
 	mini_user.get_parent().remove_child(mini_user)
 	$MapRigidBody/Map.add_child(mini_user)
 	
-	$Tree.visible = map_visible
-	$Bush.visible = map_visible
-	$Rock.visible = map_visible
+
 
 #y = a * sin(b * (x)) where b is 2pi/b
 
@@ -122,27 +119,27 @@ func _edit(node, data, z_start, z_end, x_start, x_end, amplitude, width, length,
 		data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
 		t.update_collider()
 			
-func _on_button_pressed(button_name):
-	if (button_name == 'trigger_click'):
-		var amplitude = 5
-		var length = 1
-		var width = 1
-		_edit(1, terrain_data, 50, 300, 100, 200, amplitude, length, width, Color(0, 0, 1))
-		_edit(0, map_data, 50, 300, 100, 200, amplitude, length, width, Color(1, 1, 1))
-	if (button_name == 'ax_button'):
-		map_visible = !map_visible
-		$MapRigidBody.visible = map_visible
-		$Tree.visible = map_visible
-		$Bush.visible = map_visible
-		$Rock.visible = map_visible
+#func _on_button_pressed(button_name):
+	#if (button_name == 'trigger_click'):
+		#var amplitude = 5
+		#var length = 1
+		#var width = 1
+		#_edit(1, terrain_data, 50, 300, 100, 200, amplitude, length, width, Color(0, 0, 1))
+		#_edit(0, map_data, 50, 300, 100, 200, amplitude, length, width, Color(1, 1, 1))
+	#if (button_name == 'ax_button'):
+		#map_visible = !map_visible
+		#$MapRigidBody.visible = map_visible
+		#$Tree.visible = map_visible
+		#$Bush.visible = map_visible
+		#$Rock.visible = map_visible
 		
 func _process(_delta):
-	if map_visible:
-		var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.05
-		new_position.y = 0.9
-		$MapRigidBody.global_transform.origin = new_position
-		var projected_camera_pos = $XROrigin3D/XRCamera3D.global_position
-		projected_camera_pos.y = 0.9
-		$MapRigidBody.look_at(projected_camera_pos, Vector3(0, 1, 0))
-		var user_pos = %XROrigin3D.global_position
-		mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)
+	#if map_visible:
+		#var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.05
+		#new_position.y = 0.9
+		#$MapRigidBody.global_transform.origin = new_position
+		#var projected_camera_pos = $XROrigin3D/XRCamera3D.global_position
+		#projected_camera_pos.y = 0.9
+		#$MapRigidBody.look_at(projected_camera_pos, Vector3(0, 1, 0))
+	var user_pos = %XROrigin3D.global_position
+	mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)
