@@ -59,9 +59,9 @@ func _ready():
 	selection_box.visible = false
 	selection_box.get_parent().remove_child(selection_box)
 	$MapRigidBody/Map.add_child(selection_box)
-	selection_box.position.y = 0.03
-	selection_box.position.x -= 0.25
-	selection_box.position.z -= 0.25
+	selection_box.position.y = 0.003
+	selection_box.position.x = 0.26
+	selection_box.position.z = 0.255
 	var aabb = selection_box.get_aabb()
 	var size = aabb.size
 	print("MeshInstance3D Size: ", size)
