@@ -6,12 +6,12 @@ var right_hold_map = false
 var left_selecting = false
 var right_selecting = false
 
-var top_left_coordinate = Vector2(0,0)
-var bottom_right_coordinate = Vector2(0,0)
+var corner1 = Vector2(0,0)
+var corner2 = Vector2(0,0)
 
 var plane_size = Vector2(1, 1)
 var selection_box = null
-var current_size = Vector3(0.1, 0, 0.1)
+var current_size = Vector2(0.1, 0.1)
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -22,26 +22,52 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	#print("corner1: ", corner1)
+	#print("shader corner1: ", $Map/TEST.mesh.material.get_shader_parameter("corner1"))
+	#print("corner2: ", corner2)
+	#print("shader corner2: ", $Map/TEST.mesh.material.get_shader_parameter("corner2"))
+	#print("\n\n")
+	#print("")
 	self.global_position.y = 1.5
 	if left_hold_map:
 		var controller_position = %LeftController.global_position
-		var position_adjustment = %LeftController.global_transform.origin + Vector3(-plane_size.x / 2, 0, -plane_size.y / 2)
+		var position_adjustment = %LeftController.global_transform.origin + Vector3(-plane_size.x / 3, 0, -plane_size.y / 2)
 		$Map.global_transform.origin = position_adjustment
 		$Map.global_position.y = controller_position.y
 		$CollisionShape3D.global_position = $Map.global_position
 		self.rotation = Vector3(0,0,0)
 	if right_hold_map:
 		var controller_position = %RightController.global_position
-		var position_adjustment = %RightController.global_transform.origin - Vector3(plane_size.x / 2, -plane_size.y / 2, 0)	
+		var position_adjustment = %RightController.global_transform.origin - Vector3(plane_size.x / 3, -plane_size.y / 3, 0)    
 		$Map.global_transform.origin = position_adjustment
 		$Map.global_position.y = controller_position.y
 		$CollisionShape3D.global_position = $Map.global_position
 		self.rotation = Vector3(0,0,0)
-	#if left_selecting:
-		#current_size = $Map/SelectionBox.size
-	#if right_selecting:
-		#current_size = $Map/SelectionBox.size
+	if left_selecting:
+		var corner2 = $Map/SelectionBox.to_local(%RightController.global_position)
+		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(clamp(corner2.x, 0, 0.5), clamp(corner2.z, 0, 0.5)))
+		#var current_position = Vector2(%LeftController.global_position.x - current_size.x, %LeftController.global_position.z + current_size.y)
+		#var current_size = Vector2(current_position.x/corner1.x, current_position.y/corner1.y)
+		#
+		#$Map/SelectionBox.scale = Vector3(current_size.x, 0, current_size.y)
 		
+	if right_selecting:
+		#%Shader.set_shader_param("corner1", Vector3(-2, -2, 0))
+		#%Shader.set_shader_param("corner2", Vector3(2, 2, 0))
+		#var x = min($Map.global_position.x + 0.5, max(%RightController.global_position.x, $Map.global_position.x))
+		#var z = min($Map.global_position.z + 0.5, max(%RightController.global_position.z, $Map.global_position.z))
+		#if x = top_left_coo
+		#var size_x = max(x, top_left_coordinate.x)
+		#var size_y = max(y, top_left_coordinate.y)
+		#var current_size = Vector2(current_position.x/top_left_coordinate.x, current_position.y/top_left_coordinate.y)
+		#print("current size: ", current_size)
+		#$Map/SelectionBox.scale = Vector3(current_size.x, 0, current_size.y)
+		#print("map size: ", $Map/SelectionBox.scale)
+		#print("map position: ", $Map/SelectionBox.position)
+		#$Map/SelectionBox.position = Vector3(0,0.1, 0)
+		
+		var corner2 = $Map/SelectionBox.to_local(%RightController.global_position)
+		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(clamp(corner2.x, 0, 0.5), clamp(corner2.z, 0, 0.5)))
 
 func _on_left_button_pressed(name):
 	if name == "ax_button":
@@ -51,28 +77,33 @@ func _on_left_button_pressed(name):
 			%Tree.visible = false
 			%Bush.visible = false
 			%Rock.visible = false
-			print("left stop holding")
+			
 		elif !right_hold_map:
 			left_hold_map = true
 			self.visible = true
 			%Tree.visible = true
 			%Bush.visible = true
 			%Rock.visible = true
-			print("left start holding")
+			
 	if !left_hold_map && name == "trigger_click":
 		left_selecting = true
-		top_left_coordinate = Vector2(%LeftController.global_position.x + current_size.x, %LeftController.global_position.z - current_size.z)
-		$Map/SelectionBox.global_position.x = top_left_coordinate.x
-		$Map/SelectionBox.global_position.z = top_left_coordinate.y
-		print("left view map")
+		#commmented
+		corner1 = $Map/SelectionBox.to_local(%RightController.global_position)
+		$Map/SelectionBox.mesh.material.set_shader_parameter("corner1",  Vector2(clamp(corner1.x, 0, 0.5), clamp(corner1.z, 0, 0.5)))
+		
+		
+		#$Map/SelectionBox.set_shader_param("corner2", Vector3(2, 2, 0))
+		#$Map/SelectionBox.global_position.x = top_left_coordinate.x
+		#$Map/SelectionBox.global_position.z = top_left_coordinate.y
+		
 		$Map/SelectionBox.visible = true
 		
 
 func _on_left_controller_button_released(name):
 	if name == "trigger_click" && left_selecting:
 		left_selecting = false
-		bottom_right_coordinate = Vector2(%LeftController.global_position.x, %LeftController.global_position.z)
-
+		corner2 = Vector2(%LeftController.global_position.x, %LeftController.global_position.z)
+		$Map/SelectionBox.visible = false
 
 func _on_right_button_pressed(name):
 	if name == "ax_button":
@@ -83,7 +114,7 @@ func _on_right_button_pressed(name):
 			%Bush.visible = false
 			%Rock.visible = false
 			
-			print("right stop holding")
+			
 		elif !left_hold_map:
 			right_hold_map = true
 			self.visible = true
@@ -91,22 +122,21 @@ func _on_right_button_pressed(name):
 			%Bush.visible = true
 			%Rock.visible = true
 			$Map.position.z += 1
-			print("right start holding")
+			
 	if !right_hold_map && name == "trigger_click":
 		right_selecting = true
-		print("current map size: ", current_size)
-		print("controller position: ", %RightController.global_position)
-		top_left_coordinate = Vector2(%RightController.global_position.x + current_size.x, %RightController.global_position.z - current_size.z)
-		$Map/SelectionBox.global_position.x = top_left_coordinate.x
-		$Map/SelectionBox.global_position.z = top_left_coordinate.y
-		print("top left coordinate: ", top_left_coordinate)
-		print("selection position: ", $Map/SelectionBox.global_position)
 		$Map/SelectionBox.visible = true
-		print("right view map")
+		#commented:
+		corner1 = $Map/SelectionBox.to_local(%LeftController.global_position)
+		$Map/SelectionBox.mesh.material.set_shader_parameter("corner1",  Vector2(clamp(corner1.x, 0, 0.5), clamp(corner1.z, 0, 0.5)))
+		
+		#$Map/SelectionBox.global_position.x = top_left_coordinate.x
+		#k$Map/SelectionBox.global_position.z = top_left_coordinate.y
 	
 
 
 func _on_right_button_released(name):
 	if name == "trigger_click" && right_selecting:
 		right_selecting = false
-		bottom_right_coordinate = Vector2(%RightController.global_position.x, %RightController.global_position.z)
+		corner2 = Vector2(%RightController.global_position.x, %RightController.global_position.z)
+		$Map/SelectionBox.visible = false

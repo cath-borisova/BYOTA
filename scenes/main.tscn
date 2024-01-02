@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=28 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -12,6 +12,7 @@
 [ext_resource type="Script" path="res://scripts/toolbox_object_rock.gd" id="10_vjn4b"]
 [ext_resource type="PackedScene" uid="uid://b3ccjy31mqkkv" path="res://FBX/Rock_Moss_1.fbx" id="11_t863o"]
 [ext_resource type="Script" path="res://scenes/map.gd" id="12_fc24a"]
+[ext_resource type="Shader" path="res://selection.gdshader" id="13_3s00n"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a20iy"]
 
@@ -41,11 +42,17 @@ size = Vector3(0.603379, 1, 0.696646)
 
 [sub_resource type="HeightMapShape3D" id="HeightMapShape3D_gop3s"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_7r1g4"]
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_6yw2w"]
+render_priority = 0
+shader = ExtResource("13_3s00n")
+shader_parameter/corner1 = Vector2(0, 0)
+shader_parameter/corner2 = Vector2(1, 1)
+shader_parameter/alpha = 0.5
+shader_parameter/green = 1.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3p3mk"]
-transparency = 1
-albedo_color = Color(0.00784314, 0.113725, 0.262745, 0.686275)
+[sub_resource type="PlaneMesh" id="PlaneMesh_pb36r"]
+material = SubResource("ShaderMaterial_6yw2w")
+size = Vector2(0.52, 0.52)
 
 [sub_resource type="SphereMesh" id="SphereMesh_pcmcg"]
 
@@ -144,6 +151,7 @@ transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0.050386, 0)
 shape = SubResource("BoxShape3D_6hb2v")
 
 [node name="MapRigidBody" type="RigidBody3D" parent="."]
+unique_name_in_owner = true
 script = ExtResource("12_fc24a")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MapRigidBody"]
@@ -151,9 +159,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
 shape = SubResource("HeightMapShape3D_gop3s")
 
 [node name="SelectionBox" type="MeshInstance3D" parent="MapRigidBody"]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
-mesh = SubResource("PlaneMesh_7r1g4")
-surface_material_override/0 = SubResource("StandardMaterial3D_3p3mk")
+unique_name_in_owner = true
+visible = false
+mesh = SubResource("PlaneMesh_pb36r")
 
 [node name="MiniUser" type="RigidBody3D" parent="."]
 unique_name_in_owner = true
