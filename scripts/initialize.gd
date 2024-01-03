@@ -13,6 +13,7 @@ var is_sin = false
 var mini_user = null
 var selection_box = null
 
+# Called when the node enters the scene tree for the first time.
 func _ready():
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():
@@ -29,15 +30,19 @@ func _ready():
 	$XROrigin3D.rotate_y(deg_to_rad(90))
 	terrain_data = HTerrainData.new()
 	terrain_data.resize(513)
-
+	
 	terrain = HTerrain.new()
 	terrain.set_shader_type(HTerrain.SHADER_CLASSIC4_LITE)
 	terrain.set_data(terrain_data)
 	terrain.position = Vector3(-50, 0,-50)
 	terrain.map_scale = Vector3(0.2, 0.2, 0.2)
+	print("TEXTURRE", terrain.get_texture_set())
 	terrain.name = "Ground"
 	_edit(1, terrain_data, 0, terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT).get_height(), 0, terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT).get_width(), 0, 0, 0, Color(11.0/255.0, 82.0/255.0, 30/255.0, 1.0))
 	add_child(terrain)
+	var grass_detail = load("res://scenes/grass_scene.tscn")
+	var new_grass = grass_detail.instantiate()
+	get_node("/root/Main/Ground").add_child(new_grass)
 	
 	map_data = HTerrainData.new()
 	map_data.resize(513)
