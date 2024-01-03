@@ -1,5 +1,6 @@
 [gd_scene load_steps=28 format=3 uid="uid://d46wrkgdeynk"]
 
+
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
 [ext_resource type="PackedScene" uid="uid://dw2kfbg15qqeu" path="res://controllers/controller_l.fbx" id="3_y2kpf"]
@@ -17,6 +18,9 @@
 [sub_resource type="SphereShape3D" id="SphereShape3D_a20iy"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_jjmdj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_s4678"]
+size = Vector3(0.5, 1.5, 0.5)
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_osj4q"]
 sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
@@ -105,6 +109,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.013816, 0.0506639)
 unique_name_in_owner = true
 transform = Transform3D(0.16, 0, 0, 0, 0.16, 0, 0, 0, 0.16, 0, 0, 0)
 shape = SubResource("SphereShape3D_jjmdj")
+
+[node name="user" type="RigidBody3D" parent="."]
+visible = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="user"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.75, 0)
+visible = false
+shape = SubResource("BoxShape3D_s4678")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_pi0m0")
