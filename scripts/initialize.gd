@@ -36,7 +36,7 @@ func _ready():
 	terrain.position = Vector3(-50, 0,-50)
 	terrain.map_scale = Vector3(0.2, 0.2, 0.2)
 	terrain.name = "Ground"
-	_edit(1, terrain_data, 0, terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT).get_height(), 0, terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT).get_width(), 0, 0, 0, Color(11.0/255.0, 82.0/255.0, 30/255.0, 1.0))
+	#dit(0, terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT).get_height(), 0, terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT).get_width(), 0, 0, 0)
 	add_child(terrain)
 	
 	map_data = HTerrainData.new()
@@ -46,7 +46,7 @@ func _ready():
 	map_terrain.set_shader_type(HTerrain.SHADER_CLASSIC4_LITE)
 	map_terrain.set_data(map_data)
 	map_terrain.map_scale = Vector3(0.001, 0.001, 0.001)
-	_edit(0, map_data, 0, map_data.get_image(HTerrainData.CHANNEL_HEIGHT).get_height(), 0, map_data.get_image(HTerrainData.CHANNEL_HEIGHT).get_width(), 0, 0, 0, Color(1,1,1))
+	_edit(0, 513, 0, 513, 0, 0, 0)
 	map_terrain.name = "Map"
 	$MapRigidBody.add_child(map_terrain)
 	$MapRigidBody.visible = false
@@ -68,66 +68,72 @@ func _ready():
 
 #y = a * sin(b * (x)) where b is 2pi/b
 
-func _edit(node, data, z_start, z_end, x_start, x_end, amplitude, width, length, color):
-	var heightmap: Image = data.get_image(HTerrainData.CHANNEL_HEIGHT)
-	var normalmap: Image = data.get_image(HTerrainData.CHANNEL_NORMAL)
-	var colormap: Image = data.get_image(HTerrainData.CHANNEL_COLOR)
-	var t = null
-	if node == 1:
-		t = terrain
-	else:
-		t = map_terrain
+func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
+	print("terrain data: ", terrain_data)
+	print("map data: ", map_data)
+	var count = 0
+	var t = terrain
+	var color = Color(11.0/255.0, 82.0/255.0, 30/255.0, 1.0)
+	var data = terrain_data
+	while count < 2:
+		var heightmap: Image = data.get_image(HTerrainData.CHANNEL_HEIGHT)
+		var normalmap: Image = data.get_image(HTerrainData.CHANNEL_NORMAL)
+		var colormap: Image = data.get_image(HTerrainData.CHANNEL_COLOR)
 
-	if z_start >= 0 && z_start < z_end && z_end <= heightmap.get_height() && x_start >= 0 && x_start < x_end && x_end <= heightmap.get_width():
-		var offset = 0
-		var compare = 0
-		var l_scale = 90/PI
-		var w_scale = 45/PI
-		
-		if length != 0:
-			offset = x_start / l_scale
-			compare = floor(offset) + 0.75
-			if offset > compare:
-				x_start = round(floor(offset) * l_scale)
-			else:
-				x_start = round(ceil(offset) * l_scale)
+		if z_start >= 0 && z_start < z_end && z_end <= heightmap.get_height() && x_start >= 0 && x_start < x_end && x_end <= heightmap.get_width():
+			var offset = 0
+			var compare = 0
+			var l_scale = 90/PI
+			var w_scale = 45/PI
 			
-			offset = x_end/l_scale
-			compare = floor(offset) + 0.75
-			if offset > compare:
-				x_end = round(ceil(offset) * l_scale)
-			else:
-				x_end = round(floor(offset) * l_scale)
-		if width != 0:
-			offset = z_start / w_scale
-			compare = floor(offset) + 0.75
-			if offset > compare:
-				z_start = round(floor(offset) * w_scale)
-			else:
-				z_start = round(ceil(offset) * w_scale)
-			
-			offset = z_end/w_scale
-			compare = floor(offset) + 0.75
-			if offset > compare:
-				z_end = round(ceil(offset) * w_scale)
-			else:
-				z_end = round(floor(offset) * w_scale)
-		width *= PI
-		length *= PI
-		for z in range(z_start, z_end):
-			for x in range(x_start, x_end):
-				var y = amplitude * sin(length * x * (PI/90)) * cos(width * z * (PI/90));
-				var dy_dx = amplitude * length * cos(length * x * (PI/90)) * cos(width * z * (PI/90));
-				var dy_dz = -amplitude * sin(length *x * (PI/90)) * sin(width * z * (PI/90));
-				var normal = Vector3(dy_dx, 1, dy_dz)
-				heightmap.set_pixel(x, z, Color(y, 0, 0))
-				normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
-				colormap.set_pixel(x, z, color)
-		var modified_region = Rect2(Vector2(), heightmap.get_size())
-		data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
-		data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
-		data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
-		t.update_collider()
+			if length != 0:
+				offset = x_start / l_scale
+				compare = floor(offset) + 0.75
+				if offset > compare:
+					x_start = round(floor(offset) * l_scale)
+				else:
+					x_start = round(ceil(offset) * l_scale)
+				
+				offset = x_end/l_scale
+				compare = floor(offset) + 0.75
+				if offset > compare:
+					x_end = round(ceil(offset) * l_scale)
+				else:
+					x_end = round(floor(offset) * l_scale)
+			if width != 0:
+				offset = z_start / w_scale
+				compare = floor(offset) + 0.75
+				if offset > compare:
+					z_start = round(floor(offset) * w_scale)
+				else:
+					z_start = round(ceil(offset) * w_scale)
+				
+				offset = z_end/w_scale
+				compare = floor(offset) + 0.75
+				if offset > compare:
+					z_end = round(ceil(offset) * w_scale)
+				else:
+					z_end = round(floor(offset) * w_scale)
+			width *= PI
+			length *= PI
+			for z in range(z_start, z_end):
+				for x in range(x_start, x_end):
+					var y = amplitude * sin(length * x * (PI/90)) * cos(width * z * (PI/90));
+					var dy_dx = amplitude * length * cos(length * x * (PI/90)) * cos(width * z * (PI/90));
+					var dy_dz = -amplitude * sin(length *x * (PI/90)) * sin(width * z * (PI/90));
+					var normal = Vector3(dy_dx, 1, dy_dz)
+					heightmap.set_pixel(x, z, Color(y, 0, 0))
+					normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
+					colormap.set_pixel(x, z, color)
+			var modified_region = Rect2(Vector2(), heightmap.get_size())
+			data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
+			data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
+			data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
+			t.update_collider()
+		count += 1
+		t = map_terrain
+		color = Color(1,1, 1)
+		data = map_data
 			
 #func _on_button_pressed(button_name):
 	#if (button_name == 'trigger_click'):
