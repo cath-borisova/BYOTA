@@ -11,7 +11,7 @@
 [ext_resource type="PackedScene" uid="uid://dx8axs4bepxp5" path="res://FBX/BushBerries_2.fbx" id="8_gsa2q"]
 [ext_resource type="Script" path="res://scripts/toolbox_object_rock.gd" id="10_vjn4b"]
 [ext_resource type="PackedScene" uid="uid://b3ccjy31mqkkv" path="res://FBX/Rock_Moss_1.fbx" id="11_t863o"]
-[ext_resource type="Script" path="res://map.gd" id="12_fc24a"]
+[ext_resource type="Script" path="res://scripts/map.gd" id="12_fc24a"]
 [ext_resource type="Shader" path="res://selection.gdshader" id="13_3s00n"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a20iy"]
