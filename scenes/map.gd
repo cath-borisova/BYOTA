@@ -147,9 +147,9 @@ func _on_right_button_released(name):
 		
 func set_corner(corner, pos):
 	print("corner ", corner)
-	var local_pos = $Map/SelectionBox.to_local(pos)
+	var local_pos = $Map.to_local(pos)
 	print("local pos: ", local_pos)
-	var corner_pos = Vector2(clamp(local_pos.x, 0, 1), clamp(local_pos.z, 0, 1))
+	var corner_pos = Vector2(clamp(local_pos.x, 0, 0.5) * 2, clamp(local_pos.z, 0, 0.5) * 2)
 	print("corner pos: ", corner_pos)
 	if corner == 1:
 		var other_corner = $Map/SelectionBox.mesh.material.get_shader_parameter("corner2")
@@ -158,9 +158,11 @@ func set_corner(corner, pos):
 			corner2 = corner_pos
 			$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
 			$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
+			print("one")
 		else:
 			corner1 = corner_pos
 			$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
+			print("two")
 	else:
 		var other_corner = $Map/SelectionBox.mesh.material.get_shader_parameter("corner1")
 		if corner_pos.x <= other_corner.x && corner_pos.y <= other_corner.y:
@@ -168,9 +170,11 @@ func set_corner(corner, pos):
 			corner1 = corner_pos
 			$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
 			$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
+			print("three")
 		else:
 			corner2 = corner_pos
-			$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
+			$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
+			print("four")
 	print("corner 1 position: ", $Map/SelectionBox.mesh.material.get_shader_parameter("corner1"))
 	print("corner 2 position: ", $Map/SelectionBox.mesh.material.get_shader_parameter("corner2"))
 	print("\n\n\n")
