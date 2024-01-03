@@ -138,6 +138,6 @@ func set_corner(corner, pos):
 			$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
 			
 func generate_terrain():
-	var adjusted_corner2 = Vector2(round((corner2.x/2) * 1026), round((corner2.y/2) * 1026))
-	var adjusted_corner1 = Vector2(round((corner1.x/2) * 1026), round((corner1.y/2) * 1026))
+	var adjusted_corner2 = Vector2(round((corner2.x/2) * 1025), round((corner2.y/2) * 1025))
+	var adjusted_corner1 = Vector2(round((corner1.x/2) * 1025), round((corner1.y/2) * 1025))
 	get_node("/root/Main")._edit(min(adjusted_corner1.y, adjusted_corner2.y), max(adjusted_corner1.y, adjusted_corner2.y), min(adjusted_corner1.x, adjusted_corner2.x), max(adjusted_corner1.x, adjusted_corner2.x), amplitude, width, length)

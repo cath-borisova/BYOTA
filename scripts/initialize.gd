@@ -43,7 +43,7 @@ func _ready():
 	map_terrain = HTerrain.new()
 	map_terrain.set_data(map_data)
 	map_terrain.map_scale = Vector3(0.001, 0.001, 0.001)
-	_edit(0, 513, 0, 513, 0, 0, 0)
+	_edit(0, 512, 0, 512, 0, 0, 0)
 	map_terrain.name = "Map"
 	$MapRigidBody.add_child(map_terrain)
 	$MapRigidBody.visible = false
