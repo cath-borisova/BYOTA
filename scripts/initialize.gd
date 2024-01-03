@@ -2,7 +2,7 @@ extends Node3D
 
 const HTerrain = preload("res://addons/zylann.hterrain/hterrain.gd")
 const HTerrainData = preload("res://addons/zylann.hterrain/hterrain_data.gd")
-const HTerrainTextureSet = preload("res://addons/zylann.hterrain/hterrain_texture_set.gd")
+#const HTerrainTextureSet = preload("res://addons/zylann.hterrain/hterrain_texture_set.gd")
 
 var terrain_data = null
 var map_data = null
@@ -32,23 +32,23 @@ func _ready():
 	terrain_data.resize(513)
 	
 	terrain = HTerrain.new()
-	terrain.set_shader_type(HTerrain.SHADER_CLASSIC4_LITE)
+	#terrain.set_shader_type(HTerrain.SHADER_CLASSIC4_LITE)
 	terrain.set_data(terrain_data)
 	terrain.position = Vector3(-50, 0,-50)
 	terrain.map_scale = Vector3(0.2, 0.2, 0.2)
-	print("TEXTURRE", terrain.get_texture_set())
+	#print("TEXTURRE", terrain.get_texture_set())
 	terrain.name = "Ground"
 	#dit(0, terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT).get_height(), 0, terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT).get_width(), 0, 0, 0)
 	add_child(terrain)
-	var grass_detail = load("res://scenes/grass_scene.tscn")
-	var new_grass = grass_detail.instantiate()
-	get_node("/root/Main/Ground").add_child(new_grass)
+	#var grass_detail = load("res://scenes/grass_scene.tscn")
+	#var new_grass = grass_detail.instantiate()
+	#get_node("/root/Main/Ground").add_child(new_grass)
 	
 	map_data = HTerrainData.new()
 	map_data.resize(513)
 
 	map_terrain = HTerrain.new()
-	map_terrain.set_shader_type(HTerrain.SHADER_CLASSIC4_LITE)
+	#map_terrain.set_shader_type(HTerrain.SHADER_CLASSIC4_LITE)
 	map_terrain.set_data(map_data)
 	map_terrain.map_scale = Vector3(0.001, 0.001, 0.001)
 	_edit(0, 513, 0, 513, 0, 0, 0)
@@ -74,8 +74,11 @@ func _ready():
 #y = a * sin(b * (x)) where b is 2pi/b
 
 func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
-	print("terrain data: ", terrain_data)
-	print("map data: ", map_data)
+	print("GENERATING TERRAIN!")
+	print("z start: ", z_start)
+	print("z_end: ", z_end)
+	print("x_start: ", x_start)
+	print("x_end: ", x_end)
 	var count = 0
 	var t = terrain
 	var color = Color(11.0/255.0, 82.0/255.0, 30/255.0, 1.0)
@@ -86,6 +89,7 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 		var colormap: Image = data.get_image(HTerrainData.CHANNEL_COLOR)
 
 		if z_start >= 0 && z_start < z_end && z_end <= heightmap.get_height() && x_start >= 0 && x_start < x_end && x_end <= heightmap.get_width():
+			print("i got here for count: ", count)
 			var offset = 0
 			var compare = 0
 			var l_scale = 90/PI

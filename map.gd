@@ -13,6 +13,10 @@ var plane_size = Vector2(1, 1)
 var selection_box = null
 var current_size = Vector2(0.1, 0.1)
 
+var amplitude = 10
+var length = 5
+var width = 5
+
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	selection_box = null
@@ -93,7 +97,6 @@ func _on_left_button_pressed(name):
 		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1",  Vector2(clamp(corner1.x, 0, 0.5), clamp(corner1.z, 0, 0.5)))
 		set_corner(2, %LeftController.global_position)
 		set_corner(1, %RightController.global_position)
-		
 		#$Map/SelectionBox.set_shader_param("corner2", Vector3(2, 2, 0))
 		#$Map/SelectionBox.global_position.x = top_left_coordinate.x
 		#$Map/SelectionBox.global_position.z = top_left_coordinate.y
@@ -105,6 +108,7 @@ func _on_left_controller_button_released(name):
 	if name == "trigger_click" && left_selecting:
 		left_selecting = false
 		set_corner(2, %LeftController.global_position)		
+		generate_terrain()
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(0,0))
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(0,0))
 		
@@ -137,7 +141,6 @@ func _on_right_button_pressed(name):
 		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1",  Vector2(clamp(corner1.x, 0, 1), clamp(corner1.z, 0, 1)))
 		set_corner(2, %RightController.global_position)
 		set_corner(1, %RightController.global_position)
-		#get_node("/root/Main")._edit(0, data, z_start, z_end, x_start, x_end, amplitude, width, length, color)
 		#$Map/SelectionBox.global_position.x = top_left_coordinate.x
 		#k$Map/SelectionBox.global_position.z = top_left_coordinate.y
 	
@@ -150,6 +153,7 @@ func _on_right_button_released(name):
 		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2",  Vector2(clamp(corner1.x, 0, 1), clamp(corner1.z, 0, 1)))
 		#$Map/SelectionBox.visible = false
 		set_corner(2, %RightController.global_position)
+		generate_terrain()
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(0,0))
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(0,0))
 		
@@ -187,3 +191,7 @@ func set_corner(corner, pos):
 	print("corner 2 position: ", $Map/SelectionBox.mesh.material.get_shader_parameter("corner2"))
 	print("\n\n\n")
 			
+func generate_terrain():
+	var adjusted_corner2 = Vector2(round((corner2.x/2) * 1026), round((corner2.y/2) * 1026))
+	var adjusted_corner1 = Vector2(round((corner1.x/2) * 1026), round((corner1.y/2) * 1026))
+	get_node("/root/Main")._edit(min(adjusted_corner1.y, adjusted_corner2.y), max(adjusted_corner1.y, adjusted_corner2.y), min(adjusted_corner1.x, adjusted_corner2.x), max(adjusted_corner1.x, adjusted_corner2.x), amplitude, width, length)
