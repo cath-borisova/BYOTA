@@ -2,7 +2,7 @@ extends Node3D
 
 const HTerrain = preload("res://addons/zylann.hterrain/hterrain.gd")
 const HTerrainData = preload("res://addons/zylann.hterrain/hterrain_data.gd")
-const HTerrainTextureSet = preload("res://addons/zylann.hterrain/hterrain_texture_set.gd")
+#const HTerrainTextureSet = preload("res://addons/zylann.hterrain/hterrain_texture_set.gd")
 
 var terrain_data = null
 var map_data = null
@@ -10,9 +10,10 @@ var xr_interface: XRInterface
 var terrain = null
 var map_terrain = null
 var is_sin = false
-var map_visible = false
 var mini_user = null
+var selection_box = null
 
+# Called when the node enters the scene tree for the first time.
 func _ready():
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():
@@ -29,24 +30,20 @@ func _ready():
 	$XROrigin3D.rotate_y(deg_to_rad(90))
 	terrain_data = HTerrainData.new()
 	terrain_data.resize(513)
-
+	
 	terrain = HTerrain.new()
-	terrain.set_shader_type(HTerrain.SHADER_CLASSIC4_LITE)
 	terrain.set_data(terrain_data)
 	terrain.position = Vector3(-50, 0,-50)
 	terrain.map_scale = Vector3(0.2, 0.2, 0.2)
 	terrain.name = "Ground"
-	_edit(1, terrain_data, 0, -1, 0)
 	add_child(terrain)
-	
 	map_data = HTerrainData.new()
 	map_data.resize(513)
 
 	map_terrain = HTerrain.new()
-	map_terrain.set_shader_type(HTerrain.SHADER_CLASSIC4_LITE)
 	map_terrain.set_data(map_data)
 	map_terrain.map_scale = Vector3(0.001, 0.001, 0.001)
-	_edit(0, map_data, 0, -1, 0)
+	_edit(0, 513, 0, 513, 0, 0, 0)
 	map_terrain.name = "Map"
 	$MapRigidBody.add_child(map_terrain)
 	$MapRigidBody.visible = false
@@ -54,76 +51,83 @@ func _ready():
 	mini_user = %MiniUser
 	mini_user.get_parent().remove_child(mini_user)
 	$MapRigidBody/Map.add_child(mini_user)
+	selection_box = $MapRigidBody/SelectionBox
 	
-	$Tree.visible = map_visible
-	$Bush.visible = map_visible
-	$Rock.visible = map_visible
+	selection_box.visible = false
+	selection_box.get_parent().remove_child(selection_box)
+	$MapRigidBody/Map.add_child(selection_box)
+	selection_box.position.y = 0.003
+	selection_box.position.x = 0.26
+	selection_box.position.z = 0.255
 
 #y = a * sin(b * (x)) where b is 2pi/b
-var frequency_interval = 4 #aka b
 
-func _edit(node, data, z_start, z_end, amplitude):
-	var heightmap: Image = data.get_image(HTerrainData.CHANNEL_HEIGHT)
-	var normalmap: Image = data.get_image(HTerrainData.CHANNEL_NORMAL)
-	var colormap: Image = data.get_image(HTerrainData.CHANNEL_COLOR)
-	var t = null
-	var color = null
-	if node == 1:
-		t = terrain
-		if z_end == -1:
-			color = Color(11.0/255.0, 82.0/255.0, 30/255.0, 1.0)
-		else:
-			color = Color(0, 0, 1)
-	else:
-		t = map_terrain
-		color = Color(1, 1, 1)
-	
-	if z_end == -1:
-		z_end = heightmap.get_height()
+func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
+	var count = 0
+	var t = terrain
+	var color = Color(11.0/255.0, 82.0/255.0, 30/255.0, 1.0)
+	var data = terrain_data
+	while count < 2:
+		var heightmap: Image = data.get_image(HTerrainData.CHANNEL_HEIGHT)
+		var normalmap: Image = data.get_image(HTerrainData.CHANNEL_NORMAL)
+		var colormap: Image = data.get_image(HTerrainData.CHANNEL_COLOR)
 
-	for z in range(z_start, z_end):
-		for x in heightmap.get_width():
-			var y = amplitude * sin(frequency_interval * deg_to_rad(x)) * cos(frequency_interval * deg_to_rad(z));
-			var dy_dx = amplitude * frequency_interval * cos(frequency_interval * deg_to_rad(x)) * cos(frequency_interval * deg_to_rad(z));
-			var dy_dz = -amplitude * sin(frequency_interval * deg_to_rad(x)) * sin(frequency_interval * deg_to_rad(z));
-
-			var normal = Vector3(dy_dx, 1, dy_dz)
-
-			heightmap.set_pixel(x, z, Color(y, 0, 0))
-			normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
-			colormap.set_pixel(x, z, color)
-	var modified_region = Rect2(Vector2(), heightmap.get_size())
-	data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
-	data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
-	data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
-	t.update_collider()
-	#reset the data from the variable
-	#if node == 1:
+		if z_start >= 0 && z_start < z_end && z_end <= heightmap.get_height() && x_start >= 0 && x_start < x_end && x_end <= heightmap.get_width():
+			var offset = 0
+			var compare = 0
+			var l_scale = 90/PI
+			var w_scale = 45/PI
 			
-func _on_button_pressed(button_name):
-	if (button_name == 'trigger_click'):
-		_edit(1, terrain_data, 50, 300, 20)
-		_edit(0, map_data, 50, 300, 20)
-		var heightmap_data = terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT)
-		#var terrainsize = 513
-		#var scaled_local_position = %XROrigin3D.global_position/terrainsize
-		#var index = int(scaled_local_position.y*(heightmap_data.size.y-1))* heightmap_data.size.x + int(scaled_local_position.x *(heightmap_data.size.x-1))
-		#var height_at_position = heightmap_data.data[index]
-		var height_at_position = heightmap_data.get_pixel(%XROrigin3D.global_position.x, %XROrigin3D.global_position.y)
-		print(height_at_position, "X ", %XROrigin3D.global_position.x,"Y ", %XROrigin3D.global_position.y)
-		#print("Height ",heightmap_data)
-	if (button_name == 'ax_button'):
-		map_visible = !map_visible
-		$MapRigidBody.visible = map_visible
-		$Tree.visible = map_visible
-		$Bush.visible = map_visible
-		$Rock.visible = map_visible
+			if length != 0:
+				offset = x_start / l_scale
+				compare = floor(offset) + 0.75
+				if offset > compare:
+					x_start = round(floor(offset) * l_scale)
+				else:
+					x_start = round(ceil(offset) * l_scale)
+				
+				offset = x_end/l_scale
+				compare = floor(offset) + 0.75
+				if offset > compare:
+					x_end = round(ceil(offset) * l_scale)
+				else:
+					x_end = round(floor(offset) * l_scale)
+			if width != 0:
+				offset = z_start / w_scale
+				compare = floor(offset) + 0.75
+				if offset > compare:
+					z_start = round(floor(offset) * w_scale)
+				else:
+					z_start = round(ceil(offset) * w_scale)
+				
+				offset = z_end/w_scale
+				compare = floor(offset) + 0.75
+				if offset > compare:
+					z_end = round(ceil(offset) * w_scale)
+				else:
+					z_end = round(floor(offset) * w_scale)
+			width *= PI
+			length *= PI
+			for z in range(z_start, z_end):
+				for x in range(x_start, x_end):
+					var y = amplitude * sin(length * x * (PI/90)) * cos(width * z * (PI/90));
+					var dy_dx = amplitude * length * cos(length * x * (PI/90)) * cos(width * z * (PI/90));
+					var dy_dz = -amplitude * sin(length *x * (PI/90)) * sin(width * z * (PI/90));
+					var normal = Vector3(dy_dx, 1, dy_dz)
+					heightmap.set_pixel(x, z, Color(y, 0, 0))
+					normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
+					colormap.set_pixel(x, z, color)
+			var modified_region = Rect2(Vector2(), heightmap.get_size())
+			data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
+			data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
+			data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
+			t.update_collider()
+		count += 1
+		t = map_terrain
+		color = Color(1,1, 1)
+		data = map_data
 		
 func _process(_delta):
-	#code to walk on mountains
-	
-	
-	#.get_height_at(%XROrigin3D.global_position.x/0.2, %XROrigin3D.global_position.y/0.2)*0.2)
 	if map_visible:
 		var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.05
 		new_position.y = 0.9
