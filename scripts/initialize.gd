@@ -117,23 +117,42 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 					heightmap.set_pixel(x, z, Color(y, 0, 0))
 					normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
 					colormap.set_pixel(x, z, color)
+					#print("HERE ", data.get_height_at(x,z), " X: ", x, " Z: ", z)
 			var modified_region = Rect2(Vector2(), heightmap.get_size())
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
+			
+			
 			t.update_collider()
 		count += 1
+		#reset the data again now that it is changed
+		t.set_data(data)
 		t = map_terrain
 		color = Color(1,1, 1)
 		data = map_data
+		#reset data again now that it is changed
+		t.set_data(data)
 		
 func _process(_delta):
-	if map_visible:
-		var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.05
-		new_position.y = 0.9
-		$MapRigidBody.global_transform.origin = new_position
-		var projected_camera_pos = $XROrigin3D/XRCamera3D.global_position
-		projected_camera_pos.y = 0.9
-		$MapRigidBody.look_at(projected_camera_pos, Vector3(0, 1, 0))
-		var user_pos = %XROrigin3D.global_position
-		mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)
+	#if map_visible:
+		#var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.05
+		#new_position.y = 0.9
+		#$MapRigidBody.global_transform.origin = new_position
+		#var projected_camera_pos = $XROrigin3D/XRCamera3D.global_position
+		#projected_camera_pos.y = 0.9
+		#$MapRigidBody.look_at(projected_camera_pos, Vector3(0, 1, 0))
+	#terrain_data.get_h
+	#var y = 0 * sin(0 * %XROrigin3D.global_position.x * (PI/90)) * cos(0 * %XROrigin3D.global_position.z* (PI/90));
+	#how to translate
+	#real world ->hterrain
+	var user_pos = %XROrigin3D.global_position
+	var height = terrain_data.get_height_at(round((user_pos.x+50)*5.13), round((user_pos.z+50)*5.13))
+	var terrain_scale = terrain.global_transform.basis.get_scale()
+	var meters_per_unit = Vector3(1/terrain_scale.x, 1/terrain_scale.y, 1/terrain_scale.z) 
+	var height_scaled = height * meters_per_unit
+	#print("HEIGHT: ", height_scaled)
+	%XROrigin3D.global_position.y = height_scaled.y 
+	print("HEIGHT: ", height_scaled.y)
+	
+	mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)
