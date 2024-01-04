@@ -97,11 +97,21 @@ func _edit(node, data, z_start, z_end, amplitude):
 	data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
 	data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
 	t.update_collider()
+	#reset the data from the variable
+	#if node == 1:
 			
 func _on_button_pressed(button_name):
 	if (button_name == 'trigger_click'):
 		_edit(1, terrain_data, 50, 300, 20)
 		_edit(0, map_data, 50, 300, 20)
+		var heightmap_data = terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT)
+		#var terrainsize = 513
+		#var scaled_local_position = %XROrigin3D.global_position/terrainsize
+		#var index = int(scaled_local_position.y*(heightmap_data.size.y-1))* heightmap_data.size.x + int(scaled_local_position.x *(heightmap_data.size.x-1))
+		#var height_at_position = heightmap_data.data[index]
+		var height_at_position = heightmap_data.get_pixel(%XROrigin3D.global_position.x, %XROrigin3D.global_position.y)
+		print(height_at_position, "X ", %XROrigin3D.global_position.x,"Y ", %XROrigin3D.global_position.y)
+		#print("Height ",heightmap_data)
 	if (button_name == 'ax_button'):
 		map_visible = !map_visible
 		$MapRigidBody.visible = map_visible
@@ -110,6 +120,10 @@ func _on_button_pressed(button_name):
 		$Rock.visible = map_visible
 		
 func _process(_delta):
+	#code to walk on mountains
+	
+	
+	#.get_height_at(%XROrigin3D.global_position.x/0.2, %XROrigin3D.global_position.y/0.2)*0.2)
 	if map_visible:
 		var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.05
 		new_position.y = 0.9
