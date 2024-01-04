@@ -13,9 +13,9 @@ var plane_size = Vector2(1, 1)
 var selection_box = null
 var current_size = Vector2(0.1, 0.1)
 
-var amplitude = 10
-var length = 5
-var width = 5
+var amplitude = 4
+var length = 2
+var width = 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():

@@ -147,12 +147,15 @@ func _process(_delta):
 	#how to translate
 	#real world ->hterrain
 	var user_pos = %XROrigin3D.global_position
-	var height = terrain_data.get_height_at(round((user_pos.x+50)*5.13), round((user_pos.z+50)*5.13))
-	var terrain_scale = terrain.global_transform.basis.get_scale()
-	var meters_per_unit = Vector3(1/terrain_scale.x, 1/terrain_scale.y, 1/terrain_scale.z) 
-	var height_scaled = height * meters_per_unit
+	var height = terrain_data.get_height_at((user_pos.x+50)*5.13,(user_pos.z+50)*5.13)
+	#var terrain_scale = terrain.global_transform.basis.get_scale()
+	#var meters_per_unit = Vector3(1/terrain_scale.x, 1/terrain_scale.y, 1/terrain_scale.z) 
+	#var height_scaled = height * meters_per_unit
 	#print("HEIGHT: ", height_scaled)
-	%XROrigin3D.global_position.y = height_scaled.y 
-	print("HEIGHT: ", height_scaled.y)
+	if height != 0:
+		%XROrigin3D.global_position.y = height / 5.13 + 0.5
+	else:
+		%XROrigin3D.global_position.y = 0.5
+	print("HEIGHT: ", height)
 	
 	mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)
