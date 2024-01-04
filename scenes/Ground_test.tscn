@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3 uid="uid://df1a3ut7fk7cy"]
 
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain.gd" id="1_7bcni"]
 [ext_resource type="Script" path="res://addons/zylann.hterrain/hterrain_texture_set.gd" id="2_8ivyf"]
+[ext_resource type="Resource" path="res://terrain_data/data.hterrain" id="2_l1vvs"]
 
 [sub_resource type="Resource" id="Resource_h5pi0"]
 script = ExtResource("2_8ivyf")
@@ -11,11 +12,8 @@ textures = [[], []]
 [node name="Ground" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -50, 0, -50)
 script = ExtResource("1_7bcni")
-ambient_wind = 0.0
-lod_scale = 2.0
 map_scale = Vector3(0.2, 0.2, 0.2)
-centered = false
-_terrain_data = null
+_terrain_data = ExtResource("2_l1vvs")
 chunk_size = 32
 collision_enabled = true
 collision_layer = 1
