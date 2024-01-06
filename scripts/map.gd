@@ -14,8 +14,8 @@ var selection_box = null
 var current_size = Vector2(0.1, 0.1)
 
 var amplitude = 10
-var length = 5
-var width = 5
+var length = 2
+var width = 2
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -115,7 +115,8 @@ func _on_right_button_released(name):
 		
 func set_corner(corner, pos):
 	var local_pos = $Map.to_local(pos)
-	var corner_pos = Vector2(clamp(local_pos.x, 0, 0.5) * 2, clamp(local_pos.z, 0, 0.5) * 2)
+	var corner_pos = Vector2(clamp(local_pos.x, 0, 0.5), clamp(local_pos.z, 0, 0.5))
+	#var corner_pos = Vector2(local_pos.x, local_pos.z)
 	if corner == 1:
 		var other_corner = $Map/SelectionBox.mesh.material.get_shader_parameter("corner2")
 		if corner_pos.x > other_corner.x && corner_pos.y > other_corner.y:
@@ -138,6 +139,6 @@ func set_corner(corner, pos):
 			$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
 			
 func generate_terrain():
-	var adjusted_corner2 = Vector2(round((corner2.x/2) * 1025), round((corner2.y/2) * 1025))
-	var adjusted_corner1 = Vector2(round((corner1.x/2) * 1025), round((corner1.y/2) * 1025))
+	var adjusted_corner2 = Vector2(floor((corner2.x/2 * 512)), floor((corner2.y/2 * 512)))
+	var adjusted_corner1 = Vector2(floor((corner1.x/2 * 512)), floor((corner1.y/2 * 512)))
 	get_node("/root/Main")._edit(min(adjusted_corner1.y, adjusted_corner2.y), max(adjusted_corner1.y, adjusted_corner2.y), min(adjusted_corner1.x, adjusted_corner2.x), max(adjusted_corner1.x, adjusted_corner2.x), amplitude, width, length)

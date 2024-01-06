@@ -4,10 +4,12 @@ uniform vec2 corner1 = vec2(0, 0);
 uniform vec2 corner2 = vec2(0, 0);
 
 void vertex() {
+	vec2 top_left = vec2(0.128, 0.128);
+	vec2 relative_displacement = VERTEX.xz - top_left;
     vec2 displacement = corner2 - corner1;
-    VERTEX.xz += mix(vec2(0.0), displacement, VERTEX.xz);
-
-
+	// float size = 0.256;
+    //VERTEX.xz = mix(corner1, corner2, VERTEX.xz/size);
+	VERTEX.xz = corner1 + mix(vec2(0, 0), -displacement, relative_displacement / (top_left * 2.0));
 }
 
 void fragment() {

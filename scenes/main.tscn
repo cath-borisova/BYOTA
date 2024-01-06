@@ -46,11 +46,12 @@ size = Vector3(0.603379, 1, 0.696646)
 render_priority = 0
 shader = ExtResource("13_3s00n")
 shader_parameter/corner1 = Vector2(0, 0)
-shader_parameter/corner2 = Vector2(0.3, 0.3)
+shader_parameter/corner2 = Vector2(0.5, 0.5)
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_pb36r"]
 material = SubResource("ShaderMaterial_6yw2w")
 size = Vector2(0.256, 0.256)
+center_offset = Vector3(0.128, 0, 0.128)
 
 [sub_resource type="SphereMesh" id="SphereMesh_pcmcg"]
 
