@@ -1,7 +1,7 @@
 shader_type spatial;
 
 uniform vec2 corner1 = vec2(0, 0);
-uniform vec2 corner2 = vec2(0, 0);
+uniform vec2 corner2 = vec2(0.5, 0.5);
 
 void vertex() {
 	vec2 top_left = vec2(0.128, 0.128);

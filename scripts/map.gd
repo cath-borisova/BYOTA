@@ -115,30 +115,36 @@ func _on_right_button_released(name):
 		
 func set_corner(corner, pos):
 	var local_pos = $Map.to_local(pos)
-	var corner_pos = Vector2(clamp(local_pos.x, 0, 1), clamp(local_pos.z, 0, 1))
+	var corner_pos = Vector2(clamp(local_pos.x, 0, 0.5), clamp(local_pos.z, 0, 0.5))
 	#var corner_pos = Vector2(local_pos.x, local_pos.z)
 	if corner == 1:
 		var other_corner = $Map/SelectionBox.mesh.material.get_shader_parameter("corner2")
-		if corner_pos.x > other_corner.x && corner_pos.y > other_corner.y:
+		if corner_pos.x < other_corner.x && corner_pos.y > other_corner.y:
 			corner1 = corner2
 			corner2 = corner_pos
-			$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
-			$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
+			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
+			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
 		else:
 			corner1 = corner_pos
-			$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
+			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
 	else:
 		var other_corner = $Map/SelectionBox.mesh.material.get_shader_parameter("corner1")
-		if corner_pos.x < other_corner.x && corner_pos.y < other_corner.y:
+		if corner_pos.x < other_corner.x && corner_pos.y > other_corner.y:
 			corner2 = corner1
 			corner1 = corner_pos
-			$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
-			$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
+			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
+			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
 		else:
 			corner2 = corner_pos
-			$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
+			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
+	$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(min(corner1.x, corner2.x), min(corner1.y, corner2.y)))
+	$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(max(corner1.x, corner2.x), max(corner1.y, corner2.y)))
+	
 			
 func generate_terrain():
+	print("CORNER 1: ", $Map/SelectionBox.mesh.material.get_shader_parameter("corner1"))
+	print("CORNER 2: ", $Map/SelectionBox.mesh.material.get_shader_parameter("corner2"))
+	print("\n")
 	var adjusted_corner2 = Vector2(floor((corner2.x/2 * 512)), floor((corner2.y/2 * 512)))
 	var adjusted_corner1 = Vector2(floor((corner1.x/2 * 512)), floor((corner1.y/2 * 512)))
 	get_node("/root/Main")._edit(min(adjusted_corner1.y, adjusted_corner2.y), max(adjusted_corner1.y, adjusted_corner2.y), min(adjusted_corner1.x, adjusted_corner2.x), max(adjusted_corner1.x, adjusted_corner2.x), amplitude, width, length)
