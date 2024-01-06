@@ -137,8 +137,8 @@ func set_corner(corner, pos):
 		else:
 			corner2 = corner_pos
 			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
-	$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(min(corner1.x, corner2.x), min(corner1.y, corner2.y)))
-	$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(max(corner1.x, corner2.x), max(corner1.y, corner2.y)))
+	#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(min(corner1.x, corner2.x), min(corner1.y, corner2.y)))
+	#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(max(corner1.x, corner2.x), max(corner1.y, corner2.y)))
 	
 			
 func generate_terrain():
