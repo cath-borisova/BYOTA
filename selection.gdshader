@@ -5,7 +5,7 @@ uniform vec2 corner2 = vec2(0.5, 0.5);
 
 void vertex() {
 	vec2 top_left = vec2(0.128, 0.128);
-	vec2 relative_displacement = VERTEX.xz - top_left;
+	vec2 relative_displacement = top_left + VERTEX.xz;
     vec2 displacement = corner2 - corner1;
 	// float size = 0.256;
     //VERTEX.xz = mix(corner1, corner2, VERTEX.xz/size);
