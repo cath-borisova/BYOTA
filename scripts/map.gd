@@ -115,7 +115,7 @@ func _on_right_button_released(name):
 		
 func set_corner(corner, pos):
 	var local_pos = $Map.to_local(pos)
-	var corner_pos = Vector2(clamp(local_pos.x, 0, 0.5), clamp(local_pos.z, 0, 0.5))
+	var corner_pos = Vector2(clamp(local_pos.x, 0, 1), clamp(local_pos.z, 0, 1))
 	#var corner_pos = Vector2(local_pos.x, local_pos.z)
 	if corner == 1:
 		var other_corner = $Map/SelectionBox.mesh.material.get_shader_parameter("corner2")

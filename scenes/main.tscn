@@ -51,7 +51,6 @@ shader_parameter/corner2 = Vector2(0.5, 0.5)
 [sub_resource type="PlaneMesh" id="PlaneMesh_pb36r"]
 material = SubResource("ShaderMaterial_6yw2w")
 size = Vector2(0.256, 0.256)
-center_offset = Vector3(0.128, 0, 0.128)
 
 [sub_resource type="SphereMesh" id="SphereMesh_pcmcg"]
 
