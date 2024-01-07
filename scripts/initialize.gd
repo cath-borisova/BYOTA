@@ -33,6 +33,8 @@ func _ready():
 	
 	terrain = HTerrain.new()
 	terrain.set_data(terrain_data)
+	var globals = get_node("/root/Globals")
+	globals.terrian_info = terrain_data
 	terrain.position = Vector3(-50, 0,-50)
 	terrain.map_scale = Vector3(0.2, 0.2, 0.2)
 	terrain.name = "Ground"
@@ -126,6 +128,8 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 			
 			t.update_collider()
 		count += 1
+		var globals = get_node("/root/Globals")
+		globals.terrian_info = terrain_data
 		#reset the data again now that it is changed
 		t.set_data(data)
 		t = map_terrain
@@ -133,7 +137,7 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 		data = map_data
 		#reset data again now that it is changed
 		t.set_data(data)
-		
+	
 func _process(_delta):
 	#if map_visible:
 		#var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.05
@@ -156,6 +160,6 @@ func _process(_delta):
 		%XROrigin3D.global_position.y = height / 5.13 + 0.5
 	else:
 		%XROrigin3D.global_position.y = 0.5
-	print("HEIGHT: ", height)
+	#print("HEIGHT: ", height)
 	
 	mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)

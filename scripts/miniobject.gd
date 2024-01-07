@@ -35,8 +35,25 @@ func _process(_delta):
 			var new_shape = new_shape_scene.instantiate()
 			new_shape.name = "Large - " + self.name
 			get_node("/root/Main").add_child(new_shape)
+			new_shape.add_to_group("large_objects")
 			#mini map -> real world
-			new_shape.global_position = Vector3((200 * self.position.x)-50, 0.1, (200* self.position.z)-50)
+			var big_position = Vector3((200 * self.position.x)-50, 0.1, (200* self.position.z)-50)
+			#code for moving object on top of hill
+			var globals = get_node("/root/Globals")
+			var terrain_data = globals.terrian_info
+			var big_height = terrain_data.get_height_at((big_position.x+50)*5.13,(big_position.z+50)*5.13)
+			
+			if big_height > 0:
+				new_shape.global_position = big_position
+				new_shape.global_position.y = big_height / 5.13 + 0.2
+				print(new_shape.name, big_height / 5.13 +0.2)
+			elif big_height < 0:
+				new_shape.global_position = big_position
+				new_shape.global_position.y = big_height / 5.13 - 0.2
+				print(new_shape.name, big_height / 5.13 -0.2)
+			else:
+				new_shape.global_position = big_position
+				
 		elif area3d.overlaps_body(ground):
 			self.queue_free()
 		

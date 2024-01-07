@@ -18,6 +18,7 @@ func _process(_delta):
 		var new_shape_scene = load("res://scenes/mini_tree.tscn")
 		var new_shape = new_shape_scene.instantiate()
 		get_node("/root/Main").add_child(new_shape)
+		#check which hand grabbed object
 		if self == right_hand.grabbed_object:
 			right_hand.is_mini = true
 			new_shape.global_position = right_hand.global_position
@@ -33,7 +34,7 @@ func _process(_delta):
 			left_hand.grabbed_object = new_shape
 	else:
 		var new_position = camera.global_position + -(camera.global_transform).basis.z.normalized() * 0.5
-		new_position.y = 1.2
+		new_position.y = 1.4
 		self.global_transform.origin = new_position
 		var projected_camera_pos = camera.global_position
 		projected_camera_pos.y = 1.2
