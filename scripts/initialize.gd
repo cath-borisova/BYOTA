@@ -33,6 +33,7 @@ func _ready():
 	terrain.set_shader_type(HTerrain.SHADER_CLASSIC4_LITE)
 	terrain.set_data(terrain_data)
 	terrain.position = Vector3(-50, 0,-50)
+	
 	terrain.map_scale = Vector3(0.2, 0.2, 0.2)
 	terrain.name = "Ground"
 	_edit(1, terrain_data, 0, terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT).get_height(), 0, terrain_data.get_image(HTerrainData.CHANNEL_HEIGHT).get_width(), 0, 0, 0, Color(11.0/255.0, 82.0/255.0, 30/255.0, 1.0))
@@ -119,13 +120,13 @@ func _edit(node, data, z_start, z_end, x_start, x_end, amplitude, width, length,
 		data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
 		t.update_collider()
 			
-#func _on_button_pressed(button_name):
-	#if (button_name == 'trigger_click'):
-		#var amplitude = 5
-		#var length = 1
-		#var width = 1
-		#_edit(1, terrain_data, 50, 300, 100, 200, amplitude, length, width, Color(0, 0, 1))
-		#_edit(0, map_data, 50, 300, 100, 200, amplitude, length, width, Color(1, 1, 1))
+func _on_button_pressed(button_name):
+	if (button_name == 'trigger_click'):
+		var amplitude = 5
+		var length = 1
+		var width = 1
+		_edit(1, terrain_data, 50, 300, 100, 200, amplitude, length, width, Color(0, 0, 1))
+		_edit(0, map_data, 50, 300, 100, 200, amplitude, length, width, Color(1, 1, 1))
 	#if (button_name == 'ax_button'):
 		#map_visible = !map_visible
 		#$MapRigidBody.visible = map_visible
