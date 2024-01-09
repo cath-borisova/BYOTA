@@ -12,6 +12,8 @@ var map_terrain = null
 var is_sin = false
 var mini_user = null
 var selection_box = null
+var arrowstem = null
+var arrowhead = null
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -48,6 +50,8 @@ func _ready():
 	$MapRigidBody.add_child(map_terrain)
 	$MapRigidBody.visible = false
 	map_terrain.position.x = -0.25
+	arrowstem = %MiniUser/ArrowStem
+	arrowhead =  %MiniUser/ArrowHead
 	mini_user = %MiniUser
 	mini_user.get_parent().remove_child(mini_user)
 	$MapRigidBody/Map.add_child(mini_user)
@@ -59,7 +63,6 @@ func _ready():
 	selection_box.position.y = 0.003
 	selection_box.position.x = 0.26
 	selection_box.position.z = 0.255
-
 #y = a * sin(b * (x)) where b is 2pi/b
 
 func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
@@ -137,3 +140,28 @@ func _process(_delta):
 		#$MapRigidBody.look_at(projected_camera_pos, Vector3(0, 1, 0))
 	var user_pos = %XROrigin3D.global_position
 	mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)
+	arrowhead.global_rotation_degrees.y = -$XROrigin3D/XRCamera3D.rotation.y
+	arrowstem.global_rotation_degrees.y = -$XROrigin3D/XRCamera3D.rotation.y
+	#for a in arrow:
+		#a
+	#var forward_direction: Vector3 = $XROrigin3D/XRCamera3D.global_transform.basis.z.normalized()
+	#arrowstem.look_at($XROrigin3D.global_transform.origin, Vector3(0, 0, 1))
+	#arrowhead.look_at($XROrigin3D.global_transform.origin, Vector3(0, 0, 1))
+	#arrowhead.rotation.x = -90
+		# If your nodes have different up directions, you might need to adjust the up vector accordingly
+		# For example, if your up direction is Vector3(0, 1, 0), you can use:
+		# otherNode.look_at(myNode.global_transform.origin, Vector3(0, 1, 0))
+		
+	#var targetTransform = %XROrigin3D/XRCamera3D.global_transform
+#
+	## Get the direction from myNode to targetNode
+	#var direction = (%XROrigin3D/XRCamera3D.global_transform.origin - arrowhead.global_transform.origin).normalized()
+#
+	## Calculate the rotation matrix
+	#var lookAtMatrix = Basis()
+	#lookAtMatrix.elements[0] = direction.cross(Vector3(0, 1, 0)).normalized()  # Right vector
+	#lookAtMatrix.elements[1] = Vector3(0, 1, 0)  # Up vector
+	#lookAtMatrix.elements[2] = direction  # Forward vector
+#
+	## Apply the rotation to myNode
+	#arrowhead.global_transform.basis = lookAtMatrix

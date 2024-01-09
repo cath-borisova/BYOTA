@@ -17,6 +17,8 @@ var amplitude = 10
 var length = 5
 var width = 5
 
+#var visible = false
+var offset_distance = 0.2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	selection_box = null
@@ -28,12 +30,27 @@ func _ready():
 func _process(delta):
 	self.global_position.y = 1.5
 	if left_hold_map:
-		var controller_position = %LeftController.global_position
-		var position_adjustment = %LeftController.global_transform.origin + Vector3(-plane_size.x / 3, 0, -plane_size.y / 2)
-		$Map.global_transform.origin = position_adjustment
-		$Map.global_position.y = controller_position.y
+		var left_controller_transform = %LeftController.global_transform
+
+		# Calculate the offset vector based on the controller's forward direction
+		var offset_vector = -left_controller_transform.basis.z * offset_distance
+
+			# Set the HTerrain's global position
+		$Map.global_transform.origin = left_controller_transform.origin + offset_vector
+
+			# Adjust the rotation of the HTerrain to align with the world up vector
+		var terrain_rotation = left_controller_transform.basis.get_euler()
+		terrain_rotation.x = 0  # Keep the terrain flat
+		terrain_rotation.z = 0  # Keep the terrain flat
+		var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normal, 0))
+	# Set the basis of the HTerrain
+		global_transform.basis = rotated_basis
+		#var controller_position = %LeftController.global_position
+		#var position_adjustment = %LeftController.global_transform.origin + Vector3(-plane_size.x / 3, 0, -plane_size.y / 2)
+		#$Map.global_transform.origin = position_adjustment
+		$Map.global_position.y = %LeftController.global_position.y
 		$CollisionShape3D.global_position = $Map.global_position
-		self.rotation = Vector3(0,0,0)
+		#self.rotation = Vector3(0,0,0)
 	if right_hold_map:
 		var controller_position = %RightController.global_position
 		var position_adjustment = %RightController.global_transform.origin - Vector3(plane_size.x / 3, -plane_size.y / 3, 0)    
@@ -61,6 +78,7 @@ func _on_left_button_pressed(name):
 			%Tree.visible = true
 			%Bush.visible = true
 			%Rock.visible = true
+
 			
 	if !left_hold_map && name == "trigger_click":
 		left_selecting = true
@@ -80,21 +98,29 @@ func _on_left_controller_button_released(name):
 
 func _on_right_button_pressed(name):
 	if name == "ax_button":
-		if right_hold_map:
-			right_hold_map = false
-			self.visible = false
+		#if right_hold_map:
+			#right_hold_map = false
+			#self.visible = false
+			#%Tree.visible = false
+			#%Bush.visible = false
+			#%Rock.visible = false
+			#
+			#
+		#elif !left_hold_map:
+			#right_hold_map = true
+			#self.visible = true
+		if visible:
 			%Tree.visible = false
 			%Bush.visible = false
 			%Rock.visible = false
-			
-			
-		elif !left_hold_map:
-			right_hold_map = true
-			self.visible = true
+			visible = false
+		else:
 			%Tree.visible = true
 			%Bush.visible = true
 			%Rock.visible = true
-			$Map.position.z += 1
+			visible = true
+		
+			#$Map.position.z += 1
 			
 	if !right_hold_map && name == "trigger_click":
 		right_selecting = true
@@ -141,3 +167,16 @@ func generate_terrain():
 	var adjusted_corner2 = Vector2(round((corner2.x/2) * 1026), round((corner2.y/2) * 1026))
 	var adjusted_corner1 = Vector2(round((corner1.x/2) * 1026), round((corner1.y/2) * 1026))
 	get_node("/root/Main")._edit(min(adjusted_corner1.y, adjusted_corner2.y), max(adjusted_corner1.y, adjusted_corner2.y), min(adjusted_corner1.x, adjusted_corner2.x), max(adjusted_corner1.x, adjusted_corner2.x), amplitude, width, length)
+
+#func show_map():
+	#if visible:
+		#%Tree.visible = false
+		#%Bush.visible = false
+		#%Rock.visible = false
+		#visible = false
+	#else:
+		#%Tree.visible = true
+		#%Bush.visible = true
+		#%Rock.visible = true
+		#visible = true
+	#$Map.position = 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=32 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -58,6 +58,18 @@ size = Vector2(0.256, 0.256)
 albedo_color = Color(1, 0.219608, 0.392157, 1)
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_bk2rj"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_opxvu"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_374y2"]
+material = SubResource("StandardMaterial3D_opxvu")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_qfpmv"]
+albedo_color = Color(0, 0, 0, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_3bf6w"]
+material = SubResource("StandardMaterial3D_qfpmv")
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_xecma")
@@ -171,6 +183,20 @@ surface_material_override/0 = SubResource("StandardMaterial3D_31yfa")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MiniUser"]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 shape = SubResource("SphereShape3D_bk2rj")
+
+[node name="ArrowStem" type="MeshInstance3D" parent="MiniUser" groups=["arrow"]]
+transform = Transform3D(-8.74228e-11, 0.01, -4.37114e-11, 0, -4.37114e-10, -0.001, -0.002, -4.37114e-10, 1.91069e-18, -0.005, 0.005, 0)
+visible = false
+mesh = SubResource("CylinderMesh_374y2")
+
+[node name="ArrowHead" type="MeshInstance3D" parent="MiniUser" groups=["arrow"]]
+unique_name_in_owner = true
+transform = Transform3D(-2.18557e-10, -0.01, -4.37114e-11, 0, -4.37114e-10, 0.001, -0.005, 4.37114e-10, 1.91069e-18, -0.02, 0.005, 0)
+visible = false
+mesh = SubResource("PrismMesh_3bf6w")
+skeleton = NodePath("../ArrowStem")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="MapRigidBody" method="_on_left_button_pressed"]
