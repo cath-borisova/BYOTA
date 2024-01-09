@@ -56,6 +56,7 @@ func _ready():
 	mini_user = %MiniUser
 	mini_user.get_parent().remove_child(mini_user)
 	$MapRigidBody/Map.add_child(mini_user)
+	mini_user.rotation = Vector3(0,0,0)
 	selection_box = $MapRigidBody/SelectionBox
 	
 	selection_box.visible = false
@@ -141,13 +142,17 @@ func _process(_delta):
 		#$MapRigidBody.look_at(projected_camera_pos, Vector3(0, 1, 0))
 	var user_pos = %XROrigin3D.global_position
 	mini_user.position = Vector3((user_pos.x)/200, 0, (user_pos.z)/200)
-	arrowhead.global_rotation_degrees.y = -$XROrigin3D/XRCamera3D.rotation.y
-	arrowstem.global_rotation_degrees.y = -$XROrigin3D/XRCamera3D.rotation.y
+	mini_user.rotation.x = 0
+	mini_user.rotation.z = 0
+	#arrowhead.global_rotation_degrees.x = -$XROrigin3D/XRCamera3D.rotation.x
+	#arrowstem.global_rotation_degrees.x = -$XROrigin3D/XRCamera3D.rotation.x
+	#arrowhead.scale = Vector3(0.005, 0.01, 0.001)
+	#arrowstem.scale = Vector3(0.002, 0.01, 0.001)
 	#for a in arrow:
 		#a
 	#var forward_direction: Vector3 = $XROrigin3D/XRCamera3D.global_transform.basis.z.normalized()
-	#arrowstem.look_at($XROrigin3D.global_transform.origin, Vector3(0, 0, 1))
-	#arrowhead.look_at($XROrigin3D.global_transform.origin, Vector3(0, 0, 1))
+	#arrowstem.look_at($XROrigin3D.global_transform.origin, Vector3(0, 1, 0))
+	#arrowhead.look_at($XROrigin3D.global_transform.origin, Vector3(0, 1, 0))
 	#arrowhead.rotation.x = -90
 		# If your nodes have different up directions, you might need to adjust the up vector accordingly
 		# For example, if your up direction is Vector3(0, 1, 0), you can use:
