@@ -27,15 +27,16 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	self.global_position.y = 1.5
-	if left_hold_map:
-		var controller_position = %LeftController.global_position
-		var position_adjustment = %LeftController.global_transform.origin + Vector3(-plane_size.x / 3, 0, -plane_size.y / 2)
-		$Map.global_transform.origin = position_adjustment
-		$Map.global_position.y = controller_position.y
-		$CollisionShape3D.global_position = $Map.global_position
-		self.rotation = Vector3(0,0,0)
+#	if left_hold_map:
+#		var controller_position = %LeftController.global_position
+#		var position_adjustment = %LeftController.global_transform.origin + Vector3(-plane_size.x / 3, 0, -plane_size.y / 2)
+#		$Map.global_transform.origin = position_adjustment
+#		$Map.global_position.y = controller_position.y
+#		$CollisionShape3D.global_position = $Map.global_position
+#		self.rotation = Vector3(0,0,0)
 	if right_hold_map:
 		var controller_position = %RightController.global_position
+		#translate position to map - so map follows right hand
 		var position_adjustment = %RightController.global_transform.origin - Vector3(plane_size.x / 3, -plane_size.y / 3, 0)    
 		$Map.global_transform.origin = position_adjustment
 		$Map.global_position.y = controller_position.y
@@ -46,47 +47,47 @@ func _process(delta):
 		
 	if right_selecting:
 		set_corner(2, %RightController.global_position)
-func _on_left_button_pressed(name):
-	if name == "ax_button":
-		if left_hold_map:
-			left_hold_map = false
-			self.visible = false
-			%Tree.visible = false
-			%Bush.visible = false
-			%Rock.visible = false
-			
-		elif !right_hold_map:
-			left_hold_map = true
-			self.visible = true
-			%Tree.visible = true
-			%Bush.visible = true
-			%Rock.visible = true
-			
-	if !left_hold_map && name == "trigger_click":
-		left_selecting = true
-		set_corner(2, %LeftController.global_position)
-		set_corner(1, %RightController.global_position)
-		$Map/SelectionBox.visible = true
-		
+#func _on_left_button_pressed(name):
+#	if name == "ax_button":
+#		if left_hold_map:
+#			left_hold_map = false
+#			self.visible = false
+#			%Tree.visible = false
+#			%Bush.visible = false
+#			%Rock.visible = false
+#
+#		elif !right_hold_map:
+#			left_hold_map = true
+#			self.visible = true
+#			%Tree.visible = true
+#			%Bush.visible = true
+#			%Rock.visible = true
+#
+#	if !left_hold_map && name == "trigger_click":
+#		left_selecting = true
+#		set_corner(2, %LeftController.global_position)
+#		set_corner(1, %RightController.global_position)
+#		$Map/SelectionBox.visible = true
+#
 
-func _on_left_controller_button_released(name):
-	if name == "trigger_click" && left_selecting:
-		left_selecting = false
-		set_corner(2, %LeftController.global_position)		
-		generate_terrain()
-		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(0,0))
-		$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(0,0))
-		$Map/SelectionBox.visible = false
+#func _on_left_controller_button_released(name):
+#	if name == "trigger_click" && left_selecting:
+#		left_selecting = false
+#		set_corner(2, %LeftController.global_position)		
+#		generate_terrain()
+#		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(0,0))
+#		$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(0,0))
+#		$Map/SelectionBox.visible = false
 
 func _on_right_button_pressed(name):
 	if name == "ax_button":
 		if right_hold_map:
+			print("right hand")
 			right_hold_map = false
 			self.visible = false
 			%Tree.visible = false
 			%Bush.visible = false
 			%Rock.visible = false
-			
 			
 		elif !left_hold_map:
 			right_hold_map = true
