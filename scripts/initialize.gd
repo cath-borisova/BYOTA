@@ -50,6 +50,7 @@ func _ready():
 	_edit(0, 513, 0, 513, 0, 0, 0)
 	map_terrain.name = "Map"
 	$MapRigidBody.add_child(map_terrain)
+	$MapRigidBody/CollisionShape3D.position = map_terrain.position
 	$MapRigidBody.visible = false
 	map_terrain.centered = true
 	map_terrain.position.x = -0.25
@@ -144,17 +145,6 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 		t.set_data(data)
 	
 func _process(_delta):
-	#if map_visible:
-		#var new_position = $XROrigin3D/XRCamera3D.global_position + -($XROrigin3D/XRCamera3D.global_transform).basis.z.normalized() * 0.05
-		#new_position.y = 0.9
-		#$MapRigidBody.global_transform.origin = new_position
-		#var projected_camera_pos = $XROrigin3D/XRCamera3D.global_position
-		#projected_camera_pos.y = 0.9
-		#$MapRigidBody.look_at(projected_camera_pos, Vector3(0, 1, 0))
-	#terrain_data.get_h
-	#var y = 0 * sin(0 * %XROrigin3D.global_position.x * (PI/90)) * cos(0 * %XROrigin3D.global_position.z* (PI/90));
-	#how to translate
-	#real world ->hterrain
 	var user_pos = %XROrigin3D.global_position
 	var height = terrain_data.get_height_at((user_pos.x+50)*5.13,(user_pos.z+50)*5.13)
 	#var terrain_scale = terrain.global_transform.basis.get_scale()
@@ -171,30 +161,3 @@ func _process(_delta):
 	mini_user.position = Vector3((user_pos.x)/200, 0, (user_pos.z)/200)
 	mini_user.rotation.x = 0
 	mini_user.rotation.z = 0
-	#arrowhead.global_rotation_degrees.x = -$XROrigin3D/XRCamera3D.rotation.x
-	#arrowstem.global_rotation_degrees.x = -$XROrigin3D/XRCamera3D.rotation.x
-	#arrowhead.scale = Vector3(0.005, 0.01, 0.001)
-	#arrowstem.scale = Vector3(0.002, 0.01, 0.001)
-	#for a in arrow:
-		#a
-	#var forward_direction: Vector3 = $XROrigin3D/XRCamera3D.global_transform.basis.z.normalized()
-	#arrowstem.look_at($XROrigin3D.global_transform.origin, Vector3(0, 1, 0))
-	#arrowhead.look_at($XROrigin3D.global_transform.origin, Vector3(0, 1, 0))
-	#arrowhead.rotation.x = -90
-		# If your nodes have different up directions, you might need to adjust the up vector accordingly
-		# For example, if your up direction is Vector3(0, 1, 0), you can use:
-		# otherNode.look_at(myNode.global_transform.origin, Vector3(0, 1, 0))
-		
-	#var targetTransform = %XROrigin3D/XRCamera3D.global_transform
-#
-	## Get the direction from myNode to targetNode
-	#var direction = (%XROrigin3D/XRCamera3D.global_transform.origin - arrowhead.global_transform.origin).normalized()
-#
-	## Calculate the rotation matrix
-	#var lookAtMatrix = Basis()
-	#lookAtMatrix.elements[0] = direction.cross(Vector3(0, 1, 0)).normalized()  # Right vector
-	#lookAtMatrix.elements[1] = Vector3(0, 1, 0)  # Up vector
-	#lookAtMatrix.elements[2] = direction  # Forward vector
-#
-	## Apply the rotation to myNode
-	#arrowhead.global_transform.basis = lookAtMatrix
