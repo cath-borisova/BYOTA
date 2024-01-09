@@ -24,7 +24,8 @@ func _process(_delta):
 			self.remove_from_group("grabbable")
 			self.freeze = true
 			self.global_position = position
-			if self.position.x > 0.5 || self.position.x <0 || self.position.z > 0.5 || self.position.z < 0:
+			print(self.position)
+			if self.position.x < -0.25 || self.position.x > 0.25 || self.position.z < -0.25 || self.position.z > 0.25:
 				self.queue_free()
 			self.position.y = 0.001
 			self.rotation = Vector3(0,0,0)
@@ -37,7 +38,7 @@ func _process(_delta):
 			get_node("/root/Main").add_child(new_shape)
 			new_shape.add_to_group("large_objects")
 			#mini map -> real world
-			var big_position = Vector3((200 * self.position.x)-50, 0.1, (200* self.position.z)-50)
+			var big_position = Vector3((200 * self.position.x), 0.1, (200* self.position.z))
 			#code for moving object on top of hill
 			var globals = get_node("/root/Globals")
 			var terrain_data = globals.terrian_info

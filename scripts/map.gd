@@ -17,6 +17,8 @@ var amplitude = 4
 var length = 2
 var width = 2
 
+#var visible = false
+var offset_distance = 0.2
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	selection_box = null
@@ -28,19 +30,27 @@ func _ready():
 func _process(delta):
 	self.global_position.y = 1.5
 	if left_hold_map:
-		var controller_position = %LeftController.global_position
-		var position_adjustment = %LeftController.global_transform.origin + Vector3(-plane_size.x / 3, 0, -plane_size.y / 2)
-		$Map.global_transform.origin = position_adjustment
-		$Map.global_position.y = controller_position.y
+		var left_controller_transform = %LeftController.global_transform
+		var offset_vector = -left_controller_transform.basis.z * offset_distance
+		$Map.global_transform.origin = left_controller_transform.origin + offset_vector
+		var terrain_rotation = left_controller_transform.basis.get_euler()
+		terrain_rotation.x = 0
+		terrain_rotation.z = 0 
+		var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
+		global_transform.basis = rotated_basis
+		$Map.global_position.y = %LeftController.global_position.y
 		$CollisionShape3D.global_position = $Map.global_position
-		self.rotation = Vector3(0,0,0)
 	if right_hold_map:
-		var controller_position = %RightController.global_position
-		var position_adjustment = %RightController.global_transform.origin - Vector3(plane_size.x / 3, -plane_size.y / 3, 0)    
-		$Map.global_transform.origin = position_adjustment
-		$Map.global_position.y = controller_position.y
+		var right_controller_transform = %RightController.global_transform
+		var offset_vector = -right_controller_transform.basis.z * offset_distance
+		$Map.global_transform.origin = right_controller_transform.origin + offset_vector
+		var terrain_rotation = right_controller_transform.basis.get_euler()
+		terrain_rotation.x = 0
+		terrain_rotation.z = 0 
+		var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
+		global_transform.basis = rotated_basis
+		$Map.global_position.y = %RightController.global_position.y
 		$CollisionShape3D.global_position = $Map.global_position
-		self.rotation = Vector3(0,0,0)
 	if left_selecting:
 		set_corner(2, %LeftController.global_position)
 		
@@ -61,6 +71,7 @@ func _on_left_button_pressed(name):
 			%Tree.visible = true
 			%Bush.visible = true
 			%Rock.visible = true
+
 			
 	if !left_hold_map && name == "trigger_click":
 		left_selecting = true
@@ -94,7 +105,6 @@ func _on_right_button_pressed(name):
 			%Tree.visible = true
 			%Bush.visible = true
 			%Rock.visible = true
-			$Map.position.z += 1
 			
 	if !right_hold_map && name == "trigger_click":
 		right_selecting = true
