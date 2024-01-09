@@ -24,18 +24,20 @@ func _process(_delta):
 			self.remove_from_group("grabbable")
 			self.freeze = true
 			self.global_position = position
-			if self.position.x > 0.5 || self.position.x <0 || self.position.z > 0.5 || self.position.z < 0:
+			print(self.position)
+			if self.position.x < -0.25 || self.position.x > 0.25 || self.position.z < -0.25 || self.position.z > 0.25:
 				self.queue_free()
-			self.position.y = 0.001
-			self.rotation = Vector3(0,0,0)
-			in_map = true
-			
-			var shape_name = self.name.substr(5, 4)
-			var new_shape_scene = load("res://scenes/large_"+shape_name+".tscn")
-			var new_shape = new_shape_scene.instantiate()
-			new_shape.name = "Large - " + self.name
-			get_node("/root/Main").add_child(new_shape)
-			new_shape.global_position = Vector3((200 * self.position.x)-50, 0.1, (200* self.position.z)-50)
+			else:
+				self.position.y = 0.001
+				self.rotation = Vector3(0,0,0)
+				in_map = true
+				
+				var shape_name = self.name.substr(5, 4)
+				var new_shape_scene = load("res://scenes/large_"+shape_name+".tscn")
+				var new_shape = new_shape_scene.instantiate()
+				new_shape.name = "Large - " + self.name
+				get_node("/root/Main").add_child(new_shape)
+				new_shape.global_position = Vector3((200 * self.position.x), 0.1, (200* self.position.z))
 		elif area3d.overlaps_body(ground):
 			self.queue_free()
 		

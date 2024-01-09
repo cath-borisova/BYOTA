@@ -165,7 +165,7 @@ unique_name_in_owner = true
 script = ExtResource("12_fc24a")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MapRigidBody"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.25, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0)
 shape = SubResource("HeightMapShape3D_gop3s")
 
 [node name="SelectionBox" type="MeshInstance3D" parent="MapRigidBody"]

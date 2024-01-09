@@ -49,6 +49,7 @@ func _ready():
 	map_terrain.name = "Map"
 	$MapRigidBody.add_child(map_terrain)
 	$MapRigidBody.visible = false
+	map_terrain.centered = true
 	map_terrain.position.x = -0.25
 	arrowstem = %MiniUser/ArrowStem
 	arrowhead =  %MiniUser/ArrowHead
@@ -139,7 +140,7 @@ func _process(_delta):
 		#projected_camera_pos.y = 0.9
 		#$MapRigidBody.look_at(projected_camera_pos, Vector3(0, 1, 0))
 	var user_pos = %XROrigin3D.global_position
-	mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)
+	mini_user.position = Vector3((user_pos.x)/200, 0, (user_pos.z)/200)
 	arrowhead.global_rotation_degrees.y = -$XROrigin3D/XRCamera3D.rotation.y
 	arrowstem.global_rotation_degrees.y = -$XROrigin3D/XRCamera3D.rotation.y
 	#for a in arrow:
