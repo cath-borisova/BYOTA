@@ -36,9 +36,9 @@ func _ready():
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
 	if translate_map:
-		print("translating")
 		self.global_position = (%LeftController.global_position + %RightController.global_position) / 2;
 		var difference = abs(%LeftController.global_position.distance_to(%RightController.global_position));
+		self.look_at(%LeftController.global_position);
 		my_scale_x = difference
 		my_scale_z = difference
 		#self.look_at(%LeftController.global_position);
@@ -206,3 +206,5 @@ func map_default_position():
 	my_scale_z = 1
 	self.scale.x = my_scale_x
 	self.scale.z = my_scale_z
+	my_rotation = Vector3(0,0,0)
+	self.rotation = my_rotation
