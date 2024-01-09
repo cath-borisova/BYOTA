@@ -48,6 +48,7 @@ func _ready():
 	_edit(0, 513, 0, 513, 0, 0, 0)
 	map_terrain.name = "Map"
 	$MapRigidBody.add_child(map_terrain)
+	$MapRigidBody/CollisionShape3D.position = map_terrain.position
 	$MapRigidBody.visible = false
 	map_terrain.centered = true
 	map_terrain.position.x = -0.25
