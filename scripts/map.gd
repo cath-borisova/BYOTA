@@ -43,7 +43,7 @@ func _process(delta):
 		my_scale_z = difference
 		#self.look_at(%LeftController.global_position);
 		my_rotation = self.rotation
-		my_height = min(self.global_position.y, 1)
+		my_height = self.global_position.y
 	else:
 		if left_hold_map:
 			var left_controller_transform = %LeftController.global_transform
