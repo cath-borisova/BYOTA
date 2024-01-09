@@ -15,9 +15,9 @@ var plane_size = Vector2(1, 1)
 var selection_box = null
 var current_size = Vector2(0.1, 0.1)
 
-var amplitude = 10
-var length = 5
-var width = 5
+var amplitude = 4
+var length = 2
+var width = 2
 
 var my_rotation = Vector3(0,0,0)
 var my_height = 1
@@ -190,7 +190,21 @@ func generate_terrain():
 	var adjusted_corner2 = Vector2(round((corner2.x/2) * 1026), round((corner2.y/2) * 1026))
 	var adjusted_corner1 = Vector2(round((corner1.x/2) * 1026), round((corner1.y/2) * 1026))
 	get_node("/root/Main")._edit(min(adjusted_corner1.y, adjusted_corner2.y), max(adjusted_corner1.y, adjusted_corner2.y), min(adjusted_corner1.x, adjusted_corner2.x), max(adjusted_corner1.x, adjusted_corner2.x), amplitude, width, length)
-	
+	#reset all previously place objects according to the new height map!
+	var large_objects = get_tree().get_nodes_in_group("large_objects")
+	for object in large_objects:
+		var globals = get_node("/root/Globals")
+		var terrain_data = globals.terrian_info
+		var big_height = terrain_data.get_height_at((object.global_position.x+50)*5.13,(object.global_position.z+50)*5.13)
+		if big_height > 0:
+			object.global_position.y = big_height / 5.13 + 0.2
+			print("adjusted height", object.name, big_height / 5.13 +0.2)
+		elif big_height < 0:
+			object.global_position.y = big_height / 5.13 - 0.2
+			print("adjusted height",object.name, big_height / 5.13 -0.2)
+		else:
+			object.global_position.y = 0
+
 func map_default_position():
 	var transform = %XROrigin3D.global_transform
 	var offset_vector = -transform.basis.z * offset_distance * 2
@@ -206,3 +220,6 @@ func map_default_position():
 	my_scale_z = 1
 	self.scale.x = my_scale_x
 	self.scale.z = my_scale_z
+
+
+
