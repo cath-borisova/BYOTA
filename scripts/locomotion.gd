@@ -30,6 +30,9 @@ func _process(_delta):
 			
 		if returned_to_dead_zone && (self.input_vector.x > self.snap_turn_dead_zone || self.input_vector.x < -self.snap_turn_dead_zone):
 			self.rotate(Vector3.UP, deg_to_rad(snap_turn_speed) * -self.input_vector.x)
+			%MapRigidBody/Map.rotate(Vector3.UP, deg_to_rad(snap_turn_speed) * -self.input_vector.x)
+			%MapRigidBody/Map/MiniUser.rotate(Vector3.UP, (deg_to_rad(snap_turn_speed) * -self.input_vector.x))
+			#%MapRigidBody/Map/MiniUser/ArrowStem.rotate(Vector3.UP, deg_to_rad(snap_turn_speed) * -self.input_vector.x)
 			returned_to_dead_zone = false
 
 func _process_input(input_name: String, input_value: Vector2):
