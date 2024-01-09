@@ -6,6 +6,8 @@ var right_hold_map = false
 var left_selecting = false
 var right_selecting = false
 
+var map_visible = false
+var translate_map = false
 var corner1 = Vector2(0,0)
 var corner2 = Vector2(0,0)
 
@@ -17,6 +19,7 @@ var amplitude = 10
 var length = 5
 var width = 5
 
+var my_rotation = Vector3(0,0,0)
 #var visible = false
 var offset_distance = 0.2
 # Called when the node enters the scene tree for the first time.
@@ -28,6 +31,7 @@ func _ready():
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
+	self.rotation = my_rotation
 	self.global_position.y = 1.5
 	if left_hold_map:
 		var left_controller_transform = %LeftController.global_transform
@@ -57,22 +61,28 @@ func _process(delta):
 	if right_selecting:
 		set_corner(2, %RightController.global_position)
 func _on_left_button_pressed(name):
+	if name == "grip_click" && %LeftController/Area3D.overlaps_body(self):
+		if map_visible:
+			if right_hold_map:
+				translate_map = true
+				left_hold_map = true
+			elif !right_hold_map:
+				left_hold_map = true
+				self.visible = true
+				%Tree.visible = true
+				%Bush.visible = true
+				%Rock.visible = true
 	if name == "ax_button":
-		if left_hold_map:
-			left_hold_map = false
+		if map_visible:
+			map_visible = false
 			self.visible = false
-			%Tree.visible = false
-			%Bush.visible = false
-			%Rock.visible = false
-			
-		elif !right_hold_map:
-			left_hold_map = true
+		else:
+			map_visible = true
 			self.visible = true
 			%Tree.visible = true
 			%Bush.visible = true
 			%Rock.visible = true
-
-			
+			map_default_position()
 	if !left_hold_map && name == "trigger_click":
 		left_selecting = true
 		set_corner(2, %LeftController.global_position)
@@ -88,25 +98,32 @@ func _on_left_controller_button_released(name):
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(0,0))
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(0,0))
 		$Map/SelectionBox.visible = false
-
+	if name == "grip_click" && left_hold_map:
+		left_hold_map = false
 func _on_right_button_pressed(name):
+	if name == "grip_click" && %RightController/Area3D.overlaps_body(self):
+		if map_visible:
+			if left_hold_map:
+				translate_map = true
+				right_hold_map = true
+			elif !left_hold_map:
+				right_hold_map = true
+				self.visible = true
+				%Tree.visible = true
+				%Bush.visible = true
+				%Rock.visible = true
 	if name == "ax_button":
-		if right_hold_map:
-			right_hold_map = false
+		if map_visible:
+			map_visible = false
 			self.visible = false
-			%Tree.visible = false
-			%Bush.visible = false
-			%Rock.visible = false
-			
-			
-		elif !left_hold_map:
-			right_hold_map = true
+		else:
+			map_visible = true
 			self.visible = true
 			%Tree.visible = true
 			%Bush.visible = true
 			%Rock.visible = true
-			
-	if !right_hold_map && name == "trigger_click":
+			map_default_position()
+	if !right_hold_map && name == "trigger_click" && map_visible:
 		right_selecting = true
 		$Map/SelectionBox.visible = true
 		set_corner(2, %RightController.global_position)
@@ -122,7 +139,9 @@ func _on_right_button_released(name):
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(0,0))
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(0,0))
 		$Map/SelectionBox.visible = false
-		
+	if name == "grip_click" && right_hold_map:
+		right_hold_map = false
+		#map_default_position()
 func set_corner(corner, pos):
 	var local_pos = $Map.to_local(pos)
 	var corner_pos = Vector2(clamp(local_pos.x, 0, 0.5) * 2, clamp(local_pos.z, 0, 0.5) * 2)
@@ -151,3 +170,15 @@ func generate_terrain():
 	var adjusted_corner2 = Vector2(round((corner2.x/2) * 1026), round((corner2.y/2) * 1026))
 	var adjusted_corner1 = Vector2(round((corner1.x/2) * 1026), round((corner1.y/2) * 1026))
 	get_node("/root/Main")._edit(min(adjusted_corner1.y, adjusted_corner2.y), max(adjusted_corner1.y, adjusted_corner2.y), min(adjusted_corner1.x, adjusted_corner2.x), max(adjusted_corner1.x, adjusted_corner2.x), amplitude, width, length)
+	
+func map_default_position():
+	var transform = %XROrigin3D.global_transform
+	var offset_vector = -transform.basis.z * offset_distance * 2
+	$Map.global_transform.origin = transform.origin + offset_vector
+	var terrain_rotation = transform.basis.get_euler()
+	terrain_rotation.x = 0
+	terrain_rotation.z = 0 
+	var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
+	global_transform.basis = rotated_basis
+	$Map.global_position.y = 1
+	$CollisionShape3D.global_position = $Map.global_position

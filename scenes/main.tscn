@@ -40,8 +40,6 @@ size = Vector3(1.3352, 1.23682, 1.42194)
 [sub_resource type="BoxShape3D" id="BoxShape3D_6hb2v"]
 size = Vector3(0.603379, 1, 0.696646)
 
-[sub_resource type="HeightMapShape3D" id="HeightMapShape3D_gop3s"]
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_6yw2w"]
 render_priority = 0
 shader = ExtResource("13_3s00n")
@@ -51,6 +49,8 @@ shader_parameter/corner2 = Vector2(0.3, 0.3)
 [sub_resource type="PlaneMesh" id="PlaneMesh_pb36r"]
 material = SubResource("ShaderMaterial_6yw2w")
 size = Vector2(0.256, 0.256)
+
+[sub_resource type="HeightMapShape3D" id="HeightMapShape3D_gop3s"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_pcmcg"]
 
@@ -164,13 +164,13 @@ shape = SubResource("BoxShape3D_6hb2v")
 unique_name_in_owner = true
 script = ExtResource("12_fc24a")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="MapRigidBody"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0)
-shape = SubResource("HeightMapShape3D_gop3s")
-
 [node name="SelectionBox" type="MeshInstance3D" parent="MapRigidBody"]
 unique_name_in_owner = true
 mesh = SubResource("PlaneMesh_pb36r")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="MapRigidBody"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.25, 0, 0)
+shape = SubResource("HeightMapShape3D_gop3s")
 
 [node name="MiniUser" type="RigidBody3D" parent="."]
 unique_name_in_owner = true
