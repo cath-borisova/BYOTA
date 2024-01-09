@@ -33,7 +33,7 @@ func _process(_delta):
 			left_hand.grabbed_object = new_shape
 	else:
 		var new_position = camera.global_position + -(camera.global_transform).basis.z.normalized() * 0.5 + -(camera.global_transform).basis.x.normalized() * 0.15
-		new_position.y = 1.2
+		new_position.y = 1.4
 		
 		self.global_transform.origin = new_position
 		var projected_camera_pos = camera.global_position
