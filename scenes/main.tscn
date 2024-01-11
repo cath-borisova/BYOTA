@@ -1,4 +1,4 @@
-[gd_scene load_steps=32 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=33 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -12,7 +12,8 @@
 [ext_resource type="Script" path="res://scripts/toolbox_object_rock.gd" id="10_vjn4b"]
 [ext_resource type="PackedScene" uid="uid://b3ccjy31mqkkv" path="res://FBX/Rock_Moss_1.fbx" id="11_t863o"]
 [ext_resource type="Script" path="res://scripts/map.gd" id="12_fc24a"]
-[ext_resource type="Shader" path="res://selection.gdshader" id="13_3s00n"]
+[ext_resource type="Shader" path="res://scripts/selection.gdshader" id="13_3s00n"]
+[ext_resource type="Script" path="res://scenes/ModelAttempt.gd" id="14_gkxau"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a20iy"]
 
@@ -194,11 +195,18 @@ transform = Transform3D(-2.18557e-10, -0.01, -4.37114e-11, 0, -4.37114e-10, 0.00
 mesh = SubResource("PrismMesh_3bf6w")
 skeleton = NodePath("../ArrowStem")
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
+visible = false
+
+[node name="ModelAttempt" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 1, 0.5)
+skeleton = NodePath("../MeshInstance3D")
+script = ExtResource("14_gkxau")
+
 [node name="node_large_objects" type="Node3D" parent="." groups=["large_objects"]]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 visible = false
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="MapRigidBody" method="_on_left_button_pressed"]

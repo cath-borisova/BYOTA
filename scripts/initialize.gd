@@ -4,14 +4,20 @@ const HTerrain = preload("res://addons/zylann.hterrain/hterrain.gd")
 const HTerrainData = preload("res://addons/zylann.hterrain/hterrain_data.gd")
 #const HTerrainTextureSet = preload("res://addons/zylann.hterrain/hterrain_texture_set.gd")
 
+var xr_interface: XRInterface
+
 var terrain_data = null
 var map_data = null
-var xr_interface: XRInterface
+var model_data = null
+var model_data2 = null
+
 var terrain = null
 var map_terrain = null
-var is_sin = false
+
 var mini_user = null
+
 var selection_box = null
+
 var arrowstem = null
 var arrowhead = null
 
@@ -41,19 +47,21 @@ func _ready():
 	terrain.map_scale = Vector3(0.2, 0.2, 0.2)
 	terrain.name = "Ground"
 	add_child(terrain)
+	
+	
 	map_data = HTerrainData.new()
 	map_data.resize(513)
-
 	map_terrain = HTerrain.new()
 	map_terrain.set_data(map_data)
 	map_terrain.map_scale = Vector3(0.001, 0.001, 0.001)
+	map_terrain.centered = true
 	_edit(0, 513, 0, 513, 0, 0, 0)
 	map_terrain.name = "Map"
 	$MapRigidBody.add_child(map_terrain)
 	$MapRigidBody/CollisionShape3D.position = map_terrain.position
 	$MapRigidBody.visible = false
-	map_terrain.centered = true
 	map_terrain.position.x = -0.25
+	
 	arrowstem = %MiniUser/ArrowStem
 	arrowhead =  %MiniUser/ArrowHead
 	mini_user = %MiniUser
@@ -68,6 +76,7 @@ func _ready():
 	selection_box.position.y = 0.003
 	selection_box.position.x = 0.26
 	selection_box.position.z = 0.255
+
 #y = a * sin(b * (x)) where b is 2pi/b
 
 func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
@@ -130,8 +139,6 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
-			
-			
 			t.update_collider()
 		count += 1
 		var globals = get_node("/root/Globals")
@@ -143,7 +150,7 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 		data = map_data
 		#reset data again now that it is changed
 		t.set_data(data)
-	
+
 func _process(_delta):
 	var user_pos = %XROrigin3D.global_position
 	var height = terrain_data.get_height_at((user_pos.x+50)*5.13,(user_pos.z+50)*5.13)
