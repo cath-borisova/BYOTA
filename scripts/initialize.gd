@@ -13,17 +13,6 @@ var model_data2 = null
 
 var terrain = null
 var map_terrain = null
-var model = null
-
-var model_heightmap = null
-var model_normalmap = null
-var model_colormap = null
-
-var model2 = null
-
-var model_heightmap2 = null
-var model_normalmap2 = null
-var model_colormap2 = null
 
 var mini_user = null
 
@@ -87,36 +76,7 @@ func _ready():
 	selection_box.position.y = 0.003
 	selection_box.position.x = 0.26
 	selection_box.position.z = 0.255
-	
-	model_data = HTerrainData.new()
-	model_data.resize(513)
-	model = HTerrain.new()
-	model.set_data(model_data)
-	model.map_scale = Vector3(0.001, 0.001, 0.001)
-	model.name = "Model"
-	map_terrain.centered = true
-	model_heightmap = model_data.get_image(HTerrainData.CHANNEL_HEIGHT)
-	model_normalmap = model_data.get_image(HTerrainData.CHANNEL_NORMAL)
-	model_colormap = model_data.get_image(HTerrainData.CHANNEL_COLOR)
-	add_child(model)
-	model.global_position.y = 1
-	
-	model_data2 = HTerrainData.new()
-	model_data2.resize(513)
-	model2 = HTerrain.new()
-	model2.set_data(model_data)
-	model2.map_scale = Vector3(0.001, 0.001, 0.001)
-	model2.name = "Model2"
-	map_terrain.centered = true
-	model_heightmap2 = model_data2.get_image(HTerrainData.CHANNEL_HEIGHT)
-	model_normalmap2 = model_data2.get_image(HTerrainData.CHANNEL_NORMAL)
-	model_colormap2 = model_data2.get_image(HTerrainData.CHANNEL_COLOR)
-	_create_model()
-	add_child(model2)
-	model2.global_position.y = 1
-	#model2.rotation.x = deg_to_rad(180)
-	#model2.rotation.y = deg_to_rad(180)
-	#model2.rotation.z = deg_to_rad(180)
+
 #y = a * sin(b * (x)) where b is 2pi/b
 
 func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
@@ -190,47 +150,6 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 		data = map_data
 		#reset data again now that it is changed
 		t.set_data(data)
-
-var model_amplitude = 513/2
-var model_length = 0.005
-var model_width = model_length
-
-var extra = PI
-
-func _create_model():
-	for z in range(0, 513):
-		for x in range(0, 513):
-			var y = model_amplitude * sin(model_length * x * extra) * cos(model_width * z * extra);
-			var dy_dx = model_amplitude * model_length * cos(model_length * x * extra) * cos(model_width * z * extra);
-			var dy_dz = -model_amplitude * sin(model_length *x * extra) * sin(model_width * z * extra);
-			
-			var normal = Vector3(dy_dx, 1, dy_dz)
-			model_heightmap.set_pixel(x, z, Color(y, 0, 0))
-			model_normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
-			model_colormap.set_pixel(x, z, Color.DARK_RED)
-			
-			var x2 = 512 - x
-			var z2 = 512 -z 
-			var y2 = model_amplitude * sin(model_length * x2 * extra) * cos(model_width * z2 * extra);
-			var dy_dx2 = model_amplitude * model_length * cos(model_length * x2 * extra) * cos(model_width * z2 * extra);
-			var dy_dz2 = -model_amplitude * sin(model_length *x2 * extra) * sin(model_width * z2 * extra);
-			
-			
-			var normal2 = Vector3(-dy_dz2, -1, -dy_dx2)
-			model_heightmap2.set_pixel(512-x, 512 - z, Color(-y, 0, 0))
-			model_normalmap2.set_pixel(512-x, 512 -z, HTerrainData.encode_normal(normal2))
-			model_colormap2.set_pixel(512-x, 512 - z, Color.DARK_RED)
-			
-	var modified_region = Rect2(Vector2(), model_heightmap.get_size())
-	model_data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
-	model_data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
-	model_data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
-	model.update_collider()
-	
-	model_data2.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
-	model_data2.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
-	model_data2.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
-	model2.update_collider()
 
 func _process(_delta):
 	var user_pos = %XROrigin3D.global_position
