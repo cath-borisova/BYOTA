@@ -1,0 +1,179 @@
+[gd_scene load_steps=17 format=3 uid="uid://d46wrkgdeynk"]
+
+[ext_resource type="Script" path="res://scenes/selector.gd" id="1_pv8jm"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_bxcck"]
+radius = 0.03
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_quktl"]
+albedo_color = Color(0.458824, 0.0431373, 0.113725, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_cjl3o"]
+material = SubResource("StandardMaterial3D_quktl")
+radius = 0.03
+height = 0.06
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_61y51"]
+albedo_color = Color(0.313726, 0.470588, 0.0705882, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_jt0vb"]
+material = SubResource("StandardMaterial3D_61y51")
+radius = 0.03
+height = 0.06
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_ppbqa"]
+radius = 0.03
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_juh3a"]
+radius = 0.03
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36m0l"]
+albedo_color = Color(0.0392157, 0.360784, 0.552941, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_2gt63"]
+material = SubResource("StandardMaterial3D_36m0l")
+radius = 0.03
+height = 0.06
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkog7"]
+albedo_color = Color(1, 0.290196, 0.301961, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_ug3td"]
+material = SubResource("StandardMaterial3D_fkog7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3b7rq"]
+albedo_color = Color(0.552941, 0.815686, 0.12549, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_r0iy0"]
+material = SubResource("StandardMaterial3D_3b7rq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_33gia"]
+albedo_color = Color(0.180392, 0.517647, 0.87451, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_k114b"]
+material = SubResource("StandardMaterial3D_33gia")
+
+[node name="graph" type="Node3D"]
+
+[node name="equation" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.198528, 1.48411, -1.7269)
+outline_modulate = Color(0, 0, 0, 0)
+text = "filler"
+font_size = 14
+
+[node name="x_selector" type="RigidBody3D" parent="." groups=["grabbable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 1.212, -1.377)
+freeze = true
+script = ExtResource("1_pv8jm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="x_selector"]
+shape = SubResource("SphereShape3D_bxcck")
+
+[node name="x_selector" type="MeshInstance3D" parent="x_selector"]
+mesh = SubResource("SphereMesh_cjl3o")
+skeleton = NodePath("../../graph")
+
+[node name="y_selector" type="RigidBody3D" parent="." groups=["grabbable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.711, -1.377)
+freeze = true
+script = ExtResource("1_pv8jm")
+
+[node name="y_selector" type="MeshInstance3D" parent="y_selector"]
+mesh = SubResource("SphereMesh_jt0vb")
+skeleton = NodePath("../../graph")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="y_selector"]
+shape = SubResource("SphereShape3D_ppbqa")
+
+[node name="z_selector" type="RigidBody3D" parent="." groups=["grabbable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.211, -0.889)
+freeze = true
+script = ExtResource("1_pv8jm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="z_selector"]
+shape = SubResource("SphereShape3D_juh3a")
+
+[node name="z_selector" type="MeshInstance3D" parent="z_selector"]
+mesh = SubResource("SphereMesh_2gt63")
+skeleton = NodePath("../../graph")
+
+[node name="graph" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.303174, -1.37744)
+
+[node name="x_axis" type="MeshInstance3D" parent="graph"]
+transform = Transform3D(1, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0.908322, 0)
+mesh = SubResource("BoxMesh_ug3td")
+skeleton = NodePath("../..")
+
+[node name="-x" type="Label3D" parent="graph/x_axis"]
+transform = Transform3D(1, 0, 0, 0, 33.3333, 0, 0, 0, 33.3333, -0.526299, -0.0744858, 0.0410728)
+pixel_size = 0.004
+billboard = 1
+modulate = Color(0.882353, 0.301961, 0.321569, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "X"
+font_size = 14
+outline_size = 10
+
+[node name="x" type="Label3D" parent="graph/x_axis"]
+transform = Transform3D(1, 0, 0, 0, 33.3333, 0, 0, 0, 33.3333, 0.525829, -0.0744858, 0.0410728)
+pixel_size = 0.004
+billboard = 1
+modulate = Color(0.882353, 0.301961, 0.321569, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "X"
+font_size = 14
+outline_size = 10
+
+[node name="y_axis" type="MeshInstance3D" parent="graph"]
+transform = Transform3D(0.03, 0, 0, 0, 1, 0, 0, 0, 0.03, 0, 0.908322, 0)
+mesh = SubResource("BoxMesh_r0iy0")
+skeleton = NodePath("../..")
+
+[node name="y" type="Label3D" parent="graph/y_axis"]
+transform = Transform3D(33.3333, 0, 0, 0, 0.999999, 0, 0, 0, 33.3333, -0.0938843, 0.531705, 0.0410728)
+pixel_size = 0.004
+billboard = 1
+modulate = Color(0.552941, 0.776471, 0.168627, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Y"
+font_size = 14
+outline_size = 10
+
+[node name="-y" type="Label3D" parent="graph/y_axis"]
+transform = Transform3D(33.3333, 0, 0, 0, 0.999999, 0, 0, 0, 33.3333, -0.0938843, -0.534947, 0.0410728)
+pixel_size = 0.004
+billboard = 1
+modulate = Color(0.552941, 0.776471, 0.168627, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Y"
+font_size = 14
+outline_size = 10
+
+[node name="z_axis" type="MeshInstance3D" parent="graph"]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 1, 0, 0.908322, 0)
+mesh = SubResource("BoxMesh_k114b")
+skeleton = NodePath("../..")
+
+[node name="z" type="Label3D" parent="graph/z_axis"]
+transform = Transform3D(33.3333, 0, 0, 0, 33.3333, 0, 0, 0, 0.999999, -0.0938843, -0.118523, -0.517468)
+pixel_size = 0.004
+billboard = 1
+modulate = Color(0.196078, 0.52549, 0.827451, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Z
+"
+font_size = 14
+outline_size = 10
+
+[node name="-z" type="Label3D" parent="graph/z_axis"]
+transform = Transform3D(33.3333, 0, 0, 0, 33.3333, 0, 0, 0, 0.999999, -0.0938842, -0.118523, 0.524064)
+pixel_size = 0.004
+billboard = 1
+modulate = Color(0.196078, 0.52549, 0.827451, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Z
+"
+font_size = 14
+outline_size = 10
