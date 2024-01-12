@@ -76,6 +76,8 @@ func _ready():
 	selection_box.position.y = 0.003
 	selection_box.position.x = 0.26
 	selection_box.position.z = 0.255
+	
+	%GraphNode.visible = false
 
 #y = a * sin(b * (x)) where b is 2pi/b
 

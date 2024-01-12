@@ -26,7 +26,6 @@ var my_scale_z = 1
 var my_x = 0
 var my_z = 0
 var my_y = 1
-#var visible = false
 var offset_distance = 0.1
 
 
@@ -103,17 +102,18 @@ func _on_left_button_pressed(name):
 				left_hold_map = true
 			elif !right_hold_map:
 				left_hold_map = true
-				self.visible = true
+				map_visible = true
+				self.visible = map_visible
 				%Tree.visible = true
 				%Bush.visible = true
 				%Rock.visible = true
 	if name == "ax_button":
 		if map_visible:
 			map_visible = false
-			self.visible = false
+			self.visible = map_visible
 		else:
 			map_visible = true
-			self.visible = true
+			self.visible = map_visible
 			%Tree.visible = true
 			%Bush.visible = true
 			%Rock.visible = true
@@ -134,7 +134,8 @@ func _on_left_controller_button_released(name):
 		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(0,0))
 		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(0,0))
 		$Map/SelectionBox.visible = false
-		self.visible = false
+		map_visible = false
+		self.visible = map_visible
 	if name == "grip_click" && left_hold_map:
 		left_hold_map = false
 		translate_map = false
@@ -149,17 +150,18 @@ func _on_right_button_pressed(name):
 				right_hold_map = true
 			elif !left_hold_map:
 				right_hold_map = true
-				self.visible = true
+				map_visible = true
+				self.visible = map_visible
 				%Tree.visible = true
 				%Bush.visible = true
 				%Rock.visible = true
 	if name == "ax_button":
 		if map_visible:
 			map_visible = false
-			self.visible = false
+			self.visible = map_visible
 		else:
 			map_visible = true
-			self.visible = true
+			self.visible = map_visible
 			%Tree.visible = true
 			%Bush.visible = true
 			%Rock.visible = true
@@ -181,7 +183,8 @@ func _on_right_button_released(name):
 		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(0,0))
 		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(0,0))
 		$Map/SelectionBox.visible = false
-		self.visible = false
+		map_visible = false 
+		self.visible = map_visible
 	if name == "grip_click" && right_hold_map:
 		right_hold_map = false
 		translate_map = false

@@ -1,4 +1,4 @@
-[gd_scene load_steps=49 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=50 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -123,6 +123,8 @@ albedo_color = Color(0.180392, 0.517647, 0.87451, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_51xhh"]
 material = SubResource("StandardMaterial3D_33gia")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_xk6kj"]
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_xecma")
@@ -258,7 +260,7 @@ visible = false
 
 [node name="Equation" type="Label3D" parent="GraphNode"]
 unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.199, 0.484, -1.727)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.177189, 0.484, -0.914519)
 outline_modulate = Color(0, 0, 0, 0)
 text = "filler"
 font_size = 14
@@ -383,6 +385,12 @@ outline_size = 10
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 skeleton = NodePath("")
 script = ExtResource("14_gkxau")
+
+[node name="Area3D" type="Area3D" parent="GraphNode"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphNode/Area3D"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+shape = SubResource("BoxShape3D_xk6kj")
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="MapRigidBody" method="_on_left_button_pressed"]
