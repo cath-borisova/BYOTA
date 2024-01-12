@@ -1,14 +1,14 @@
 extends RigidBody3D
-var selector
+var selector = null
 var right_hand = null
-var equation
+var equation = null
 
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	selector = self.name.substr(0, 1)
 	right_hand = %RightController
-	equation = %equation
+	equation = %Equation
 	var globals = get_node("/root/Globals")
 	globals.x_axis_number_symbol = [0.5, "2π"]
 	globals.y_axis_number = 100

@@ -3,8 +3,8 @@ extends MeshInstance3D
 func _ready():
 	var mesh = create_mesh()
 	set_mesh(mesh)
-	self.global_position.y = 0.5
-	self.scale = Vector3(0.001, 0.001, 0.001)
+
+	self.scale = Vector3(0.0015, 0.0015, 0.0015)
 	
 	var material = StandardMaterial3D.new()
 	material.albedo_color = Color.RED

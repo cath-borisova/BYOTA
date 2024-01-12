@@ -1,4 +1,4 @@
-[gd_scene load_steps=33 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=49 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -13,7 +13,8 @@
 [ext_resource type="PackedScene" uid="uid://b3ccjy31mqkkv" path="res://FBX/Rock_Moss_1.fbx" id="11_t863o"]
 [ext_resource type="Script" path="res://scripts/map.gd" id="12_fc24a"]
 [ext_resource type="Shader" path="res://scripts/selection.gdshader" id="13_3s00n"]
-[ext_resource type="Script" path="res://scenes/ModelAttempt.gd" id="14_gkxau"]
+[ext_resource type="Script" path="res://scripts/model.gd" id="14_gkxau"]
+[ext_resource type="Script" path="res://scripts/selector.gd" id="15_qat80"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a20iy"]
 
@@ -71,6 +72,57 @@ albedo_color = Color(0, 0, 0, 1)
 
 [sub_resource type="PrismMesh" id="PrismMesh_3bf6w"]
 material = SubResource("StandardMaterial3D_qfpmv")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_lpcj5"]
+radius = 0.03
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_quktl"]
+albedo_color = Color(0.458824, 0.0431373, 0.113725, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_eeygq"]
+material = SubResource("StandardMaterial3D_quktl")
+radius = 0.03
+height = 0.06
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_61y51"]
+albedo_color = Color(0.313726, 0.470588, 0.0705882, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_jrnli"]
+material = SubResource("StandardMaterial3D_61y51")
+radius = 0.03
+height = 0.06
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_f0eqv"]
+radius = 0.03
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4miyw"]
+radius = 0.03
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36m0l"]
+albedo_color = Color(0.0392157, 0.360784, 0.552941, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_oa3i3"]
+material = SubResource("StandardMaterial3D_36m0l")
+radius = 0.03
+height = 0.06
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkog7"]
+albedo_color = Color(1, 0.290196, 0.301961, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4ed0x"]
+material = SubResource("StandardMaterial3D_fkog7")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_3b7rq"]
+albedo_color = Color(0.552941, 0.815686, 0.12549, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_p65d3"]
+material = SubResource("StandardMaterial3D_3b7rq")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_33gia"]
+albedo_color = Color(0.180392, 0.517647, 0.87451, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_51xhh"]
+material = SubResource("StandardMaterial3D_33gia")
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_xecma")
@@ -195,18 +247,140 @@ transform = Transform3D(-2.18557e-10, -0.01, -4.37114e-11, 0, -4.37114e-10, 0.00
 mesh = SubResource("PrismMesh_3bf6w")
 skeleton = NodePath("../ArrowStem")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.5)
-visible = false
-
-[node name="ModelAttempt" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 1, 0.5)
-skeleton = NodePath("../MeshInstance3D")
-script = ExtResource("14_gkxau")
-
 [node name="node_large_objects" type="Node3D" parent="." groups=["large_objects"]]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 visible = false
+
+[node name="GraphNode" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+
+[node name="Equation" type="Label3D" parent="GraphNode"]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.199, 0.484, -1.727)
+outline_modulate = Color(0, 0, 0, 0)
+text = "filler"
+font_size = 14
+
+[node name="X_selector" type="RigidBody3D" parent="GraphNode" groups=["grabbable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.211, 0, 0)
+freeze = true
+script = ExtResource("15_qat80")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphNode/X_selector"]
+shape = SubResource("SphereShape3D_lpcj5")
+
+[node name="x_selector" type="MeshInstance3D" parent="GraphNode/X_selector"]
+mesh = SubResource("SphereMesh_eeygq")
+skeleton = NodePath("../../Graph")
+
+[node name="Y_selector" type="RigidBody3D" parent="GraphNode" groups=["grabbable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.211, -0.005)
+freeze = true
+script = ExtResource("15_qat80")
+
+[node name="y_selector" type="MeshInstance3D" parent="GraphNode/Y_selector"]
+mesh = SubResource("SphereMesh_jrnli")
+skeleton = NodePath("../../Graph")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphNode/Y_selector"]
+shape = SubResource("SphereShape3D_f0eqv")
+
+[node name="Z_selector" type="RigidBody3D" parent="GraphNode" groups=["grabbable"]]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.211)
+freeze = true
+script = ExtResource("15_qat80")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphNode/Z_selector"]
+shape = SubResource("SphereShape3D_4miyw")
+
+[node name="z_selector" type="MeshInstance3D" parent="GraphNode/Z_selector"]
+mesh = SubResource("SphereMesh_oa3i3")
+skeleton = NodePath("../../Graph")
+
+[node name="Graph" type="Node3D" parent="GraphNode"]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+
+[node name="X_axis" type="MeshInstance3D" parent="GraphNode/Graph"]
+transform = Transform3D(1, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0, 0)
+mesh = SubResource("BoxMesh_4ed0x")
+skeleton = NodePath("../..")
+
+[node name="-x" type="Label3D" parent="GraphNode/Graph/X_axis"]
+transform = Transform3D(1, 0, 0, 0, 33.3333, 0, 0, 0, 33.3333, -0.526299, -0.0744858, 0.0410728)
+pixel_size = 0.004
+billboard = 1
+modulate = Color(0.882353, 0.301961, 0.321569, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "X"
+font_size = 14
+outline_size = 10
+
+[node name="x" type="Label3D" parent="GraphNode/Graph/X_axis"]
+transform = Transform3D(1, 0, 0, 0, 33.3333, 0, 0, 0, 33.3333, 0.525829, -0.0744858, 0.0410728)
+pixel_size = 0.004
+billboard = 1
+modulate = Color(0.882353, 0.301961, 0.321569, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "X"
+font_size = 14
+outline_size = 10
+
+[node name="Y_axis" type="MeshInstance3D" parent="GraphNode/Graph"]
+transform = Transform3D(0.03, 0, 0, 0, 1, 0, 0, 0, 0.03, 0, 0, 0)
+mesh = SubResource("BoxMesh_p65d3")
+skeleton = NodePath("../..")
+
+[node name="y" type="Label3D" parent="GraphNode/Graph/Y_axis"]
+transform = Transform3D(33.3333, 0, 0, 0, 0.999999, 0, 0, 0, 33.3333, -0.0938843, 0.531705, 0.0410728)
+pixel_size = 0.004
+billboard = 1
+modulate = Color(0.552941, 0.776471, 0.168627, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Y"
+font_size = 14
+outline_size = 10
+
+[node name="-y" type="Label3D" parent="GraphNode/Graph/Y_axis"]
+transform = Transform3D(33.3333, 0, 0, 0, 0.999999, 0, 0, 0, 33.3333, -0.0938843, -0.534947, 0.0410728)
+pixel_size = 0.004
+billboard = 1
+modulate = Color(0.552941, 0.776471, 0.168627, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Y"
+font_size = 14
+outline_size = 10
+
+[node name="Z_axis" type="MeshInstance3D" parent="GraphNode/Graph"]
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 1, 0, 0, 0)
+mesh = SubResource("BoxMesh_51xhh")
+skeleton = NodePath("../..")
+
+[node name="z" type="Label3D" parent="GraphNode/Graph/Z_axis"]
+transform = Transform3D(33.3333, 0, 0, 0, 33.3333, 0, 0, 0, 0.999999, -0.0938843, -0.118523, -0.517468)
+pixel_size = 0.004
+billboard = 1
+modulate = Color(0.196078, 0.52549, 0.827451, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Z
+"
+font_size = 14
+outline_size = 10
+
+[node name="-z" type="Label3D" parent="GraphNode/Graph/Z_axis"]
+transform = Transform3D(33.3333, 0, 0, 0, 33.3333, 0, 0, 0, 0.999999, -0.0938842, -0.118523, 0.524064)
+pixel_size = 0.004
+billboard = 1
+modulate = Color(0.196078, 0.52549, 0.827451, 1)
+outline_modulate = Color(0, 0, 0, 0)
+text = "Z
+"
+font_size = 14
+outline_size = 10
+
+[node name="Model" type="MeshInstance3D" parent="GraphNode"]
+transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
+skeleton = NodePath("")
+script = ExtResource("14_gkxau")
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="MapRigidBody" method="_on_left_button_pressed"]
