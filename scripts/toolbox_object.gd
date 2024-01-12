@@ -25,6 +25,7 @@ func _process(_delta):
 		else:
 			left_hand.is_mini = true
 			new_shape.global_position = left_hand.global_position
+	
 		new_shape.name = "mini_tree " + str(count)
 		count += 1
 		new_shape.freeze = true

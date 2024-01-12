@@ -14,8 +14,7 @@ func _ready():
 	globals.y_axis_number = 100
 	globals.z_axis_number_symbol =  [-0.889, "2π"]
 	#add default y val here
-	
-	pass # Replace with function body.
+
 
 #find closest point from array 
 func find_closest_node_to_point(array, point):
@@ -69,5 +68,4 @@ func _process(delta):
 				globals.z_axis_number_symbol =  [self.global_position.z, symbols[str(point)]]
 	
 	equation.text =  "X: " + globals.x_axis_number_symbol[1] + "\nY: " + str(globals.y_axis_number) + "\nZ: " + globals.z_axis_number_symbol[1]
-			
-	pass
+

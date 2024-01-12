@@ -20,11 +20,15 @@ var length = 2
 var width = 2
 
 var my_rotation = Vector3(0,0,0)
-var my_height = 1
 var my_scale_x = 1
 var my_scale_z = 1
+
+var my_x = 0
+var my_z = 0
+var my_y = 1
 #var visible = false
 var offset_distance = 0.1
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
@@ -43,7 +47,9 @@ func _process(delta):
 		my_scale_z = difference
 		#self.look_at(%LeftController.global_position);
 		my_rotation = self.rotation
-		my_height = self.global_position.y
+		my_y = self.global_position.y
+		my_x = self.global_position.x
+		my_z = self.global_position.z
 	else:
 		if left_hold_map:
 			var left_controller_transform = %LeftController.global_transform
@@ -54,9 +60,11 @@ func _process(delta):
 			terrain_rotation.z = 0 
 			var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
 			global_transform.basis = rotated_basis
-			my_height = %LeftController.global_position.y
-			
-		if right_hold_map:
+			#my_y = %LeftController.global_position.y
+			my_y = self.global_position.y
+			my_x = self.global_position.x
+			my_z = self.global_position.z
+		elif right_hold_map:
 			var right_controller_transform = %RightController.global_transform
 			var offset_vector = -right_controller_transform.basis.z * offset_distance
 			self.global_transform.origin = right_controller_transform.origin + offset_vector
@@ -65,14 +73,24 @@ func _process(delta):
 			terrain_rotation.z = 0 
 			var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
 			global_transform.basis = rotated_basis
-			my_height = %RightController.global_position.y
-			
+			#my_y = %RightController.global_position.y
+			my_y = self.global_position.y
+			my_x = self.global_position.x
+			my_z = self.global_position.z
+		else:
+			#print("here")
+			#print(my_x)
+			#print(my_z)
+			#print(my_y)
+			self.global_position.x = my_x
+			self.global_position.z = my_z
+			self.global_position.y = my_y
 		if left_selecting:
 			set_corner(2, %LeftController.global_position)
 		if right_selecting:
 			set_corner(2, %RightController.global_position)
 	self.rotation = my_rotation
-	self.global_position.y = my_height
+	self.global_position.y = my_y
 	self.scale.x = my_scale_x
 	self.scale.z = my_scale_z
 	#$CollisionShape3D.global_transform = $Map.global_transform
@@ -111,13 +129,16 @@ func _on_left_controller_button_released(name):
 	if name == "trigger_click" && left_selecting:
 		left_selecting = false
 		set_corner(2, %LeftController.global_position)		
-		generate_terrain()
+		%GraphNode.visible = true
+		%GraphNode.global_position = self.global_position
 		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(0,0))
 		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(0,0))
 		$Map/SelectionBox.visible = false
+		self.visible = false
 	if name == "grip_click" && left_hold_map:
 		left_hold_map = false
 		translate_map = false
+		
 		
 		
 func _on_right_button_pressed(name):
@@ -155,13 +176,17 @@ func _on_right_button_released(name):
 	if name == "trigger_click" && right_selecting:
 		right_selecting = false
 		set_corner(2, %RightController.global_position)
-		generate_terrain()
+		%GraphNode.visible = true
+		%GraphNode.global_position = self.global_position
 		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(0,0))
 		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(0,0))
 		$Map/SelectionBox.visible = false
+		self.visible = false
 	if name == "grip_click" && right_hold_map:
 		right_hold_map = false
 		translate_map = false
+		
+		
 func set_corner(corner, pos):
 	var local_pos = $Map/SelectionBox.to_local(pos)
 	var corner_pos = Vector2(local_pos.x, local_pos.z)
@@ -216,19 +241,26 @@ func generate_terrain():
 			object.global_position.y = 0
 
 func map_default_position():
+	
+	var position = %XROrigin3D.global_position
 	var transform = %XROrigin3D.global_transform
-	var offset_vector = -transform.basis.z * offset_distance * 2
+	var offset_vector = -transform.basis.z 
 	self.global_transform.origin = transform.origin + offset_vector
-	var terrain_rotation = transform.basis.get_euler()
-	terrain_rotation.x = 0
-	terrain_rotation.z = 0 
-	var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
-	global_transform.basis = rotated_basis
-	my_height = 1
-	self.global_position.y = my_height
+	
+	#var terrain_rotation = transform.basis.get_euler()
+	#terrain_rotation.x = 0
+	#terrain_rotation.z = 0 
+	#var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
+	#global_transform.basis = rotated_basis
+	my_y = 1
 	my_scale_x = 1
 	my_scale_z = 1
 	self.scale.x = my_scale_x
 	self.scale.z = my_scale_z
 	my_rotation = Vector3(0,0,0)
 	self.rotation = my_rotation
+	my_x = position.x
+	my_z = position.z
+	self.global_position.x = my_x
+	self.global_position.z = my_z
+	self.global_position.y = my_y
