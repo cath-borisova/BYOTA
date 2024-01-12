@@ -45,7 +45,7 @@ func _process(delta):
 			self.look_at(%LeftController.global_position);
 			my_scale_x = difference
 			my_scale_z = difference
-			#self.look_at(%LeftController.global_position);
+			self.look_at(%LeftController.global_position);
 			my_rotation = self.rotation
 			my_y = self.global_position.y
 			my_x = self.global_position.x
@@ -78,10 +78,6 @@ func _process(delta):
 				my_x = self.global_position.x
 				my_z = self.global_position.z
 			else:
-				#print("here")
-				#print(my_x)
-				#print(my_z)
-				#print(my_y)
 				self.global_position.x = my_x
 				self.global_position.z = my_z
 				self.global_position.y = my_y
@@ -93,7 +89,7 @@ func _process(delta):
 		self.global_position.y = my_y
 		self.scale.x = my_scale_x
 		self.scale.z = my_scale_z
-		#$CollisionShape3D.global_transform = $Map.global_transform
+
 func _on_left_button_pressed(name):
 	if name == "grip_click" && %LeftController/Area3D.overlaps_body(self):
 		print("left grip")
@@ -132,14 +128,14 @@ func _on_left_controller_button_released(name):
 		set_corner(2, %LeftController.global_position)		
 		%GraphRigidBody.visible = true
 		%GraphRigidBody.global_position = self.global_position
-		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(0,0))
-		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(0,0))
 		$Map/SelectionBox.visible = false
 		map_visible = false
 		self.visible = map_visible
 	if name == "grip_click" && left_hold_map:
 		left_hold_map = false
-		translate_map = false
+		if translate_map:
+			right_hold_map = false
+			translate_map = false
 		
 		
 		
@@ -181,49 +177,25 @@ func _on_right_button_released(name):
 		set_corner(2, %RightController.global_position)
 		%GraphRigidBody.visible = true
 		%GraphRigidBody.global_position = self.global_position
-		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", Vector2(0,0))
-		#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", Vector2(0,0))
 		$Map/SelectionBox.visible = false
 		map_visible = false 
 		self.visible = map_visible
 	if name == "grip_click" && right_hold_map:
 		right_hold_map = false
-		translate_map = false
+		if translate_map:
+			left_hold_map = false
+			translate_map = false
 		
 		
 func set_corner(corner, pos):
 	var local_pos = $Map/SelectionBox.to_local(pos)
 	var corner_pos = Vector2(local_pos.x, local_pos.z)
-	#corner1 = Vector2(min(corner1.x, corner_pos.x), min(corner1.y, corner_pos.y))
-	#corner2 = Vector2(max(Corner2.x, corner_pos.x), min(corner2.y, corner_pos.)
 	if corner == 1:
 		corner1 = corner_pos
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
 	else:
 		corner2 = corner_pos
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
-	#print("corner1: ", corner1)
-	#print("corner2: ", corner2)
-	#if corner == 1:
-		#var other_corner = $Map/SelectionBox.mesh.material.get_shader_parameter("corner2")
-		#if corner_pos.x > other_corner.x && corner_pos.y > other_corner.y:
-			#corner1 = corner2
-			#corner2 = corner_pos
-			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
-			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
-		#else:
-			#corner1 = corner_pos
-			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
-	#else:
-		#var other_corner = $Map/SelectionBox.mesh.material.get_shader_parameter("corner1")
-		#if corner_pos.x < other_corner.x && corner_pos.y < other_corner.y:
-			#corner2 = corner1
-			#corner1 = corner_pos
-			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
-			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner1", corner1)
-		#else:
-			#corner2 = corner_pos
-			#$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
 			
 func generate_terrain():
 	var adjusted_corner2 = Vector2(round((corner2.x/2) * 1026), round((corner2.y/2) * 1026))
@@ -261,8 +233,6 @@ func map_default_position():
 	my_scale_z = 1
 	self.scale.x = my_scale_x
 	self.scale.z = my_scale_z
-	#my_rotation = Vector3(0,0,0)
-	#self.rotation = my_rotation
 	my_rotation = self.rotation
 	my_x = position.x
 	my_z = position.z
