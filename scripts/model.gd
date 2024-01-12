@@ -7,8 +7,10 @@ func _ready():
 	self.scale = Vector3(0.0015, 0.0015, 0.0015)
 	
 	var material = StandardMaterial3D.new()
-	material.albedo_color = Color.RED
+	material.albedo_color = Color(0,1,0, 0.5)
 	material.cull_mode = BaseMaterial3D.CULL_DISABLED
+	material.transparency = BaseMaterial3D.TRANSPARENCY_ALPHA_DEPTH_PRE_PASS
+	material.blend_mode = BaseMaterial3D.BLEND_MODE_MIX
 	
 	#var shader_material = ShaderMaterial.new()
 	#var shader_code = load("res://scripts/model.gdshader")  # Replace with the actual path to your shader file
