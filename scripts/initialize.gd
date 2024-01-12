@@ -77,7 +77,7 @@ func _ready():
 	selection_box.position.x = 0.26
 	selection_box.position.z = 0.255
 	
-	%GraphNode.visible = false
+	%GraphRigidBody.visible = false
 
 #y = a * sin(b * (x)) where b is 2pi/b
 
@@ -170,3 +170,19 @@ func _process(_delta):
 	mini_user.position = Vector3((user_pos.x)/200, 0, (user_pos.z)/200)
 	mini_user.rotation.x = 0
 	mini_user.rotation.z = 0
+
+
+func _on_left_button_pressed(name):
+	pass # Replace with function body.
+
+
+func _on_left_controller_button_released(name):
+	pass # Replace with function body.
+
+
+func _on_right_button_pressed(name):
+	pass # Replace with function body.
+
+
+func _on_right_controller_button_released(name):
+	pass # Replace with function body.

@@ -1,4 +1,4 @@
-[gd_scene load_steps=50 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=51 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -13,6 +13,7 @@
 [ext_resource type="PackedScene" uid="uid://b3ccjy31mqkkv" path="res://FBX/Rock_Moss_1.fbx" id="11_t863o"]
 [ext_resource type="Script" path="res://scripts/map.gd" id="12_fc24a"]
 [ext_resource type="Shader" path="res://scripts/selection.gdshader" id="13_3s00n"]
+[ext_resource type="Script" path="res://scenes/graph.gd" id="14_07dmt"]
 [ext_resource type="Script" path="res://scripts/model.gd" id="14_gkxau"]
 [ext_resource type="Script" path="res://scripts/selector.gd" id="15_qat80"]
 
@@ -253,63 +254,63 @@ skeleton = NodePath("../ArrowStem")
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 visible = false
 
-[node name="GraphNode" type="MeshInstance3D" parent="."]
+[node name="GraphRigidBody" type="RigidBody3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-visible = false
+script = ExtResource("14_07dmt")
 
-[node name="Equation" type="Label3D" parent="GraphNode"]
+[node name="Equation" type="Label3D" parent="GraphRigidBody"]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.177189, 0.484, -0.914519)
 outline_modulate = Color(0, 0, 0, 0)
 text = "filler"
 font_size = 14
 
-[node name="X_selector" type="RigidBody3D" parent="GraphNode" groups=["grabbable"]]
+[node name="X_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.211, 0, 0)
 freeze = true
 script = ExtResource("15_qat80")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphNode/X_selector"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphRigidBody/X_selector"]
 shape = SubResource("SphereShape3D_lpcj5")
 
-[node name="x_selector" type="MeshInstance3D" parent="GraphNode/X_selector"]
+[node name="x_selector" type="MeshInstance3D" parent="GraphRigidBody/X_selector"]
 mesh = SubResource("SphereMesh_eeygq")
 skeleton = NodePath("../../Graph")
 
-[node name="Y_selector" type="RigidBody3D" parent="GraphNode" groups=["grabbable"]]
+[node name="Y_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.211, -0.005)
 freeze = true
 script = ExtResource("15_qat80")
 
-[node name="y_selector" type="MeshInstance3D" parent="GraphNode/Y_selector"]
+[node name="y_selector" type="MeshInstance3D" parent="GraphRigidBody/Y_selector"]
 mesh = SubResource("SphereMesh_jrnli")
 skeleton = NodePath("../../Graph")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphNode/Y_selector"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphRigidBody/Y_selector"]
 shape = SubResource("SphereShape3D_f0eqv")
 
-[node name="Z_selector" type="RigidBody3D" parent="GraphNode" groups=["grabbable"]]
+[node name="Z_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.211)
 freeze = true
 script = ExtResource("15_qat80")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphNode/Z_selector"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphRigidBody/Z_selector"]
 shape = SubResource("SphereShape3D_4miyw")
 
-[node name="z_selector" type="MeshInstance3D" parent="GraphNode/Z_selector"]
+[node name="z_selector" type="MeshInstance3D" parent="GraphRigidBody/Z_selector"]
 mesh = SubResource("SphereMesh_oa3i3")
 skeleton = NodePath("../../Graph")
 
-[node name="Graph" type="Node3D" parent="GraphNode"]
+[node name="Graph" type="Node3D" parent="GraphRigidBody"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
-[node name="X_axis" type="MeshInstance3D" parent="GraphNode/Graph"]
+[node name="X_axis" type="MeshInstance3D" parent="GraphRigidBody/Graph"]
 transform = Transform3D(1, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0, 0)
 mesh = SubResource("BoxMesh_4ed0x")
 skeleton = NodePath("../..")
 
-[node name="-x" type="Label3D" parent="GraphNode/Graph/X_axis"]
+[node name="-x" type="Label3D" parent="GraphRigidBody/Graph/X_axis"]
 transform = Transform3D(1, 0, 0, 0, 33.3333, 0, 0, 0, 33.3333, -0.526299, -0.0744858, 0.0410728)
 pixel_size = 0.004
 billboard = 1
@@ -319,7 +320,7 @@ text = "X"
 font_size = 14
 outline_size = 10
 
-[node name="x" type="Label3D" parent="GraphNode/Graph/X_axis"]
+[node name="x" type="Label3D" parent="GraphRigidBody/Graph/X_axis"]
 transform = Transform3D(1, 0, 0, 0, 33.3333, 0, 0, 0, 33.3333, 0.525829, -0.0744858, 0.0410728)
 pixel_size = 0.004
 billboard = 1
@@ -329,12 +330,12 @@ text = "X"
 font_size = 14
 outline_size = 10
 
-[node name="Y_axis" type="MeshInstance3D" parent="GraphNode/Graph"]
+[node name="Y_axis" type="MeshInstance3D" parent="GraphRigidBody/Graph"]
 transform = Transform3D(0.03, 0, 0, 0, 1, 0, 0, 0, 0.03, 0, 0, 0)
 mesh = SubResource("BoxMesh_p65d3")
 skeleton = NodePath("../..")
 
-[node name="y" type="Label3D" parent="GraphNode/Graph/Y_axis"]
+[node name="y" type="Label3D" parent="GraphRigidBody/Graph/Y_axis"]
 transform = Transform3D(33.3333, 0, 0, 0, 0.999999, 0, 0, 0, 33.3333, -0.0938843, 0.531705, 0.0410728)
 pixel_size = 0.004
 billboard = 1
@@ -344,7 +345,7 @@ text = "Y"
 font_size = 14
 outline_size = 10
 
-[node name="-y" type="Label3D" parent="GraphNode/Graph/Y_axis"]
+[node name="-y" type="Label3D" parent="GraphRigidBody/Graph/Y_axis"]
 transform = Transform3D(33.3333, 0, 0, 0, 0.999999, 0, 0, 0, 33.3333, -0.0938843, -0.534947, 0.0410728)
 pixel_size = 0.004
 billboard = 1
@@ -354,12 +355,12 @@ text = "Y"
 font_size = 14
 outline_size = 10
 
-[node name="Z_axis" type="MeshInstance3D" parent="GraphNode/Graph"]
+[node name="Z_axis" type="MeshInstance3D" parent="GraphRigidBody/Graph"]
 transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 1, 0, 0, 0)
 mesh = SubResource("BoxMesh_51xhh")
 skeleton = NodePath("../..")
 
-[node name="z" type="Label3D" parent="GraphNode/Graph/Z_axis"]
+[node name="z" type="Label3D" parent="GraphRigidBody/Graph/Z_axis"]
 transform = Transform3D(33.3333, 0, 0, 0, 33.3333, 0, 0, 0, 0.999999, -0.0938843, -0.118523, -0.517468)
 pixel_size = 0.004
 billboard = 1
@@ -370,7 +371,7 @@ text = "Z
 font_size = 14
 outline_size = 10
 
-[node name="-z" type="Label3D" parent="GraphNode/Graph/Z_axis"]
+[node name="-z" type="Label3D" parent="GraphRigidBody/Graph/Z_axis"]
 transform = Transform3D(33.3333, 0, 0, 0, 33.3333, 0, 0, 0, 0.999999, -0.0938842, -0.118523, 0.524064)
 pixel_size = 0.004
 billboard = 1
@@ -381,24 +382,26 @@ text = "Z
 font_size = 14
 outline_size = 10
 
-[node name="Model" type="MeshInstance3D" parent="GraphNode"]
+[node name="Model" type="MeshInstance3D" parent="GraphRigidBody"]
 transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 skeleton = NodePath("")
 script = ExtResource("14_gkxau")
 
-[node name="Area3D" type="Area3D" parent="GraphNode"]
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphNode/Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphRigidBody"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 shape = SubResource("BoxShape3D_xk6kj")
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="MapRigidBody" method="_on_left_button_pressed"]
+[connection signal="button_pressed" from="XROrigin3D/LeftController" to="GraphRigidBody" method="_on_left_button_pressed"]
 [connection signal="button_released" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_released"]
 [connection signal="button_released" from="XROrigin3D/LeftController" to="MapRigidBody" method="_on_left_controller_button_released"]
+[connection signal="button_released" from="XROrigin3D/LeftController" to="GraphRigidBody" method="_on_left_controller_button_released"]
 [connection signal="input_vector2_changed" from="XROrigin3D/LeftController" to="XROrigin3D" method="_process_input"]
 [connection signal="button_pressed" from="XROrigin3D/RightController" to="XROrigin3D/RightController" method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/RightController" to="MapRigidBody" method="_on_right_button_pressed"]
+[connection signal="button_pressed" from="XROrigin3D/RightController" to="GraphRigidBody" method="_on_right_button_pressed"]
 [connection signal="button_released" from="XROrigin3D/RightController" to="XROrigin3D/RightController" method="_on_button_released"]
 [connection signal="button_released" from="XROrigin3D/RightController" to="MapRigidBody" method="_on_right_button_released"]
+[connection signal="button_released" from="XROrigin3D/RightController" to="GraphRigidBody" method="_on_right_button_released"]
 [connection signal="input_vector2_changed" from="XROrigin3D/RightController" to="XROrigin3D" method="_process_input"]
