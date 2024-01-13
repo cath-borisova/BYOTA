@@ -24,7 +24,7 @@ func _ready():
 	pass
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if self.visible:
 		if translate_graph:
 			self.global_position = (%LeftController.global_position + %RightController.global_position) / 2;
@@ -61,8 +61,8 @@ func _process(delta):
 		self.scale.x = my_scale_x
 		self.scale.z = my_scale_z
 
-func _on_left_button_pressed(name):
-	if name == "grip_click" && %LeftController/Area3D.overlaps_body(self):
+func _on_left_button_pressed(button_name):
+	if button_name == "grip_click" && %LeftController/Area3D.overlaps_body(self):
 		if self.visible:
 			if right_hold_graph:
 				translate_graph = true
@@ -71,15 +71,15 @@ func _on_left_button_pressed(name):
 				left_hold_graph = true
 				self.visible = true
 
-func _on_left_controller_button_released(name):
-	if name == "grip_click" && left_hold_graph:
+func _on_left_controller_button_released(button_name):
+	if button_name == "grip_click" && left_hold_graph:
 		left_hold_graph = false
 		if translate_graph:
 			right_hold_graph = false
 			translate_graph = false
 		
-func _on_right_button_pressed(name):
-	if name == "grip_click" && %RightController/Area3D.overlaps_body(self):
+func _on_right_button_pressed(button_name):
+	if button_name == "grip_click" && %RightController/Area3D.overlaps_body(self):
 		if self.visible:
 			if left_hold_graph:
 				translate_graph = true
@@ -88,8 +88,8 @@ func _on_right_button_pressed(name):
 				right_hold_graph = true
 				self.visible = true
 
-func _on_right_button_released(name):
-	if name == "grip_click" && right_hold_graph:
+func _on_right_button_released(button_name):
+	if button_name == "grip_click" && right_hold_graph:
 		right_hold_graph = false
 		if translate_graph:
 			left_hold_graph = false

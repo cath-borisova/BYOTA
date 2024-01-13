@@ -4,14 +4,14 @@ var camera = null
 var right_hand = null
 var left_hand = null
 var count = 0
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	camera = %XRCamera3D
 	right_hand = %RightController
 	left_hand =  %LeftController
 	self.freeze = true
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(_delta):
 	if self == right_hand.grabbed_object or self == left_hand.grabbed_object:
 		var new_shape_scene = load("res://scenes/mini_bush.tscn")

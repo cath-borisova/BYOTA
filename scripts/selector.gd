@@ -27,7 +27,7 @@ func find_closest_node_to_point(array, point):
 			closest_distance = current_node_distance
 	return closest
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	var globals = get_node("/root/Globals")
 	if self == right_hand.grabbed_object:
 		if selector == "x":

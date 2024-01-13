@@ -21,21 +21,19 @@ var selection_box = null
 var arrowstem = null
 var arrowhead = null
 
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():
 		print("OpenXR initialized successfully!")
 
-		# Turn off v-sync!
 		DisplayServer.window_set_vsync_mode(DisplayServer.VSYNC_DISABLED)
 
-		# Change our main viewport to output to the HMD
 		get_viewport().use_xr = true
 	else:
 		print("OpenXR not initialized. Please check if your headset is connected.")
 		
 	$XROrigin3D.rotate_y(deg_to_rad(90))
+	
 	terrain_data = HTerrainData.new()
 	terrain_data.resize(513)
 	
@@ -43,6 +41,7 @@ func _ready():
 	terrain.set_data(terrain_data)
 	var globals = get_node("/root/Globals")
 	globals.terrian_info = terrain_data
+	
 	terrain.position = Vector3(-50, 0,-50)
 	terrain.map_scale = Vector3(0.2, 0.2, 0.2)
 	terrain.name = "Ground"
@@ -51,25 +50,31 @@ func _ready():
 	
 	map_data = HTerrainData.new()
 	map_data.resize(513)
+	
 	map_terrain = HTerrain.new()
 	map_terrain.set_data(map_data)
+	
 	map_terrain.map_scale = Vector3(0.001, 0.001, 0.001)
 	map_terrain.centered = true
 	_edit(0, 513, 0, 513, 0, 0, 0)
 	map_terrain.name = "Map"
 	$MapRigidBody.add_child(map_terrain)
+	
 	$MapRigidBody/CollisionShape3D.position = map_terrain.position
 	$MapRigidBody.visible = false
 	map_terrain.position.x = -0.25
 	
+	
 	arrowstem = %MiniUser/ArrowStem
 	arrowhead =  %MiniUser/ArrowHead
+	
 	mini_user = %MiniUser
 	mini_user.get_parent().remove_child(mini_user)
 	$MapRigidBody/Map.add_child(mini_user)
 	mini_user.rotation = Vector3(0,0,0)
-	selection_box = $MapRigidBody/SelectionBox
 	
+	selection_box = $MapRigidBody/SelectionBox
+
 	selection_box.visible = false
 	selection_box.get_parent().remove_child(selection_box)
 	$MapRigidBody/Map.add_child(selection_box)
@@ -136,7 +141,6 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 					heightmap.set_pixel(x, z, Color(y, 0, 0))
 					normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
 					colormap.set_pixel(x, z, color)
-					#print("HERE ", data.get_height_at(x,z), " X: ", x, " Z: ", z)
 			var modified_region = Rect2(Vector2(), heightmap.get_size())
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
@@ -145,44 +149,21 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 		count += 1
 		var globals = get_node("/root/Globals")
 		globals.terrian_info = terrain_data
-		#reset the data again now that it is changed
 		t.set_data(data)
 		t = map_terrain
 		color = Color(1,1, 1)
 		data = map_data
-		#reset data again now that it is changed
 		t.set_data(data)
 
 func _process(_delta):
 	var user_pos = %XROrigin3D.global_position
 	var height = terrain_data.get_height_at((user_pos.x+50)*5.13,(user_pos.z+50)*5.13)
-	#var terrain_scale = terrain.global_transform.basis.get_scale()
-	#var meters_per_unit = Vector3(1/terrain_scale.x, 1/terrain_scale.y, 1/terrain_scale.z) 
-	#var height_scaled = height * meters_per_unit
-	#print("HEIGHT: ", height_scaled)
 	if height != 0:
 		%XROrigin3D.global_position.y = height / 5.13 + 0.5
 	else:
 		%XROrigin3D.global_position.y = 0.5
-	#print("HEIGHT: ", height)
 	
 	mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)
 	mini_user.position = Vector3((user_pos.x)/200, 0, (user_pos.z)/200)
 	mini_user.rotation.x = 0
 	mini_user.rotation.z = 0
-
-
-func _on_left_button_pressed(name):
-	pass # Replace with function body.
-
-
-func _on_left_controller_button_released(name):
-	pass # Replace with function body.
-
-
-func _on_right_button_pressed(name):
-	pass # Replace with function body.
-
-
-func _on_right_controller_button_released(name):
-	pass # Replace with function body.
