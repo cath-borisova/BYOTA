@@ -31,8 +31,8 @@ func _ready():
 		get_viewport().use_xr = true
 	else:
 		print("OpenXR not initialized. Please check if your headset is connected.")
-		
-	$XROrigin3D.rotate_y(deg_to_rad(90))
+	
+	$XROrigin3D.rotation.y = deg_to_rad(90)
 	
 	terrain_data = HTerrainData.new()
 	terrain_data.resize(513)

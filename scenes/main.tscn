@@ -96,9 +96,6 @@ height = 0.06
 [sub_resource type="SphereShape3D" id="SphereShape3D_f0eqv"]
 radius = 0.03
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_4miyw"]
-radius = 0.03
-
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_36m0l"]
 albedo_color = Color(0.0392157, 0.360784, 0.552941, 1)
 
@@ -106,6 +103,9 @@ albedo_color = Color(0.0392157, 0.360784, 0.552941, 1)
 material = SubResource("StandardMaterial3D_36m0l")
 radius = 0.03
 height = 0.06
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_4miyw"]
+radius = 0.03
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fkog7"]
 albedo_color = Color(1, 0.290196, 0.301961, 1)
@@ -259,7 +259,6 @@ visible = false
 [node name="GraphRigidBody" type="RigidBody3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-visible = false
 collision_layer = 2
 collision_mask = 3
 script = ExtResource("14_07dmt")
@@ -272,8 +271,9 @@ text = "filler"
 font_size = 14
 
 [node name="X_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["grabbable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.211, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.23, 0, 0)
 collision_layer = 4
+collision_mask = 4
 freeze = true
 script = ExtResource("15_qat80")
 
@@ -285,8 +285,9 @@ mesh = SubResource("SphereMesh_eeygq")
 skeleton = NodePath("../../Graph")
 
 [node name="Y_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["grabbable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.211, -0.005)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23, 0)
 collision_layer = 4
+collision_mask = 4
 freeze = true
 script = ExtResource("15_qat80")
 
@@ -298,23 +299,24 @@ skeleton = NodePath("../../Graph")
 shape = SubResource("SphereShape3D_f0eqv")
 
 [node name="Z_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["grabbable"]]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.211)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.23)
 collision_layer = 4
+collision_mask = 4
 freeze = true
 script = ExtResource("15_qat80")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphRigidBody/Z_selector"]
-shape = SubResource("SphereShape3D_4miyw")
 
 [node name="z_selector" type="MeshInstance3D" parent="GraphRigidBody/Z_selector"]
 mesh = SubResource("SphereMesh_oa3i3")
 skeleton = NodePath("../../Graph")
 
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphRigidBody/Z_selector"]
+shape = SubResource("SphereShape3D_4miyw")
+
 [node name="Graph" type="Node3D" parent="GraphRigidBody"]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 
 [node name="X_axis" type="MeshInstance3D" parent="GraphRigidBody/Graph"]
-transform = Transform3D(1, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 0.03, 0, 0, 0, 0.03, 0.02, 0, 0)
 mesh = SubResource("BoxMesh_4ed0x")
 skeleton = NodePath("../..")
 
@@ -339,7 +341,7 @@ font_size = 14
 outline_size = 10
 
 [node name="Y_axis" type="MeshInstance3D" parent="GraphRigidBody/Graph"]
-transform = Transform3D(0.03, 0, 0, 0, 1, 0, 0, 0, 0.03, 0, 0, 0)
+transform = Transform3D(0.03, 0, 0, 0, 1, 0, 0, 0, 0.03, 0, 0.02, 0)
 mesh = SubResource("BoxMesh_p65d3")
 skeleton = NodePath("../..")
 
@@ -364,7 +366,7 @@ font_size = 14
 outline_size = 10
 
 [node name="Z_axis" type="MeshInstance3D" parent="GraphRigidBody/Graph"]
-transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 1, 0, 0, 0)
+transform = Transform3D(0.03, 0, 0, 0, 0.03, 0, 0, 0, 1, 0, 0, -0.02)
 mesh = SubResource("BoxMesh_51xhh")
 skeleton = NodePath("../..")
 
@@ -390,14 +392,13 @@ text = "Z
 font_size = 14
 outline_size = 10
 
+[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphRigidBody"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.02, -0.02, 0.02)
+shape = SubResource("BoxShape3D_xk6kj")
+
 [node name="Model" type="MeshInstance3D" parent="GraphRigidBody"]
-transform = Transform3D(0.2, 0, 0, 0, 0.2, 0, 0, 0, 0.2, 0, 0, 0)
 skeleton = NodePath("")
 script = ExtResource("14_gkxau")
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphRigidBody"]
-transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
-shape = SubResource("BoxShape3D_xk6kj")
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="MapRigidBody" method="_on_left_button_pressed"]

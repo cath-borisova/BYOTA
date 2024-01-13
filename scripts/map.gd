@@ -45,8 +45,8 @@ func _process(_delta):
 			self.look_at(%LeftController.global_position);
 			my_rotation = self.rotation
 			my_y = self.global_position.y
-			#my_x = self.global_position.x
-			#my_z = self.global_position.z
+			my_x = self.global_position.x
+			my_z = self.global_position.z
 		else:
 			if left_hold_map:
 				var left_controller_transform = %LeftController.global_transform
@@ -59,8 +59,8 @@ func _process(_delta):
 				self.global_transform.basis = rotated_basis
 				my_y = %LeftController.global_position.y
 				#my_y = self.global_position.y
-				#my_x = self.global_position.x
-				#my_z = self.global_position.z
+				my_x = self.global_position.x
+				my_z = self.global_position.z
 			elif right_hold_map:
 				var right_controller_transform = %RightController.global_transform
 				var offset_vector = -right_controller_transform.basis.z * offset_distance
@@ -72,12 +72,12 @@ func _process(_delta):
 				self.global_transform.basis = rotated_basis
 				my_y = %RightController.global_position.y
 				#my_y = self.global_position.y
-				#my_x = self.global_position.x
-				#my_z = self.global_position.z
-			#else:
-				#self.global_position.x = my_x
-				#self.global_position.z = my_z
-				#self.global_position.y = my_y
+				my_x = self.global_position.x
+				my_z = self.global_position.z
+			else:
+				self.global_position.x = my_x
+				self.global_position.z = my_z
+				self.global_position.y = my_y
 			if left_selecting:
 				set_corner(2, %LeftController.global_position)
 			if right_selecting:
@@ -216,17 +216,20 @@ func map_default_position():
 	var xr_origin_transform = %XROrigin3D.global_transform
 	var offset_vector = -xr_origin_transform.basis.z * offset_distance
 	self.global_transform.origin = xr_origin_transform.origin + offset_vector
-	var terrain_rotation = xr_origin_transform.basis.get_euler()
-	terrain_rotation.x = 0
-	terrain_rotation.z = 0 
-	var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
-	self.global_transform.basis = rotated_basis
-				
+	#var terrain_rotation = xr_origin_transform.basis.get_euler()
+	#terrain_rotation.x = 0
+	#terrain_rotation.z = 0 
+	#var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
+	#self.global_transform.basis = rotated_basis
+	self.rotation = Vector3(0,0,0)		
 	my_y = 1
 	my_scale_x = 1
 	my_scale_z = 1
+	my_rotation = Vector3(0,0,0)
+	my_x = self.global_position.x
+	my_z = self.global_position.z
 	self.scale.x = my_scale_x
 	self.scale.z = my_scale_z
-	my_rotation = %XROrigin3D.rotation
+	#my_rotation = %XROrigin3D.rotation
 
 	
