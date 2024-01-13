@@ -151,6 +151,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 
 [node name="Area3D" type="Area3D" parent="XROrigin3D/LeftController"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0174875, 0.0534167)
+collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/LeftController/Area3D"]
 transform = Transform3D(0.16, 0, 0, 0, 0.16, 0, 0, 0, 0.16, 0, 0, 0)
@@ -168,6 +169,7 @@ transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 
 
 [node name="Area3D" type="Area3D" parent="XROrigin3D/RightController"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.013816, 0.0506639)
+collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightController/Area3D"]
 unique_name_in_owner = true
@@ -258,6 +260,8 @@ visible = false
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 visible = false
+collision_layer = 2
+collision_mask = 3
 script = ExtResource("14_07dmt")
 
 [node name="Equation" type="Label3D" parent="GraphRigidBody"]
@@ -269,6 +273,7 @@ font_size = 14
 
 [node name="X_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.211, 0, 0)
+collision_layer = 4
 freeze = true
 script = ExtResource("15_qat80")
 
@@ -281,6 +286,7 @@ skeleton = NodePath("../../Graph")
 
 [node name="Y_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.211, -0.005)
+collision_layer = 4
 freeze = true
 script = ExtResource("15_qat80")
 
@@ -293,6 +299,7 @@ shape = SubResource("SphereShape3D_f0eqv")
 
 [node name="Z_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.211)
+collision_layer = 4
 freeze = true
 script = ExtResource("15_qat80")
 
