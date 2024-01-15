@@ -95,3 +95,27 @@ func _on_right_button_released(button_name):
 			left_hold_graph = false
 			translate_graph = false
 		
+func create():
+	self.visible = false
+	#%MapRigidBody.visible = true
+	var globals = get_node("/root/Globals")
+	%MapRigidBody.generate_terrain(globals.y_axis_number, globals.x_axis_number_symbol[0], globals.z_axis_number_symbol[0])
+
+func cancel():
+	self.visible = false
+	#%MapRigidBody.visible = true
+	
+func _graph_default_position():
+	var xr_origin_transform = %XROrigin3D.global_transform
+	var offset_vector = -xr_origin_transform.basis.z * offset_distance
+	self.global_transform.origin = xr_origin_transform.origin + offset_vector
+
+	self.rotation = Vector3(0,0,0)		
+	#my_y = 1
+	#my_scale_x = 1
+	#my_scale_z = 1
+	#my_rotation = Vector3(0,0,0)
+	#my_x = self.global_position.x
+	#my_z = self.global_position.z
+	#self.scale.x = my_scale_x
+	#self.scale.z = my_scale_z

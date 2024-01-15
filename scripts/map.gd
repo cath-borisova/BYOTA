@@ -15,9 +15,9 @@ var plane_size = Vector2(1, 1)
 var selection_box = null
 var current_size = Vector2(0.1, 0.1)
 
-var amplitude = 4
-var length = 2
-var width = 2
+#var amplitude = 4
+#var length = 2
+#var width = 2
 
 var my_rotation = Vector3(0,0,0)
 var my_scale_x = 1
@@ -100,7 +100,7 @@ func _on_left_button_pressed(button_name):
 				%Tree.visible = true
 				%Bush.visible = true
 				%Rock.visible = true
-	if button_name == "ax_button":
+	if button_name == "ax_button"  && !%GraphRigidBody.visible:
 		if map_visible:
 			map_visible = false
 			self.visible = map_visible
@@ -148,7 +148,7 @@ func _on_right_button_pressed(button_name):
 				%Tree.visible = true
 				%Bush.visible = true
 				%Rock.visible = true
-	if button_name == "ax_button":
+	if button_name == "ax_button" && !%GraphRigidBody.visible:
 		if map_visible:
 			map_visible = false
 			self.visible = map_visible
@@ -193,10 +193,14 @@ func set_corner(corner, pos):
 		corner2 = corner_pos
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
 			
-func generate_terrain():
-	var adjusted_corner2 = Vector2(round((corner2.x/2) * 1026), round((corner2.y/2) * 1026))
-	var adjusted_corner1 = Vector2(round((corner1.x/2) * 1026), round((corner1.y/2) * 1026))
-	get_node("/root/Main")._edit(min(adjusted_corner1.y, adjusted_corner2.y), max(adjusted_corner1.y, adjusted_corner2.y), min(adjusted_corner1.x, adjusted_corner2.x), max(adjusted_corner1.x, adjusted_corner2.x), amplitude, width, length)
+func generate_terrain(amplitude, width, length):
+	print(corner1)
+	print(corner2)
+	var adjusted_corner2 = Vector2(round((-corner2.x) * 1026), round((-corner2.y) * 1026))
+	var adjusted_corner1 = Vector2(round((-corner1.x) * 1026), round((-corner1.y) * 1026))
+	print(adjusted_corner1)
+	print(adjusted_corner2)
+	get_node("/root/Main")._edit(512 - clamp(max(adjusted_corner1.y, adjusted_corner2.y), 0, 512), 512 - clamp(min(adjusted_corner1.y, adjusted_corner2.y), 0, 512), 512 - clamp(max(adjusted_corner1.x, adjusted_corner2.x), 0, 512), 512 - clamp(min(adjusted_corner1.x, adjusted_corner2.x), 0, 512), amplitude, width, length)
 	#reset all previously place objects according to the new height map!
 	var large_objects = get_tree().get_nodes_in_group("large_objects")
 	for object in large_objects:
@@ -216,11 +220,7 @@ func map_default_position():
 	var xr_origin_transform = %XROrigin3D.global_transform
 	var offset_vector = -xr_origin_transform.basis.z * offset_distance
 	self.global_transform.origin = xr_origin_transform.origin + offset_vector
-	#var terrain_rotation = xr_origin_transform.basis.get_euler()
-	#terrain_rotation.x = 0
-	#terrain_rotation.z = 0 
-	#var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
-	#self.global_transform.basis = rotated_basis
+
 	self.rotation = Vector3(0,0,0)		
 	my_y = 1
 	my_scale_x = 1
