@@ -83,7 +83,7 @@ func _ready():
 	selection_box.position.z = 0.255
 	
 	%GraphRigidBody.visible = false
-
+	%ExtraGraph.visible = false
 #y = a * sin(b * (x)) where b is 2pi/b
 
 func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):

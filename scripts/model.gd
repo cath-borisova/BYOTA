@@ -46,6 +46,7 @@ func create_mesh():
 
 			y = 100 * sin((x + 1) * PI/135) * cos((z + 1) * PI/135)
 			vertex = Vector3(x + 1, y, z + 1)
+
 			vertices.append(vertex)
 			model_mesh.add_vertex(vertex)
 	model_mesh.generate_normals()

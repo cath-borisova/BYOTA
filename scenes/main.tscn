@@ -1,4 +1,4 @@
-[gd_scene load_steps=51 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=60 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -16,6 +16,7 @@
 [ext_resource type="Script" path="res://scenes/graph.gd" id="14_07dmt"]
 [ext_resource type="Script" path="res://scripts/model.gd" id="14_gkxau"]
 [ext_resource type="Script" path="res://scripts/selector.gd" id="15_qat80"]
+[ext_resource type="Script" path="res://scenes/ExtraGraph.gd" id="17_t7ggc"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a20iy"]
 
@@ -126,6 +127,31 @@ albedo_color = Color(0.180392, 0.517647, 0.87451, 1)
 material = SubResource("StandardMaterial3D_33gia")
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_xk6kj"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_4abqb"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0fn5c"]
+shading_mode = 0
+albedo_color = Color(0, 0.356863, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_xkn3q"]
+material = SubResource("StandardMaterial3D_0fn5c")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_xrsri"]
+shading_mode = 0
+albedo_color = Color(0, 0.356863, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_7105h"]
+material = SubResource("StandardMaterial3D_xrsri")
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_thsgp"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_fvsr8"]
+shading_mode = 0
+albedo_color = Color(0.533333, 0, 0, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_eutaq"]
+material = SubResource("StandardMaterial3D_fvsr8")
 
 [node name="Main" type="Node3D"]
 script = ExtResource("1_xecma")
@@ -263,14 +289,7 @@ collision_layer = 2
 collision_mask = 3
 script = ExtResource("14_07dmt")
 
-[node name="Equation" type="Label3D" parent="GraphRigidBody"]
-unique_name_in_owner = true
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.177189, 0.484, -0.914519)
-outline_modulate = Color(0, 0, 0, 0)
-text = "filler"
-font_size = 14
-
-[node name="X_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["grabbable"]]
+[node name="X_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["selected"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.23, 0, 0)
 collision_layer = 4
 collision_mask = 4
@@ -284,7 +303,7 @@ shape = SubResource("SphereShape3D_lpcj5")
 mesh = SubResource("SphereMesh_eeygq")
 skeleton = NodePath("../../Graph")
 
-[node name="Y_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["grabbable"]]
+[node name="Y_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["selected"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.23, 0)
 collision_layer = 4
 collision_mask = 4
@@ -298,7 +317,7 @@ skeleton = NodePath("../../Graph")
 [node name="CollisionShape3D" type="CollisionShape3D" parent="GraphRigidBody/Y_selector"]
 shape = SubResource("SphereShape3D_f0eqv")
 
-[node name="Z_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["grabbable"]]
+[node name="Z_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["selected"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.23)
 collision_layer = 4
 collision_mask = 4
@@ -392,13 +411,59 @@ text = "Z
 font_size = 14
 outline_size = 10
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="GraphRigidBody"]
+[node name="ModelCollisionShape3D" type="CollisionShape3D" parent="GraphRigidBody"]
+unique_name_in_owner = true
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -0.02, -0.02, 0.02)
 shape = SubResource("BoxShape3D_xk6kj")
 
 [node name="Model" type="MeshInstance3D" parent="GraphRigidBody"]
+unique_name_in_owner = true
 skeleton = NodePath("")
 script = ExtResource("14_gkxau")
+
+[node name="ExtraGraph" type="Node3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("17_t7ggc")
+
+[node name="Create" type="RigidBody3D" parent="ExtraGraph"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, 0)
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExtraGraph/Create"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("BoxShape3D_4abqb")
+
+[node name="BodyCheckMark" type="MeshInstance3D" parent="ExtraGraph/Create"]
+transform = Transform3D(0.00707107, -0.0565685, 0, 0.00707107, 0.0565685, 0, 0, 0, 0.01, 0, 0, 0)
+mesh = SubResource("BoxMesh_xkn3q")
+
+[node name="FootCheckMark" type="MeshInstance3D" parent="ExtraGraph/Create"]
+transform = Transform3D(0.00707107, 0.0282843, 0, -0.00707107, 0.0282843, 0, 0, 0, 0.01, 0.036, -0.013, 0)
+mesh = SubResource("BoxMesh_7105h")
+
+[node name="Equation" type="Label3D" parent="ExtraGraph"]
+unique_name_in_owner = true
+transform = Transform3D(-0.5, 0, -4.37114e-08, 0, 0.5, 0, 4.37114e-08, 0, -0.5, -0.2, 0, 0)
+outline_modulate = Color(0, 0, 0, 0)
+text = "filler"
+font_size = 14
+
+[node name="Cancel" type="RigidBody3D" parent="ExtraGraph"]
+freeze = true
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="ExtraGraph/Cancel"]
+transform = Transform3D(0.1, 0, 0, 0, 0.1, 0, 0, 0, 0.1, 0, 0, 0)
+shape = SubResource("BoxShape3D_thsgp")
+
+[node name="Cross" type="MeshInstance3D" parent="ExtraGraph/Cancel"]
+transform = Transform3D(0.00707107, -0.0707107, 0, 0.00707107, 0.0707107, 0, 0, 0, 0.01, 0, 0, 0)
+mesh = SubResource("BoxMesh_eutaq")
+
+[node name="Cross2" type="MeshInstance3D" parent="ExtraGraph/Cancel"]
+transform = Transform3D(0.00707107, 0.0707107, 0, -0.00707107, 0.0707107, 0, 0, 0, 0.01, 0, 0, 0)
+mesh = SubResource("BoxMesh_eutaq")
+skeleton = NodePath("../Cross")
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="MapRigidBody" method="_on_left_button_pressed"]
