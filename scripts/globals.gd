@@ -3,9 +3,9 @@ extends Node
 var active_grabbers = []
 var active_selected = []
 var terrian_info = null
-var x_axis_number_symbol = [2, ""]
-var y_axis_number = 10
-var z_axis_number_symbol = [4, ""]
+var x_axis_number_symbol = [0.115, "π", 1]
+var y_axis_number = 25
+var z_axis_number_symbol = [-0.115, "π", 1]
 
 
 var equations = initializeArray() #[amplitude, width, length]

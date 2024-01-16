@@ -86,6 +86,9 @@ func _ready():
 	%GraphRigidBody.visible = false
 	%ExtraGraph.visible = false
 
+	%GraphRigidBody/X_selector.position.x = 0.115
+	%GraphRigidBody/Z_selector.position.z = -0.115
+	%GraphRigidBody/Y_selector.position.y = 0.115
 #y = a * sin(b * (x)) where b is 2pi/b
 
 func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):

@@ -99,7 +99,7 @@ func create():
 	self.visible = false
 	#%MapRigidBody.visible = true
 	var globals = get_node("/root/Globals")
-	%MapRigidBody.generate_terrain(globals.y_axis_number, globals.x_axis_number_symbol[0], globals.z_axis_number_symbol[0])
+	%MapRigidBody.generate_terrain(globals.y_axis_number, globals.x_axis_number_symbol[2], globals.z_axis_number_symbol[2])
 
 func cancel():
 	self.visible = false

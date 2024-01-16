@@ -194,12 +194,8 @@ func set_corner(corner, pos):
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
 			
 func generate_terrain(amplitude, width, length):
-	print(corner1)
-	print(corner2)
 	var adjusted_corner2 = Vector2(round((-corner2.x) * 1026), round((-corner2.y) * 1026))
 	var adjusted_corner1 = Vector2(round((-corner1.x) * 1026), round((-corner1.y) * 1026))
-	print(adjusted_corner1)
-	print(adjusted_corner2)
 	get_node("/root/Main")._edit(512 - clamp(max(adjusted_corner1.y, adjusted_corner2.y), 0, 512), 512 - clamp(min(adjusted_corner1.y, adjusted_corner2.y), 0, 512), 512 - clamp(max(adjusted_corner1.x, adjusted_corner2.x), 0, 512), 512 - clamp(min(adjusted_corner1.x, adjusted_corner2.x), 0, 512), amplitude, width, length)
 	#reset all previously place objects according to the new height map!
 	var large_objects = get_tree().get_nodes_in_group("large_objects")
@@ -209,10 +205,8 @@ func generate_terrain(amplitude, width, length):
 		var big_height = terrain_data.get_height_at((object.global_position.x+50)*5.13,(object.global_position.z+50)*5.13)
 		if big_height > 0:
 			object.global_position.y = big_height / 5.13 + 0.2
-			print("adjusted height", object.name, big_height / 5.13 +0.2)
 		elif big_height < 0:
 			object.global_position.y = big_height / 5.13 - 0.2
-			print("adjusted height",object.name, big_height / 5.13 -0.2)
 		else:
 			object.global_position.y = 0
 

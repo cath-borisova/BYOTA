@@ -18,9 +18,7 @@ func _process(_delta):
 	self.previous_transform = self.global_transform
 
 func _on_button_pressed(button_name: String) -> void:
-	#print(self.name.substr(2,8))
 	if button_name == "grip_click" && self.grabbed_object == null:
-		print("grab")
 		var grabbables = get_tree().get_nodes_in_group("grabbable")
 		var collision_area = $Area3D as Area3D
 
@@ -39,7 +37,6 @@ func _on_button_pressed(button_name: String) -> void:
 				globals.active_grabbers.push_back(self)
 
 	if button_name == "trigger_click" && selected_object == null:
-		print("correctly selected")
 		var selected = get_tree().get_nodes_in_group("selected")
 		var collision_area = $Area3D as Area3D
 
