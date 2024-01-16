@@ -21,6 +21,7 @@ var selection_box = null
 var arrowstem = null
 var arrowhead = null
 
+var globals = null
 func _ready():
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():
@@ -39,7 +40,7 @@ func _ready():
 	
 	terrain = HTerrain.new()
 	terrain.set_data(terrain_data)
-	var globals = get_node("/root/Globals")
+	globals = get_node("/root/Globals")
 	globals.terrian_info = terrain_data
 	
 	terrain.position = Vector3(-50, 0,-50)
@@ -84,6 +85,7 @@ func _ready():
 	
 	%GraphRigidBody.visible = false
 	%ExtraGraph.visible = false
+
 #y = a * sin(b * (x)) where b is 2pi/b
 
 func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
@@ -141,13 +143,14 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 					heightmap.set_pixel(x, z, Color(y, 0, 0))
 					normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
 					colormap.set_pixel(x, z, color)
+					globals.equations[x][z] 
 			var modified_region = Rect2(Vector2(), heightmap.get_size())
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
 			t.update_collider()
 		count += 1
-		var globals = get_node("/root/Globals")
+		#print(globals.equations)
 		globals.terrian_info = terrain_data
 		t.set_data(data)
 		t = map_terrain
