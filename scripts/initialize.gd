@@ -20,6 +20,7 @@ var selection_box = null
 
 var arrowstem = null
 var arrowhead = null
+var compass
 
 var globals = null
 func _ready():
@@ -68,7 +69,7 @@ func _ready():
 	
 	arrowstem = %MiniUser/ArrowStem
 	arrowhead =  %MiniUser/ArrowHead
-	
+	compass = %MiniUser/compass
 	mini_user = %MiniUser
 	mini_user.get_parent().remove_child(mini_user)
 	$MapRigidBody/Map.add_child(mini_user)
