@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=64 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -16,6 +16,7 @@
 [ext_resource type="Shader" path="res://scripts/selection.gdshader" id="13_3s00n"]
 [ext_resource type="Script" path="res://scenes/graph.gd" id="14_07dmt"]
 [ext_resource type="Script" path="res://scripts/model.gd" id="14_gkxau"]
+[ext_resource type="Script" path="res://scenes/miniuser.gd" id="15_4sv18"]
 [ext_resource type="Script" path="res://scripts/selector.gd" id="15_qat80"]
 [ext_resource type="Script" path="res://scripts/extragraph.gd" id="17_t7ggc"]
 
@@ -188,7 +189,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0174875, 0.0534167)
 collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/LeftController/Area3D"]
-transform = Transform3D(0.16, 0, 0, 0, 0.16, 0, 0, 0, 0.16, 0, 0, 0)
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, -0.0119551, 0.00815117, 0)
 shape = SubResource("SphereShape3D_a20iy")
 
 [node name="LeftRay" type="MeshInstance3D" parent="XROrigin3D/LeftController"]
@@ -213,7 +214,7 @@ collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightController/Area3D"]
 unique_name_in_owner = true
-transform = Transform3D(0.16, 0, 0, 0, 0.16, 0, 0, 0, 0.16, 0, 0, 0)
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0.0119551, 0.00760782, 0)
 shape = SubResource("SphereShape3D_jjmdj")
 
 [node name="RightRay" type="MeshInstance3D" parent="XROrigin3D/RightController"]
@@ -278,6 +279,8 @@ shape = SubResource("HeightMapShape3D_gop3s")
 
 [node name="MiniUser" type="RigidBody3D" parent="."]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+script = ExtResource("15_4sv18")
 
 [node name="UserCircle" type="MeshInstance3D" parent="MiniUser"]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)

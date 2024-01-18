@@ -32,6 +32,8 @@ var right_hand_grabbed_mini = false
 var left_hand_grabbed_mini = false
 var mini_object = null
 
+var hand_grabbed_user = false
+
 func _ready():
 	selection_box = null
 	%Tree.visible = false
@@ -164,23 +166,27 @@ func _on_left_button_released(button_name):
 func _on_right_button_pressed(button_name):
 	if button_name == "grip_click":
 		if map_visible:
-			for mini in get_tree().get_nodes_in_group("mini"):
-				if %RightController/Area3D.overlaps_body(mini):
-					mini_object = mini
-					right_hand_grabbed_mini = true
-					mini.right_hand_grabbed = true
-					break
-			if mini_object == null && %RightController/Area3D.overlaps_body(self):
-				if left_hold_map:
-					translate_map = true
-					right_hold_map = true
-				elif !left_hold_map:
-					right_hold_map = true
-					map_visible = true
-					self.visible = map_visible
-					%Tree.visible = true
-					%Bush.visible = true
-					%Rock.visible = true
+			if %RightController/Area3D.overlaps_body($Map/MiniUser):
+				$Map/MiniUser.grabbed = true
+				hand_grabbed_user = true
+			else:
+				for mini in get_tree().get_nodes_in_group("mini"):
+					if %RightController/Area3D.overlaps_body(mini):
+						mini_object = mini
+						right_hand_grabbed_mini = true
+						mini.right_hand_grabbed = true
+						break
+				if mini_object == null && %RightController/Area3D.overlaps_body(self):
+					if left_hold_map:
+						translate_map = true
+						right_hold_map = true
+					elif !left_hold_map:
+						right_hold_map = true
+						map_visible = true
+						self.visible = map_visible
+						%Tree.visible = true
+						%Bush.visible = true
+						%Rock.visible = true
 
 	if button_name == "ax_button" && !%GraphRigidBody.visible:
 		if map_visible:
@@ -210,6 +216,9 @@ func _on_right_button_released(button_name):
 		$Map/SelectionBox.visible = false
 		map_visible = false 
 		self.visible = map_visible
+	if button_name == "grip_click" && hand_grabbed_user:
+		$Map/MiniUser.grabbed = false
+		$Map/MiniUser.teleport()
 	if button_name == "grip_click" && right_hand_grabbed_mini && mini_object != null:
 		right_hand_grabbed_mini = false
 		left_hand_grabbed_mini = false

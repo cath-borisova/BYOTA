@@ -81,7 +81,7 @@ func _process(_delta):
 		var difference = abs(left_controller.global_position.distance_to(right_controller.global_position)) * 0.25 ;
 		$Object.scale = Vector3(difference, difference, difference)
 		$CollisionShape3D.scale = Vector3(difference, difference, difference)
-		#self.look_at(left_controller.global_position);
+		self.look_at(left_controller.global_position);
 	elif right_hand_grabbed:
 		#print("right")
 		var right_controller_transform = right_controller.global_transform
