@@ -9,7 +9,7 @@ size = Vector3(1, 4, 1)
 [node name="mini_bush" type="RigidBody3D" groups=["grabbable"]]
 script = ExtResource("1_n4c5r")
 
-[node name="BushBerries_2" parent="." instance=ExtResource("2_i1srw")]
+[node name="Object" parent="." instance=ExtResource("2_i1srw")]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 
 [node name="Area3D" type="Area3D" parent="."]

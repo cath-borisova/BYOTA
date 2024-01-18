@@ -28,6 +28,10 @@ var my_z = 0
 var my_y = 1
 var offset_distance = 0.1
 
+var right_hand_grabbed_mini = false
+var left_hand_grabbed_mini = false
+var mini_object = null
+
 func _ready():
 	selection_box = null
 	%Tree.visible = false
@@ -38,8 +42,7 @@ func _process(_delta):
 	if map_visible:
 		if translate_map:
 			self.global_position = (%LeftController.global_position + %RightController.global_position) / 2;
-			var difference = abs(%LeftController.global_position.distance_to(%RightController.global_position));
-			self.look_at(%LeftController.global_position);
+			var difference = abs(%LeftController.global_position.distance_to(%RightController.global_position)) * 2;
 			my_scale_x = difference
 			my_scale_z = difference
 			self.look_at(%LeftController.global_position);
@@ -88,18 +91,25 @@ func _process(_delta):
 		self.scale.z = my_scale_z
 
 func _on_left_button_pressed(button_name):
-	if button_name == "grip_click" && %LeftController/Area3D.overlaps_body(self):
+	if button_name == "grip_click":
 		if map_visible:
-			if right_hold_map:
-				translate_map = true
-				left_hold_map = true
-			elif !right_hold_map:
-				left_hold_map = true
-				map_visible = true
-				self.visible = map_visible
-				%Tree.visible = true
-				%Bush.visible = true
-				%Rock.visible = true
+			for mini in get_tree().get_nodes_in_group("mini"):
+					if %LeftController/Area3D.overlaps_body(mini):
+						mini_object = mini
+						left_hand_grabbed_mini = true
+						mini.left_hand_grabbed = true
+						break
+			if mini_object == null && %LeftController/Area3D.overlaps_body(self):
+				if right_hold_map:
+					translate_map = true
+					left_hold_map = true
+				elif !right_hold_map:
+					left_hold_map = true
+					map_visible = true
+					self.visible = map_visible
+					%Tree.visible = true
+					%Bush.visible = true
+					%Rock.visible = true
 	if button_name == "ax_button"  && !%GraphRigidBody.visible:
 		if map_visible:
 			map_visible = false
@@ -127,6 +137,22 @@ func _on_left_button_released(button_name):
 		$Map/SelectionBox.visible = false
 		map_visible = false
 		self.visible = map_visible
+	if button_name == "grip_click" && left_hand_grabbed_mini && mini_object != null:
+		right_hand_grabbed_mini = false
+		left_hand_grabbed_mini = false
+		mini_object.right_hand_grabbed = false
+		mini_object.left_hand_grabbed = false
+		mini_object.freeze = false
+		if mini_object.copy != null:
+			mini_object.copy.queue_free()
+		mini_object.copy = null
+		mini_object.released = true
+		mini_object.in_map = false
+		mini_object.linear_velocity = Vector3(0, 0.1, 0)
+		mini_object.angular_velocity = Vector3.ZERO
+		#$Map.remove_child(mini_object)
+		#get_node("../../Main").add_child(mini_object)
+		mini_object = null
 	if button_name == "grip_click" && left_hold_map:
 		left_hold_map = false
 		if translate_map:
@@ -136,18 +162,26 @@ func _on_left_button_released(button_name):
 		
 		
 func _on_right_button_pressed(button_name):
-	if button_name == "grip_click" && %RightController/Area3D.overlaps_body(self):
+	if button_name == "grip_click":
 		if map_visible:
-			if left_hold_map:
-				translate_map = true
-				right_hold_map = true
-			elif !left_hold_map:
-				right_hold_map = true
-				map_visible = true
-				self.visible = map_visible
-				%Tree.visible = true
-				%Bush.visible = true
-				%Rock.visible = true
+			for mini in get_tree().get_nodes_in_group("mini"):
+				if %RightController/Area3D.overlaps_body(mini):
+					mini_object = mini
+					right_hand_grabbed_mini = true
+					mini.right_hand_grabbed = true
+					break
+			if mini_object == null && %RightController/Area3D.overlaps_body(self):
+				if left_hold_map:
+					translate_map = true
+					right_hold_map = true
+				elif !left_hold_map:
+					right_hold_map = true
+					map_visible = true
+					self.visible = map_visible
+					%Tree.visible = true
+					%Bush.visible = true
+					%Rock.visible = true
+
 	if button_name == "ax_button" && !%GraphRigidBody.visible:
 		if map_visible:
 			map_visible = false
@@ -176,6 +210,24 @@ func _on_right_button_released(button_name):
 		$Map/SelectionBox.visible = false
 		map_visible = false 
 		self.visible = map_visible
+	if button_name == "grip_click" && right_hand_grabbed_mini && mini_object != null:
+		right_hand_grabbed_mini = false
+		left_hand_grabbed_mini = false
+		mini_object.right_hand_grabbed = false
+		mini_object.left_hand_grabbed = false
+		#print(mini_object.copy)
+		if mini_object.copy != null:
+			mini_object.copy.queue_free()
+		mini_object.copy = null
+		mini_object.released = true
+		mini_object.freeze = false
+		mini_object.linear_velocity = Vector3(0, -0.1, 0)
+		mini_object.angular_velocity = Vector3.ZERO
+		mini_object.in_map = false
+		
+		#$Map.remove_child(mini_object)
+		#get_node("../../Main").add_child(mini_object)
+		mini_object = null
 	if button_name == "grip_click" && right_hold_map:
 		right_hold_map = false
 		if translate_map:

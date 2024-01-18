@@ -9,7 +9,7 @@ size = Vector3(0.35, 4, 0.315)
 [node name="mini_rock" type="RigidBody3D" groups=["grabbable"]]
 script = ExtResource("1_c4w16")
 
-[node name="Rock_Moss_1" parent="." instance=ExtResource("2_6b1xx")]
+[node name="Object" parent="." instance=ExtResource("2_6b1xx")]
 transform = Transform3D(0.02, 0, 0, 0, 0.02, 0, 0, 0, 0.02, 0, 0.00349374, 0)
 
 [node name="Area3D" type="Area3D" parent="."]
