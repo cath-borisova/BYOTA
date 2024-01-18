@@ -91,23 +91,28 @@ func _process(_delta):
 func _on_left_button_pressed(button_name):
 	if button_name == "grip_click":
 		if map_visible:
-			for mini in get_tree().get_nodes_in_group("mini"):
-					if %LeftController/Area3D.overlaps_body(mini):
-						mini_object = mini
-						left_hand_grabbed_mini = true
-						mini.left_hand_grabbed = true
-						break
-			if mini_object == null && %LeftController/Area3D.overlaps_body(self):
-				if right_hold_map:
-					translate_map = true
-					left_hold_map = true
-				elif !right_hold_map:
-					left_hold_map = true
-					map_visible = true
-					self.visible = map_visible
-					%Tree.visible = true
-					%Bush.visible = true
-					%Rock.visible = true
+			if %LeftController/Area3D.overlaps_body($Map/MiniUser):
+				$Map/MiniUser.grabbed_left = true
+				$Map/MiniUser.grabbed_right = false
+				hand_grabbed_user = true
+			else:
+				for mini in get_tree().get_nodes_in_group("mini"):
+						if %LeftController/Area3D.overlaps_body(mini):
+							mini_object = mini
+							left_hand_grabbed_mini = true
+							mini.left_hand_grabbed = true
+							break
+				if mini_object == null && %LeftController/Area3D.overlaps_body(self):
+					if right_hold_map:
+						translate_map = true
+						left_hold_map = true
+					elif !right_hold_map:
+						left_hold_map = true
+						map_visible = true
+						self.visible = map_visible
+						%Tree.visible = true
+						%Bush.visible = true
+						%Rock.visible = true
 	if button_name == "ax_button"  && !%GraphRigidBody.visible:
 		if map_visible:
 			map_visible = false
@@ -135,6 +140,9 @@ func _on_left_button_released(button_name):
 		$Map/SelectionBox.visible = false
 		map_visible = false
 		self.visible = map_visible
+	if button_name == "grip_click" && hand_grabbed_user:
+		$Map/MiniUser.grabbed_left = false
+		$Map/MiniUser.teleport()
 	if button_name == "grip_click" && left_hand_grabbed_mini && mini_object != null:
 		right_hand_grabbed_mini = false
 		left_hand_grabbed_mini = false
@@ -161,8 +169,10 @@ func _on_right_button_pressed(button_name):
 	if button_name == "grip_click":
 		if map_visible:
 			if %RightController/Area3D.overlaps_body($Map/MiniUser):
-				$Map/MiniUser.grabbed = true
+				$Map/MiniUser.grabbed_right = true
+				$Map/MiniUser.grabbed_left = false
 				hand_grabbed_user = true
+				
 			else:
 				for mini in get_tree().get_nodes_in_group("mini"):
 					if %RightController/Area3D.overlaps_body(mini):
@@ -211,7 +221,7 @@ func _on_right_button_released(button_name):
 		map_visible = false 
 		self.visible = map_visible
 	if button_name == "grip_click" && hand_grabbed_user:
-		$Map/MiniUser.grabbed = false
+		$Map/MiniUser.grabbed_right = false
 		$Map/MiniUser.teleport()
 	if button_name == "grip_click" && right_hand_grabbed_mini && mini_object != null:
 		right_hand_grabbed_mini = false
