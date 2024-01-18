@@ -15,10 +15,6 @@ var plane_size = Vector2(1, 1)
 var selection_box = null
 var current_size = Vector2(0.1, 0.1)
 
-#var amplitude = 4
-#var length = 2
-#var width = 2
-
 var my_rotation = Vector3(0,0,0)
 var my_scale_x = 1
 var my_scale_z = 1
@@ -152,8 +148,6 @@ func _on_left_button_released(button_name):
 		mini_object.in_map = false
 		mini_object.linear_velocity = Vector3(0, 0.1, 0)
 		mini_object.angular_velocity = Vector3.ZERO
-		#$Map.remove_child(mini_object)
-		#get_node("../../Main").add_child(mini_object)
 		mini_object = null
 	if button_name == "grip_click" && left_hold_map:
 		left_hold_map = false
@@ -233,9 +227,7 @@ func _on_right_button_released(button_name):
 		mini_object.linear_velocity = Vector3(0, -0.1, 0)
 		mini_object.angular_velocity = Vector3.ZERO
 		mini_object.in_map = false
-		
-		#$Map.remove_child(mini_object)
-		#get_node("../../Main").add_child(mini_object)
+
 		mini_object = null
 	if button_name == "grip_click" && right_hold_map:
 		right_hold_map = false
@@ -285,6 +277,5 @@ func map_default_position():
 	my_z = self.global_position.z
 	self.scale.x = my_scale_x
 	self.scale.z = my_scale_z
-	#my_rotation = %XROrigin3D.rotation
 
 	

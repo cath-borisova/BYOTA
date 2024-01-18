@@ -13,7 +13,6 @@ func _ready():
 
 func _process(_delta):
 	if self.grabbed_object:
-		#print("WRONG")
 		self.grabbed_object.transform = self.global_transform * self.previous_transform.affine_inverse() * self.grabbed_object.transform
 	self.previous_transform = self.global_transform
 

@@ -154,7 +154,6 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_COLOR)
 			t.update_collider()
 		count += 1
-		#print(globals.equations)
 		globals.terrian_info = terrain_data
 		t.set_data(data)
 		t = map_terrain

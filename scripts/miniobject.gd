@@ -24,10 +24,7 @@ func _ready():
 	self.can_sleep = false
 
 func _process(_delta):
-	#print(self.freeze)
 	if released && !in_map:
-		#print("i have been released")
-		#print(area3d)
 		if area3d.overlaps_body(mapRigidBody):
 			print("here")
 			if first:
@@ -39,8 +36,7 @@ func _process(_delta):
 				map.add_child(self)
 				self.global_position = position
 			self.freeze = true
-			
-			#print(self.position)
+
 			if self.position.x < -0.25 || self.position.x > 0.25 || self.position.z < -0.25 || self.position.z > 0.25:
 				print("did i get deleted?")
 				self.queue_free()
@@ -83,7 +79,6 @@ func _process(_delta):
 		$CollisionShape3D.scale = Vector3(difference, difference, difference)
 		self.look_at(left_controller.global_position);
 	elif right_hand_grabbed:
-		#print("right")
 		var right_controller_transform = right_controller.global_transform
 		var offset_vector = -right_controller_transform.basis.z * offset_distance
 		self.global_transform.origin = right_controller_transform.origin + offset_vector

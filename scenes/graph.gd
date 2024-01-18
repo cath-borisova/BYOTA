@@ -12,18 +12,13 @@ var my_rotation = Vector3(0,0,0)
 var my_scale_x = 1
 var my_scale_z = 1
 
-#var my_x = 0
-#var my_z = 0
 var my_y = 1
 
 var offset_distance = 0.1
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	pass
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
 	if self.visible:
 		if translate_graph:
@@ -97,25 +92,14 @@ func _on_right_button_released(button_name):
 		
 func create():
 	self.visible = false
-	#%MapRigidBody.visible = true
 	var globals = get_node("/root/Globals")
 	%MapRigidBody.generate_terrain(globals.y_axis_number, globals.x_axis_number_symbol[2], globals.z_axis_number_symbol[2])
 
 func cancel():
 	self.visible = false
-	#%MapRigidBody.visible = true
-	
+
 func _graph_default_position():
 	var xr_origin_transform = %XROrigin3D.global_transform
 	var offset_vector = -xr_origin_transform.basis.z * offset_distance
 	self.global_transform.origin = xr_origin_transform.origin + offset_vector
-
 	self.rotation = Vector3(0,0,0)		
-	#my_y = 1
-	#my_scale_x = 1
-	#my_scale_z = 1
-	#my_rotation = Vector3(0,0,0)
-	#my_x = self.global_position.x
-	#my_z = self.global_position.z
-	#self.scale.x = my_scale_x
-	#self.scale.z = my_scale_z

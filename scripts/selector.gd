@@ -22,7 +22,7 @@ var z_symbols = {"-0.23": ["2π", 2],
 	"-0.0575" : ["π/2", 1/2],
 	"-0.02875": ["π/4", 1/4],
 	"0": ["0π", 0]}
-# Called when the node enters the scene tree for the first time.
+
 func _ready():
 	selector = self.name.substr(0, 1)
 	right_hand = %RightController
@@ -39,7 +39,7 @@ func find_closest_node_to_point(array, point):
 			closest = i
 			closest_distance = current_node_distance
 	return closest
-# Called every frame. 'delta' is the elapsed time since the previous frame.
+
 func _process(_delta):
 	var globals = get_node("/root/Globals")
 	if self == right_hand.selected_object:
