@@ -41,11 +41,9 @@ func _ready():
 func _process(_delta):
 	if map_visible:
 		if translate_map:
-			self.global_position = (%LeftController.global_position + %RightController.global_position) / 2;
-			var difference = abs(%LeftController.global_position.distance_to(%RightController.global_position)) * 2;
+			var difference = globals.spindle(self)
 			my_scale_x = difference
 			my_scale_z = difference
-			self.look_at(%LeftController.global_position);
 			my_rotation = self.rotation
 			my_y = self.global_position.y
 			my_x = self.global_position.x
@@ -127,6 +125,7 @@ func _on_left_button_released(button_name):
 		map_visible = false
 		self.visible = map_visible
 	if button_name == "grip_click" && hand_grabbed_user:
+		hand_grabbed_user = false
 		$Map/MiniUser.grabbed_left = false
 		$Map/MiniUser.teleport()
 	if button_name == "grip_click" && left_hand_grabbed_mini && mini_object != null:
@@ -209,6 +208,7 @@ func _on_right_button_released(button_name):
 	if button_name == "grip_click" && hand_grabbed_user:
 		$Map/MiniUser.grabbed_right = false
 		$Map/MiniUser.teleport()
+		hand_grabbed_user = false
 	if button_name == "grip_click" && right_hand_grabbed_mini && mini_object != null:
 		right_hand_grabbed_mini = false
 		left_hand_grabbed_mini = false

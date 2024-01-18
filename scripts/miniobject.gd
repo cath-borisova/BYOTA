@@ -68,17 +68,15 @@ func _process(_delta):
 				copy.global_position = big_position
 				
 	if area3d.overlaps_body(ground):
-		print("ground")
 		if copy != null:
 			copy.queue_free()
 			copy = null
 		self.queue_free()
 	if right_hand_grabbed && left_hand_grabbed:
-		self.global_position = (left_controller.global_position + right_controller.global_position) / 2;
-		var difference = abs(left_controller.global_position.distance_to(right_controller.global_position)) * 0.25 ;
+		print("two hands")
+		var difference = globals.spindle(self)
 		$Object.scale = Vector3(difference, difference, difference)
 		$CollisionShape3D.scale = Vector3(difference, difference, difference)
-		self.look_at(left_controller.global_position);
 	elif right_hand_grabbed:
 		globals.transform(self, right_controller)
 	elif left_hand_grabbed:

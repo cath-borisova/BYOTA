@@ -31,3 +31,11 @@ func transform(object, controller):
 	var my_rotation  =controller_transform.basis.get_euler()
 	var rotated_basis = Basis(Quaternion(Vector3(0, my_rotation.y, 0).normalized(), 0))
 	object.global_transform.basis = rotated_basis
+
+func spindle(object):
+	var left = get_node("/root/Main/XROrigin3D/LeftController")
+	var right = get_node("/root/Main/XROrigin3D/RightController")
+	object.global_position = (left.global_position + right.global_position) / 2;
+	var difference = abs(left.global_position.distance_to(right.global_position)) * 2;
+	object.look_at(left.global_position);
+	return difference
