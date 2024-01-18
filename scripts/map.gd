@@ -129,26 +129,12 @@ func _on_left_button_released(button_name):
 		$Map/MiniUser.grabbed_left = false
 		$Map/MiniUser.teleport()
 	if button_name == "grip_click" && left_hand_grabbed_mini && mini_object != null:
-		right_hand_grabbed_mini = false
-		left_hand_grabbed_mini = false
-		mini_object.right_hand_grabbed = false
-		mini_object.left_hand_grabbed = false
-		mini_object.freeze = false
-		if mini_object.copy != null:
-			mini_object.copy.queue_free()
-		mini_object.copy = null
-		mini_object.released = true
-		mini_object.in_map = false
-		mini_object.linear_velocity = Vector3(0, 0.1, 0)
-		mini_object.angular_velocity = Vector3.ZERO
-		mini_object = null
+		release_mini_object()
 	if button_name == "grip_click" && left_hold_map:
 		left_hold_map = false
 		if translate_map:
 			right_hold_map = false
 			translate_map = false
-		
-		
 		
 func _on_right_button_pressed(button_name):
 	if button_name == "grip_click":
@@ -210,28 +196,28 @@ func _on_right_button_released(button_name):
 		$Map/MiniUser.teleport()
 		hand_grabbed_user = false
 	if button_name == "grip_click" && right_hand_grabbed_mini && mini_object != null:
-		right_hand_grabbed_mini = false
-		left_hand_grabbed_mini = false
-		mini_object.right_hand_grabbed = false
-		mini_object.left_hand_grabbed = false
-		#print(mini_object.copy)
-		if mini_object.copy != null:
-			mini_object.copy.queue_free()
-		mini_object.copy = null
-		mini_object.released = true
-		mini_object.freeze = false
-		mini_object.linear_velocity = Vector3(0, -0.1, 0)
-		mini_object.angular_velocity = Vector3.ZERO
-		mini_object.in_map = false
-
-		mini_object = null
+		release_mini_object()
 	if button_name == "grip_click" && right_hold_map:
 		right_hold_map = false
 		if translate_map:
 			left_hold_map = false
 			translate_map = false
 		
-		
+func release_mini_object():
+	right_hand_grabbed_mini = false
+	left_hand_grabbed_mini = false
+	mini_object.right_hand_grabbed = false
+	mini_object.left_hand_grabbed = false
+	if mini_object.copy != null:
+		mini_object.copy.queue_free()
+	mini_object.copy = null
+	mini_object.released = true
+	mini_object.freeze = false
+	mini_object.linear_velocity = Vector3(0, -0.1, 0)
+	mini_object.angular_velocity = Vector3.ZERO
+	mini_object.in_map = false
+	mini_object = null
+	
 func set_corner(corner, pos):
 	var local_pos = $Map/SelectionBox.to_local(pos)
 	var corner_pos = Vector2(local_pos.x, local_pos.z)
