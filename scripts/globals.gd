@@ -22,3 +22,12 @@ func initializeArray():
 func get_equation(x, z):
 	# y = equations[x][z][0] * sin(equations[x][z][1] * x) * cos(equations[x][z][2] * z)
 	return equations[x][z]
+
+
+func transform(object, controller):
+	var controller_transform = controller.global_transform
+	var offset_vector = -controller_transform.basis.z * 0.05
+	object.global_transform.origin =controller_transform.origin 
+	var my_rotation  =controller_transform.basis.get_euler()
+	var rotated_basis = Basis(Quaternion(Vector3(0, my_rotation.y, 0).normalized(), 0))
+	object.global_transform.basis = rotated_basis

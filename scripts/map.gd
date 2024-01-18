@@ -30,11 +30,13 @@ var mini_object = null
 
 var hand_grabbed_user = false
 
+var globals = null
 func _ready():
 	selection_box = null
 	%Tree.visible = false
 	%Bush.visible = false
 	%Rock.visible = false
+	globals = get_node("/root/Globals")
 
 func _process(_delta):
 	if map_visible:
@@ -50,29 +52,13 @@ func _process(_delta):
 			my_z = self.global_position.z
 		else:
 			if left_hold_map:
-				var left_controller_transform = %LeftController.global_transform
-				var offset_vector = -left_controller_transform.basis.z * offset_distance
-				self.global_transform.origin = left_controller_transform.origin + offset_vector
-				var terrain_rotation = left_controller_transform.basis.get_euler()
-				terrain_rotation.x = 0
-				terrain_rotation.z = 0 
-				var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
-				self.global_transform.basis = rotated_basis
-				my_y = %LeftController.global_position.y
-				#my_y = self.global_position.y
+				globals.transform(self, %LeftController)
+				my_y = self.global_position.y
 				my_x = self.global_position.x
 				my_z = self.global_position.z
 			elif right_hold_map:
-				var right_controller_transform = %RightController.global_transform
-				var offset_vector = -right_controller_transform.basis.z * offset_distance
-				self.global_transform.origin = right_controller_transform.origin + offset_vector
-				var terrain_rotation = right_controller_transform.basis.get_euler()
-				terrain_rotation.x = 0
-				terrain_rotation.z = 0 
-				var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
-				self.global_transform.basis = rotated_basis
-				my_y = %RightController.global_position.y
-				#my_y = self.global_position.y
+				globals.transform(self, %RightController)
+				my_y = self.global_position.y
 				my_x = self.global_position.x
 				my_z = self.global_position.z
 			else:
