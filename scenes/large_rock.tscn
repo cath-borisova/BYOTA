@@ -13,3 +13,9 @@ transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0, 0.0828378, 0)
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1.5, 0, 0, 0, 1.5, 0, 0, 0, 1.5, 0.080699, 0.591132, 0)
 shape = SubResource("BoxShape3D_6hb2v")
+
+[node name="equation" type="Label3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.35376, 0)
+billboard = 1
+font_size = 24
+outline_size = 8

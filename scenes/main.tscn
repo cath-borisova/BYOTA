@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=64 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -18,6 +18,7 @@
 [ext_resource type="Script" path="res://scripts/model.gd" id="14_gkxau"]
 [ext_resource type="Script" path="res://scripts/selector.gd" id="15_qat80"]
 [ext_resource type="Script" path="res://scripts/extragraph.gd" id="17_t7ggc"]
+[ext_resource type="Script" path="res://scripts/user_pos.gd" id="19_l533r"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_a20iy"]
 
@@ -300,7 +301,7 @@ skeleton = NodePath("../ArrowStem")
 
 [node name="compass" type="Label3D" parent="MiniUser"]
 unique_name_in_owner = true
-transform = Transform3D(-0.016388, -0.999866, -4.37055e-08, 0, -4.37114e-08, 1, -0.999866, 0.016388, 7.16341e-10, -0.0413419, 0.00450554, 0)
+transform = Transform3D(-0.016388, -0.999866, -4.37055e-08, 0, -4.37114e-08, 1, -0.999866, 0.016388, 7.16341e-10, 0, 0, 0)
 modulate = Color(0, 0, 0, 1)
 outline_modulate = Color(0, 0, 0, 0)
 text = "N"
@@ -494,11 +495,19 @@ transform = Transform3D(0.00707107, 0.0707107, 0, -0.00707107, 0.0707107, 0, 0, 
 mesh = SubResource("BoxMesh_eutaq")
 skeleton = NodePath("../Cross")
 
+[node name="user_pos" type="Label3D" parent="."]
+billboard = 1
+modulate = Color(0, 0, 0, 1)
+outline_modulate = Color(0, 0, 0, 0)
+font_size = 12
+script = ExtResource("19_l533r")
+
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D" method="_on_left_controller_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController/LeftRay" method="_on_controller_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="MapRigidBody" method="_on_left_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="GraphRigidBody" method="_on_left_button_pressed"]
+[connection signal="button_pressed" from="XROrigin3D/LeftController" to="user_pos" method="_on_left_controller_button_pressed"]
 [connection signal="button_released" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_released"]
 [connection signal="button_released" from="XROrigin3D/LeftController" to="MapRigidBody" method="_on_left_button_released"]
 [connection signal="button_released" from="XROrigin3D/LeftController" to="GraphRigidBody" method="_on_left_controller_button_released"]
@@ -508,6 +517,7 @@ skeleton = NodePath("../Cross")
 [connection signal="button_pressed" from="XROrigin3D/RightController" to="XROrigin3D/RightController/RightRay" method="_on_controller_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/RightController" to="MapRigidBody" method="_on_right_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/RightController" to="GraphRigidBody" method="_on_right_button_pressed"]
+[connection signal="button_pressed" from="XROrigin3D/RightController" to="user_pos" method="_on_right_controller_button_pressed"]
 [connection signal="button_released" from="XROrigin3D/RightController" to="XROrigin3D/RightController" method="_on_button_released"]
 [connection signal="button_released" from="XROrigin3D/RightController" to="MapRigidBody" method="_on_right_button_released"]
 [connection signal="button_released" from="XROrigin3D/RightController" to="GraphRigidBody" method="_on_right_button_released"]
