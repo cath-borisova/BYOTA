@@ -58,7 +58,7 @@ func _ready():
 	
 	map_terrain.map_scale = Vector3(0.001, 0.001, 0.001)
 	map_terrain.centered = true
-	_edit(0, 513, 0, 513, 0, 0, 0)
+	_edit(0, 513, 0, 513, 0, 0, 0, "0π", "0π")
 	map_terrain.name = "Map"
 	$MapRigidBody.add_child(map_terrain)
 	
@@ -92,7 +92,7 @@ func _ready():
 	%GraphRigidBody/Y_selector.position.y = 0.115
 #y = a * sin(b * (x)) where b is 2pi/b
 
-func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
+func _edit(z_start, z_end, x_start, x_end, amplitude, width, length, string_width, string_length):
 	var count = 0
 	var t = terrain
 	var color = Color(11.0/255.0, 82.0/255.0, 30/255.0, 1.0)
@@ -147,7 +147,7 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length):
 					heightmap.set_pixel(x, z, Color(y, 0, 0))
 					normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
 					colormap.set_pixel(x, z, color)
-					globals.equations[x][z] 
+					globals.equations[x][z] = [amplitude, string_width, string_length]
 			var modified_region = Rect2(Vector2(), heightmap.get_size())
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_HEIGHT)
 			data.notify_region_change(modified_region, HTerrainData.CHANNEL_NORMAL)

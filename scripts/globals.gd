@@ -20,6 +20,8 @@ func initializeArray():
 	return array
 
 func get_equation(x, z):
+	print(x)
+	print(z)
 	# y = equations[x][z][0] * sin(equations[x][z][1] * x) * cos(equations[x][z][2] * z)
 	return equations[x][z]
 

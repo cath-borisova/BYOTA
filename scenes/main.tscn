@@ -1,4 +1,4 @@
-[gd_scene load_steps=64 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=65 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -14,7 +14,7 @@
 [ext_resource type="PackedScene" uid="uid://b3ccjy31mqkkv" path="res://FBX/Rock_Moss_1.fbx" id="11_t863o"]
 [ext_resource type="Script" path="res://scripts/map.gd" id="12_fc24a"]
 [ext_resource type="Shader" path="res://scripts/selection.gdshader" id="13_3s00n"]
-[ext_resource type="Script" path="res://scenes/graph.gd" id="14_07dmt"]
+[ext_resource type="Script" path="res://scripts/graph.gd" id="14_07dmt"]
 [ext_resource type="Script" path="res://scripts/model.gd" id="14_gkxau"]
 [ext_resource type="Script" path="res://scenes/miniuser.gd" id="15_4sv18"]
 [ext_resource type="Script" path="res://scripts/selector.gd" id="15_qat80"]

@@ -77,7 +77,7 @@ func _on_right_button_released(button_name):
 func create():
 	self.visible = false
 	var globals = get_node("/root/Globals")
-	%MapRigidBody.generate_terrain(globals.y_axis_number[1], globals.x_axis_number_symbol[2], globals.z_axis_number_symbol[2])
+	%MapRigidBody.generate_terrain(globals.y_axis_number[1], globals.x_axis_number_symbol[2], globals.z_axis_number_symbol[2], globals.x_axis_number_symbol[1], globals.z_axis_number_symbol[1])
 
 func cancel():
 	self.visible = false

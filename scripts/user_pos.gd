@@ -15,7 +15,7 @@ func _process(delta):
 		self.text = "X: " + str(round(%XROrigin3D.global_position.x)) + " Y: " + str(round(%XROrigin3D.global_position.y)) + " Z: " + str(round(%XROrigin3D.global_position.z))
 	elif equation:
 		var globals = get_node("/root/Globals")
-		var equation = globals.get_equation((%XROrigin3D.global_position.x+50)*5.13,(%XROrigin3D.global_position.z+50)*5.13)
+		var equation = globals.get_equation(clamp(round((%XROrigin3D.global_position.x+50)*5.13), 0, 512), clamp(round((%XROrigin3D.global_position.z+50)*5.13), 0, 512))
 		self.text = "y = "+ str(equation[0]) + " * sin(" + str(equation[1]) + " * " + str(round(%XROrigin3D.global_position.x)) + ") * cos("+ str(equation[2])+ " * "+ str(round(%XROrigin3D.global_position.z)) + ")"	
 	var new_position = camera.global_position + -(camera.global_transform).basis.z.normalized() * 0.5
 	new_position.y = 1.8
