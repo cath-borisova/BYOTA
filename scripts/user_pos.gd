@@ -14,8 +14,8 @@ func _process(delta):
 	if %Tree.visible == false && %GraphRigidBody.visible == false:
 		self.visible = true
 		if !equation:
-		#change text to user position
-		self.text = "X: " + str(round(%XROrigin3D.global_position.x*pow(10,2))/pow(10,2)) + "\nY: " + str(round(%XROrigin3D.global_position.y*pow(10,2))/pow(10,2)) + "\nZ: " + str(round(%XROrigin3D.global_position.z*pow(10,2))/pow(10,2))
+			#change text to user position
+			self.text = "X: " + str(round(%XROrigin3D.global_position.x*pow(10,2))/pow(10,2)) + "\nY: " + str(round(%XROrigin3D.global_position.y*pow(10,2))/pow(10,2)) + "\nZ: " + str(round(%XROrigin3D.global_position.z*pow(10,2))/pow(10,2))
 		elif equation:
 			var globals = get_node("/root/Globals")
 			var equation = globals.get_equation(clamp(round((%XROrigin3D.global_position.x+50)*5.13), 0, 512), clamp(round((%XROrigin3D.global_position.z+50)*5.13), 0, 512))
