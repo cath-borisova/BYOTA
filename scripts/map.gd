@@ -15,10 +15,6 @@ var plane_size = Vector2(1, 1)
 var selection_box = null
 var current_size = Vector2(0.1, 0.1)
 
-#var amplitude = 4
-#var length = 2
-#var width = 2
-
 var my_rotation = Vector3(0,0,0)
 var my_scale_x = 1
 var my_scale_z = 1
@@ -28,50 +24,39 @@ var my_z = 0
 var my_y = 1
 var offset_distance = 0.1
 
+var right_hand_grabbed_mini = false
+var left_hand_grabbed_mini = false
+var mini_object = null
+
+var hand_grabbed_user = false
+
+var globals = null
 func _ready():
 	selection_box = null
 	%Tree.visible = false
 	%Bush.visible = false
 	%Rock.visible = false
+	globals = get_node("/root/Globals")
 
 func _process(_delta):
 	if map_visible:
 		if translate_map:
-			self.global_position = (%LeftController.global_position + %RightController.global_position) / 2;
-			var difference = abs(%LeftController.global_position.distance_to(%RightController.global_position));
-			self.look_at(%LeftController.global_position);
+			var difference = globals.spindle(self)
 			my_scale_x = difference
 			my_scale_z = difference
-			self.look_at(%LeftController.global_position);
 			my_rotation = self.rotation
 			my_y = self.global_position.y
 			my_x = self.global_position.x
 			my_z = self.global_position.z
 		else:
 			if left_hold_map:
-				var left_controller_transform = %LeftController.global_transform
-				var offset_vector = -left_controller_transform.basis.z * offset_distance
-				self.global_transform.origin = left_controller_transform.origin + offset_vector
-				var terrain_rotation = left_controller_transform.basis.get_euler()
-				terrain_rotation.x = 0
-				terrain_rotation.z = 0 
-				var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
-				self.global_transform.basis = rotated_basis
-				my_y = %LeftController.global_position.y
-				#my_y = self.global_position.y
+				globals.transform(self, %LeftController)
+				my_y = self.global_position.y
 				my_x = self.global_position.x
 				my_z = self.global_position.z
 			elif right_hold_map:
-				var right_controller_transform = %RightController.global_transform
-				var offset_vector = -right_controller_transform.basis.z * offset_distance
-				self.global_transform.origin = right_controller_transform.origin + offset_vector
-				var terrain_rotation = right_controller_transform.basis.get_euler()
-				terrain_rotation.x = 0
-				terrain_rotation.z = 0 
-				var rotated_basis = Basis(Quaternion(Vector3(0, terrain_rotation.y, 0).normalized(), 0))
-				self.global_transform.basis = rotated_basis
-				my_y = %RightController.global_position.y
-				#my_y = self.global_position.y
+				globals.transform(self, %RightController)
+				my_y = self.global_position.y
 				my_x = self.global_position.x
 				my_z = self.global_position.z
 			else:
@@ -88,18 +73,30 @@ func _process(_delta):
 		self.scale.z = my_scale_z
 
 func _on_left_button_pressed(button_name):
-	if button_name == "grip_click" && %LeftController/Area3D.overlaps_body(self):
+	if button_name == "grip_click":
 		if map_visible:
-			if right_hold_map:
-				translate_map = true
-				left_hold_map = true
-			elif !right_hold_map:
-				left_hold_map = true
-				map_visible = true
-				self.visible = map_visible
-				%Tree.visible = true
-				%Bush.visible = true
-				%Rock.visible = true
+			if %LeftController/Area3D.overlaps_body($Map/MiniUser):
+				$Map/MiniUser.grabbed_left = true
+				$Map/MiniUser.grabbed_right = false
+				hand_grabbed_user = true
+			else:
+				for mini in get_tree().get_nodes_in_group("mini"):
+						if %LeftController/Area3D.overlaps_body(mini):
+							mini_object = mini
+							left_hand_grabbed_mini = true
+							mini.left_hand_grabbed = true
+							break
+				if mini_object == null && %LeftController/Area3D.overlaps_body(self):
+					if right_hold_map:
+						translate_map = true
+						left_hold_map = true
+					elif !right_hold_map:
+						left_hold_map = true
+						map_visible = true
+						self.visible = map_visible
+						%Tree.visible = true
+						%Bush.visible = true
+						%Rock.visible = true
 	if button_name == "ax_button"  && !%GraphRigidBody.visible:
 		if map_visible:
 			map_visible = false
@@ -127,27 +124,45 @@ func _on_left_button_released(button_name):
 		$Map/SelectionBox.visible = false
 		map_visible = false
 		self.visible = map_visible
+	if button_name == "grip_click" && hand_grabbed_user:
+		hand_grabbed_user = false
+		$Map/MiniUser.grabbed_left = false
+		$Map/MiniUser.teleport()
+	if button_name == "grip_click" && left_hand_grabbed_mini && mini_object != null:
+		release_mini_object()
 	if button_name == "grip_click" && left_hold_map:
 		left_hold_map = false
 		if translate_map:
 			right_hold_map = false
 			translate_map = false
 		
-		
-		
 func _on_right_button_pressed(button_name):
-	if button_name == "grip_click" && %RightController/Area3D.overlaps_body(self):
+	if button_name == "grip_click":
 		if map_visible:
-			if left_hold_map:
-				translate_map = true
-				right_hold_map = true
-			elif !left_hold_map:
-				right_hold_map = true
-				map_visible = true
-				self.visible = map_visible
-				%Tree.visible = true
-				%Bush.visible = true
-				%Rock.visible = true
+			if %RightController/Area3D.overlaps_body($Map/MiniUser):
+				$Map/MiniUser.grabbed_right = true
+				$Map/MiniUser.grabbed_left = false
+				hand_grabbed_user = true
+				
+			else:
+				for mini in get_tree().get_nodes_in_group("mini"):
+					if %RightController/Area3D.overlaps_body(mini):
+						mini_object = mini
+						right_hand_grabbed_mini = true
+						mini.right_hand_grabbed = true
+						break
+				if mini_object == null && %RightController/Area3D.overlaps_body(self):
+					if left_hold_map:
+						translate_map = true
+						right_hold_map = true
+					elif !left_hold_map:
+						right_hold_map = true
+						map_visible = true
+						self.visible = map_visible
+						%Tree.visible = true
+						%Bush.visible = true
+						%Rock.visible = true
+
 	if button_name == "ax_button" && !%GraphRigidBody.visible:
 		if map_visible:
 			map_visible = false
@@ -176,13 +191,33 @@ func _on_right_button_released(button_name):
 		$Map/SelectionBox.visible = false
 		map_visible = false 
 		self.visible = map_visible
+	if button_name == "grip_click" && hand_grabbed_user:
+		$Map/MiniUser.grabbed_right = false
+		$Map/MiniUser.teleport()
+		hand_grabbed_user = false
+	if button_name == "grip_click" && right_hand_grabbed_mini && mini_object != null:
+		release_mini_object()
 	if button_name == "grip_click" && right_hold_map:
 		right_hold_map = false
 		if translate_map:
 			left_hold_map = false
 			translate_map = false
 		
-		
+func release_mini_object():
+	right_hand_grabbed_mini = false
+	left_hand_grabbed_mini = false
+	mini_object.right_hand_grabbed = false
+	mini_object.left_hand_grabbed = false
+	if mini_object.copy != null:
+		mini_object.copy.queue_free()
+	mini_object.copy = null
+	mini_object.released = true
+	mini_object.freeze = false
+	mini_object.linear_velocity = Vector3(0, -0.1, 0)
+	mini_object.angular_velocity = Vector3.ZERO
+	mini_object.in_map = false
+	mini_object = null
+	
 func set_corner(corner, pos):
 	var local_pos = $Map/SelectionBox.to_local(pos)
 	var corner_pos = Vector2(local_pos.x, local_pos.z)
@@ -224,6 +259,5 @@ func map_default_position():
 	my_z = self.global_position.z
 	self.scale.x = my_scale_x
 	self.scale.z = my_scale_z
-	#my_rotation = %XROrigin3D.rotation
 
 	

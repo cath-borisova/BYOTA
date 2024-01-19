@@ -16,6 +16,7 @@
 [ext_resource type="Shader" path="res://scripts/selection.gdshader" id="13_3s00n"]
 [ext_resource type="Script" path="res://scenes/graph.gd" id="14_07dmt"]
 [ext_resource type="Script" path="res://scripts/model.gd" id="14_gkxau"]
+[ext_resource type="Script" path="res://scenes/miniuser.gd" id="15_4sv18"]
 [ext_resource type="Script" path="res://scripts/selector.gd" id="15_qat80"]
 [ext_resource type="Script" path="res://scripts/extragraph.gd" id="17_t7ggc"]
 [ext_resource type="Script" path="res://scripts/user_pos.gd" id="19_l533r"]
@@ -185,11 +186,11 @@ script = ExtResource("4_chvv8")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.05)
 
 [node name="Area3D" type="Area3D" parent="XROrigin3D/LeftController"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0174875, 0.0534167)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.017, 0)
 collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/LeftController/Area3D"]
-transform = Transform3D(0.16, 0, 0, 0, 0.16, 0, 0, 0, 0.16, 0, 0, 0)
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, -0.0119551, 0.00815117, 0)
 shape = SubResource("SphereShape3D_a20iy")
 
 [node name="LeftRay" type="MeshInstance3D" parent="XROrigin3D/LeftController"]
@@ -209,12 +210,12 @@ script = ExtResource("4_chvv8")
 transform = Transform3D(-1, 0, -8.74228e-08, 0, 1, 0, 8.74228e-08, 0, -1, 0, 0, 0.05)
 
 [node name="Area3D" type="Area3D" parent="XROrigin3D/RightController"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.013816, 0.0506639)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.014, 0)
 collision_mask = 7
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="XROrigin3D/RightController/Area3D"]
 unique_name_in_owner = true
-transform = Transform3D(0.16, 0, 0, 0, 0.16, 0, 0, 0, 0.16, 0, 0, 0)
+transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0.0119551, 0.00760782, 0)
 shape = SubResource("SphereShape3D_jjmdj")
 
 [node name="RightRay" type="MeshInstance3D" parent="XROrigin3D/RightController"]
@@ -279,6 +280,8 @@ shape = SubResource("HeightMapShape3D_gop3s")
 
 [node name="MiniUser" type="RigidBody3D" parent="."]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+script = ExtResource("15_4sv18")
 
 [node name="UserCircle" type="MeshInstance3D" parent="MiniUser"]
 transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)

@@ -1,14 +1,10 @@
 extends Node3D
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	self.visible = false
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	#if self.visible:
+	if %GraphRigidBody.visible
 		self.scale.z = 100
 		self.position.z = -50
 
@@ -29,18 +25,10 @@ func _process(delta):
 			for button in buttons:
 				if result["collider_id"] == button.get_instance_id():
 					is_visible = true
-					#if button.name == "Create":
-						#%GraphRigidBody.create()
-					#elif button.name == "Cancel":
-						#%GraphRigidBody.cancel()
-		self.visible = is_visible
-		#else:
-			#self.scale.z = 100
-			#self.position.z = -50
+			self.visible = is_visible
 
 func _on_controller_button_pressed(button_name):
 	if button_name == "trigger_click" && %GraphRigidBody.visible:
-		#self.visible = true
 		var start_point = get_parent().global_position
 		var end_point = get_parent().global_transform * Vector3(0, 0, -100)
 
