@@ -22,7 +22,7 @@ func _ready():
 	ground = get_node("../Ground")
 	right_controller = get_node("../XROrigin3D/RightController")
 	left_controller = get_node("../XROrigin3D/LeftController")
-	self.can_sleep = false
+	self.can_sleep = true
 	globals = get_node("/root/Globals")
 func _process(_delta):
 	if released && !in_map:
@@ -76,6 +76,7 @@ func _process(_delta):
 				
 				
 	if area3d.overlaps_body(ground):
+		print("am i hitting ground?")
 		if copy != null:
 			copy.queue_free()
 			copy = null
