@@ -499,11 +499,16 @@ mesh = SubResource("BoxMesh_eutaq")
 skeleton = NodePath("../Cross")
 
 [node name="user_pos" type="Label3D" parent="."]
+unique_name_in_owner = true
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
 billboard = 1
 modulate = Color(0, 0, 0, 1)
 outline_modulate = Color(0, 0, 0, 0)
 font_size = 12
 script = ExtResource("19_l533r")
+
+[node name="Toolbox" type="Node" parent="."]
+unique_name_in_owner = true
 
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D" method="_on_left_controller_button_pressed"]
 [connection signal="button_pressed" from="XROrigin3D/LeftController" to="XROrigin3D/LeftController" method="_on_button_pressed"]

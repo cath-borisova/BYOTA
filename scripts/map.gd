@@ -30,6 +30,7 @@ var mini_object = null
 
 var hand_grabbed_user = false
 
+
 var globals = null
 func _ready():
 	selection_box = null
@@ -97,6 +98,16 @@ func _on_left_button_pressed(button_name):
 						%Tree.visible = true
 						%Bush.visible = true
 						%Rock.visible = true
+	if button_name == "by_button":
+		if %Tree.visible:
+			
+			%Tree.visible = false
+			%Rock.visible = false
+			%Bush.visible = false
+		else:
+			%Tree.visible = true
+			%Rock.visible = true
+			%Bush.visible = true
 	if button_name == "ax_button"  && !%GraphRigidBody.visible:
 		if map_visible:
 			map_visible = false
@@ -250,11 +261,7 @@ func generate_terrain(amplitude, width, length, string_width, string_length):
 			object.global_position.y = 0
 
 func map_default_position():
-	var xr_origin_transform = %XROrigin3D.global_transform
-	var offset_vector = -xr_origin_transform.basis.z * offset_distance
-	self.global_transform.origin = xr_origin_transform.origin + offset_vector
-
-	self.rotation = Vector3(0,0,0)		
+	globals.position_relative_to_user(self)
 	self.global_position.y += 0.5
 	my_y = self.global_position.y
 	my_scale_x = 1
