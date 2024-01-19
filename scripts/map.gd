@@ -120,7 +120,7 @@ func _on_left_button_released(button_name):
 		left_selecting = false
 		set_corner(2, %LeftController.global_position)		
 		%GraphRigidBody.visible = true
-		%GraphRigidBody.global_position = self.global_position
+		%GraphRigidBody.graph_default_position()
 		$Map/SelectionBox.visible = false
 		map_visible = false
 		self.visible = map_visible
@@ -187,7 +187,7 @@ func _on_right_button_released(button_name):
 		right_selecting = false
 		set_corner(2, %RightController.global_position)
 		%GraphRigidBody.visible = true
-		%GraphRigidBody.global_position = self.global_position
+		%GraphRigidBody.graph_default_position()
 		$Map/SelectionBox.visible = false
 		map_visible = false 
 		self.visible = map_visible
@@ -229,6 +229,10 @@ func set_corner(corner, pos):
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
 			
 func generate_terrain(amplitude, width, length, string_width, string_length):
+	print("generate terrain is called with")
+	print("amplitude: ", amplitude)
+	print("width: ", width)
+	print("length: ", length)
 	var adjusted_corner2 = Vector2(round((-corner2.x) * 1026), round((-corner2.y) * 1026))
 	var adjusted_corner1 = Vector2(round((-corner1.x) * 1026), round((-corner1.y) * 1026))
 	get_node("/root/Main")._edit(512 - clamp(max(adjusted_corner1.y, adjusted_corner2.y), 0, 512), 512 - clamp(min(adjusted_corner1.y, adjusted_corner2.y), 0, 512), 512 - clamp(max(adjusted_corner1.x, adjusted_corner2.x), 0, 512), 512 - clamp(min(adjusted_corner1.x, adjusted_corner2.x), 0, 512), amplitude, width, length, string_width, string_length)

@@ -77,14 +77,15 @@ func _on_right_button_released(button_name):
 func create():
 	self.visible = false
 	var globals = get_node("/root/Globals")
-	%MapRigidBody.generate_terrain(globals.y_axis_number[1], globals.x_axis_number_symbol[2], globals.z_axis_number_symbol[2], globals.x_axis_number_symbol[1], globals.z_axis_number_symbol[1])
+	%MapRigidBody.generate_terrain(globals.y_axis_number[1], globals.x_axis_number_symbol[1], globals.z_axis_number_symbol[1], globals.x_axis_number_symbol[0], globals.z_axis_number_symbol[0])
 
 func cancel():
 	self.visible = false
 
-func _graph_default_position():
+func graph_default_position():
 	var xr_origin_transform = %XROrigin3D.global_transform
 	var offset_vector = -xr_origin_transform.basis.z * offset_distance
 	self.global_transform.origin = xr_origin_transform.origin + offset_vector
 	self.rotation = Vector3(0,0,0)
+	#self.global_position = %XROrigin3D.global_position
 	self.global_position.y = %XRCamera3D.global_position.y - 0.4

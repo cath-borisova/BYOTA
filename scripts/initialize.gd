@@ -97,52 +97,58 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length, string_widt
 	var t = terrain
 	var color = Color(11.0/255.0, 82.0/255.0, 30/255.0, 1.0)
 	var data = terrain_data
+	print(z_start)
+	print(z_end)
+	print("\n")
+	print(x_start)
+	print(x_end)
+	print("\n")
 	while count < 2:
 		var heightmap: Image = data.get_image(HTerrainData.CHANNEL_HEIGHT)
 		var normalmap: Image = data.get_image(HTerrainData.CHANNEL_NORMAL)
 		var colormap: Image = data.get_image(HTerrainData.CHANNEL_COLOR)
 
 		if z_start >= 0 && z_start < z_end && z_end <= heightmap.get_height() && x_start >= 0 && x_start < x_end && x_end <= heightmap.get_width():
-			var offset = 0
-			var compare = 0
-			var l_scale = 90/PI
-			var w_scale = 45/PI
+			#var offset = 0
+			#var compare = 0
+			#var l_scale = 90/PI
+			#var w_scale = 45/PI
 			
-			if length != 0:
-				offset = x_start / l_scale
-				compare = floor(offset) + 0.75
-				if offset > compare:
-					x_start = round(floor(offset) * l_scale)
-				else:
-					x_start = round(ceil(offset) * l_scale)
-				
-				offset = x_end/l_scale
-				compare = floor(offset) + 0.75
-				if offset > compare:
-					x_end = round(ceil(offset) * l_scale)
-				else:
-					x_end = round(floor(offset) * l_scale)
-			if width != 0:
-				offset = z_start / w_scale
-				compare = floor(offset) + 0.75
-				if offset > compare:
-					z_start = round(floor(offset) * w_scale)
-				else:
-					z_start = round(ceil(offset) * w_scale)
-				
-				offset = z_end/w_scale
-				compare = floor(offset) + 0.75
-				if offset > compare:
-					z_end = round(ceil(offset) * w_scale)
-				else:
-					z_end = round(floor(offset) * w_scale)
+			#if length != 0:
+				#offset = x_start / l_scale
+				#compare = floor(offset) + 0.75
+				#if offset > compare:
+					#x_start = round(floor(offset) * l_scale)
+				#else:
+					#x_start = round(ceil(offset) * l_scale)
+				#
+				#offset = x_end/l_scale
+				#compare = floor(offset) + 0.75
+				#if offset > compare:
+					#x_end = round(ceil(offset) * l_scale)
+				#else:
+					#x_end = round(floor(offset) * l_scale)
+			#if width != 0:
+				#offset = z_start / w_scale
+				#compare = floor(offset) + 0.75
+				#if offset > compare:
+					#z_start = round(floor(offset) * w_scale)
+				#else:
+					#z_start = round(ceil(offset) * w_scale)
+				#
+				#offset = z_end/w_scale
+				#compare = floor(offset) + 0.75
+				#if offset > compare:
+					#z_end = round(ceil(offset) * w_scale)
+				#else:
+					#z_end = round(floor(offset) * w_scale)
 			width *= PI
 			length *= PI
 			for z in range(z_start, z_end):
 				for x in range(x_start, x_end):
-					var y = amplitude * sin(length * x * (PI/90)) * cos(width * z * (PI/90));
-					var dy_dx = amplitude * length * cos(length * x * (PI/90)) * cos(width * z * (PI/90));
-					var dy_dz = -amplitude * sin(length *x * (PI/90)) * sin(width * z * (PI/90));
+					var y = amplitude * sin(width * deg_to_rad(x)) * cos(length * deg_to_rad(z));
+					var dy_dx = amplitude * width * deg_to_rad(x) * cos(width * deg_to_rad(x)) * cos(length * deg_to_rad(z));
+					var dy_dz = -amplitude * length * deg_to_rad(z) * sin(width * deg_to_rad(x)) * sin(length * deg_to_rad(z));
 					var normal = Vector3(dy_dx, 1, dy_dz)
 					heightmap.set_pixel(x, z, Color(y, 0, 0))
 					normalmap.set_pixel(x, z, HTerrainData.encode_normal(normal))
