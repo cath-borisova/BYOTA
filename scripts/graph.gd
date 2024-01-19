@@ -83,9 +83,12 @@ func cancel():
 	self.visible = false
 
 func graph_default_position():
+	print("being called")
+	
 	var xr_origin_transform = %XROrigin3D.global_transform
 	var offset_vector = -xr_origin_transform.basis.z * offset_distance
 	self.global_transform.origin = xr_origin_transform.origin + offset_vector
 	self.rotation = Vector3(0,0,0)
-	#self.global_position = %XROrigin3D.global_position
-	self.global_position.y = %XRCamera3D.global_position.y - 0.4
+	self.global_position = %XROrigin3D.global_position
+	self.global_position.y += 0.5
+	my_y = self.global_position.y
