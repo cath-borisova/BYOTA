@@ -251,7 +251,8 @@ func map_default_position():
 	self.global_transform.origin = xr_origin_transform.origin + offset_vector
 
 	self.rotation = Vector3(0,0,0)		
-	my_y = 1
+	self.global_position.y = %XRCamera3D.global_position.y - 0.4
+	my_y = self.global_position.y
 	my_scale_x = 1
 	my_scale_z = 1
 	my_rotation = Vector3(0,0,0)

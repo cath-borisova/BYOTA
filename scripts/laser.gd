@@ -4,7 +4,7 @@ func _ready():
 	self.visible = false
 
 func _process(delta):
-	if %GraphRigidBody.visible
+	if %GraphRigidBody.visible:
 		self.scale.z = 100
 		self.position.z = -50
 
@@ -26,6 +26,8 @@ func _process(delta):
 				if result["collider_id"] == button.get_instance_id():
 					is_visible = true
 			self.visible = is_visible
+	else:
+		self.visible = false
 
 func _on_controller_button_pressed(button_name):
 	if button_name == "trigger_click" && %GraphRigidBody.visible:

@@ -3,25 +3,25 @@ var selector = null
 var right_hand = null
 var equation = null
 
-var x_symbols = {"0.23": ["2π", 2],
-	"0.20125": ["7π/4", 7/4],
-	"0.1725": ["3π/2", 3/2],
-	"0.14375": ["5π/4", 5/4],
+var x_symbols = {"0": ["2π", 2],
+	"0.02875": ["7π/4", 7/4],
+	"0.0575": ["3π/2", 3/2],
+	"0.08625": ["5π/4", 5/4],
 	"0.115": ["π", 1],
-	"0.08625": ["3π/4", 3/4],
-	"0.0575" : ["π/2", 1/2],
-	"0.02875": ["π/4", 1/4],
-	"0": ["0π", 0]}
+	"0.14375": ["3π/4", 3/4],
+	"0.1725" : ["π/2", 1/2],
+	"0.20125": ["π/4", 1/4],
+	"0.23": ["0π", 0]}
 	
-var z_symbols = {"-0.23": ["2π", 2],
-	"-0.20125": ["7π/4", 7/4],
-	"-0.1725": ["3π/2", 3/2],
-	"-0.14375": ["5π/4", 5/4],
+var z_symbols = {"0": ["2π", 2],
+	"-0.02875": ["7π/4", 7/4],
+	"-0.0575": ["3π/2", 3/2],
+	"-0.08625": ["5π/4", 5/4],
 	"-0.115": ["π", 1],
-	"-0.08625": ["3π/4", 3/4],
-	"-0.0575" : ["π/2", 1/2],
-	"-0.02875": ["π/4", 1/4],
-	"0": ["0π", 0]}
+	"-0.14375": ["3π/4", 3/4],
+	"-0.1725" : ["π/2", 1/2],
+	"-0.20125": ["π/4", 1/4],
+	"-0.23": ["0π", 0]}
 
 func _ready():
 	selector = self.name.substr(0, 1)
@@ -69,14 +69,14 @@ func _process(_delta):
 			if closest_point[0] != 0:
 				point = round(closest_point.x * 100000) / 100000
 			%Model.scale.x = clamp(self.position.x * 0.0065, 0.0000001, 0.0015)
-			globals.x_axis_number_symbol = [self.global_position.x, x_symbols[str(point)][0], x_symbols[str(point)][1]]
+			globals.x_axis_number_symbol = [self.global_position.x, x_symbols[str(point)], x_symbols[str(point)][1]]
 			
 		if selector == "Y":
 			var right_pos = self.to_local(%RightController.global_position)
 			self.position.y = clamp(right_pos.y, 0,  0.23)
 			%Model.scale.y = clamp(self.position.y * 0.0065, 0.0000001, 0.0015)
-			var scaled_point = clamp(round(self.position.y * 217.39), 0, 50)
-			globals.y_axis_number = scaled_point
+			var scaled_point = clamp(round(self.position.y * 108.7), 0, 25)
+			globals.y_axis_number = [scaled_point, clamp(round(scaled_point * 5.13), 0, 513)]
 		
 		if selector == "Z":
 			var z_fixed_points = [Vector3(self.position.x, self.position.y, -0.23),
@@ -97,7 +97,7 @@ func _process(_delta):
 				point = round(closest_point.z * 100000) / 100000
 			globals.z_axis_number_symbol =  [self.global_position.z, z_symbols[str(point)], z_symbols[str(point)][1]]
 			%Model.scale.z = clamp(-self.position.z * 0.0065, 0.0000001, 0.0015)
-	var amplitude = str(globals.y_axis_number)
+	var amplitude = str(globals.y_axis_number[0])
 	var width = globals.x_axis_number_symbol[1][0]
 	var length =  globals.z_axis_number_symbol[1][0]
 	equation.text =  "Amplitude: " + amplitude + "\nWidth: " + width + "\nLength: " + length + "\ny = " + amplitude + "×sin(" + width+"×x)×cos("+length+"×z)"

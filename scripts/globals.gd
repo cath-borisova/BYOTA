@@ -4,7 +4,7 @@ var active_grabbers = []
 var active_selected = []
 var terrian_info = null
 var x_axis_number_symbol = [0.115, "π", 1]
-var y_axis_number = 25
+var y_axis_number = [13, 128]
 var z_axis_number_symbol = [-0.115, "π", 1]
 
 
