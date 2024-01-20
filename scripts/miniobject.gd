@@ -11,10 +11,10 @@ var left_hand_grabbed = false
 var offset_distance = 0.05
 var right_controller = null
 var left_controller = null
+var user = null
 var copy = null
 var first = true
 var globals = null
-
 func _ready():
 	mapRigidBody = get_node("../MapRigidBody")
 	map = get_node("../MapRigidBody/Map")
@@ -22,6 +22,7 @@ func _ready():
 	ground = get_node("../Ground")
 	right_controller = get_node("../XROrigin3D/RightController")
 	left_controller = get_node("../XROrigin3D/LeftController")
+	user = get_node("../XROrigin3D/")
 	self.can_sleep = false
 	globals = get_node("/root/Globals")
 func _process(_delta):
@@ -70,7 +71,8 @@ func _process(_delta):
 			var equation = globals.get_equation((big_position.x+50)*5.13,(big_position.z+50)*5.13)
 			#print("y = ", equation[0], " * sin(",equation[1]," * ", copy.global_position.x, ") * cos(", equation[2], " * ", copy.global_position.z, ")") 
 			get_node("/root/Main/"+copy.name+"/equation").text = "y = "+ str(equation[0]) + " * sin(" + str(equation[1]) + " * " + str(round(copy.global_position.x*pow(10,3))/pow(10,3)) + ") * cos("+ str(equation[2])+ " * "+ str(round(copy.global_position.z*pow(10,3))/pow(10,3)) + ")"
-			#.get_child("equation").text = "y = "+ str(equation[0]) + " * sin(" + str(equation[1]) + " * " + str(new_shape.global_position.x) + ") * cos("+ str(equation[2])+ " * "+ str(new_shape.global_position.z) + ")"
+			copy.find_child("equation").visible = false
+				
 		elif area3d.overlaps_body(ground):
 			self.queue_free()
 				
@@ -89,4 +91,13 @@ func _process(_delta):
 		globals.transform(self, right_controller)
 	elif left_hand_grabbed:
 		globals.transform(self, left_controller)
-		
+	
+	var large_objects = get_tree().get_nodes_in_group("large_objects")
+	var closest_object = large_objects[0]
+	for object in large_objects:
+		if user.global_position.distance_to(object.global_position) <= user.global_position.distance_to(closest_object.global_position) and object.name != "node_large_objects":
+			closest_object = object
+			closest_object.find_child("equation").visible = true
+		elif object.name != "node_large_objects":
+			object.find_child("equation").visible = false
+	

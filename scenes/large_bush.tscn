@@ -15,7 +15,8 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.123176, 0.538831, 0.112889
 shape = SubResource("BoxShape3D_oscsn")
 
 [node name="equation" type="Label3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.1588, 0)
-billboard = 1
+billboard = 2
 font_size = 24
 outline_size = 8
