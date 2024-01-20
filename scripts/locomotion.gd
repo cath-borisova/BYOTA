@@ -83,7 +83,6 @@ func _process_input(input_name: String, input_value: Vector2):
 
 func _on_right_controller_button_pressed(button_name):
 	if button_name == "by_button":
-		print("CHANGE")
 		compass_mode += 1
 		if compass_mode == 5:
 			compass_mode = 1

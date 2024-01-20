@@ -30,6 +30,7 @@ var mini_object = null
 
 var hand_grabbed_user = false
 
+
 var globals = null
 func _ready():
 	selection_box = null
@@ -97,6 +98,16 @@ func _on_left_button_pressed(button_name):
 						%Tree.visible = true
 						%Bush.visible = true
 						%Rock.visible = true
+	if button_name == "by_button":
+		if %Tree.visible:
+			
+			%Tree.visible = false
+			%Rock.visible = false
+			%Bush.visible = false
+		else:
+			%Tree.visible = true
+			%Rock.visible = true
+			%Bush.visible = true
 	if button_name == "ax_button"  && !%GraphRigidBody.visible:
 		if map_visible:
 			map_visible = false
@@ -229,10 +240,6 @@ func set_corner(corner, pos):
 		$Map/SelectionBox.mesh.material.set_shader_parameter("corner2", corner2)
 			
 func generate_terrain(amplitude, width, length, string_width, string_length):
-	print("generate terrain is called with")
-	print("amplitude: ", amplitude)
-	print("width: ", width)
-	print("length: ", length)
 	var adjusted_corner2 = Vector2(round((-corner2.x) * 1026), round((-corner2.y) * 1026))
 	var adjusted_corner1 = Vector2(round((-corner1.x) * 1026), round((-corner1.y) * 1026))
 	get_node("/root/Main")._edit(512 - clamp(max(adjusted_corner1.y, adjusted_corner2.y), 0, 512), 512 - clamp(min(adjusted_corner1.y, adjusted_corner2.y), 0, 512), 512 - clamp(max(adjusted_corner1.x, adjusted_corner2.x), 0, 512), 512 - clamp(min(adjusted_corner1.x, adjusted_corner2.x), 0, 512), amplitude, width, length, string_width, string_length)
@@ -241,7 +248,7 @@ func generate_terrain(amplitude, width, length, string_width, string_length):
 	for object in large_objects:
 		var globals = get_node("/root/Globals")
 		var terrain_data = globals.terrian_info
-		var big_height = terrain_data.get_height_at((object.global_position.x+50)*5.13,(object.global_position.z+50)*5.13)
+		var big_height =  terrain_data.get_height_at((object.global_position.x+50)*5.13, (object.global_position.z+50)*5.13)
 		if big_height > 0:
 			object.global_position.y = big_height / 5.13 + 0.2
 		elif big_height < 0:
@@ -250,11 +257,7 @@ func generate_terrain(amplitude, width, length, string_width, string_length):
 			object.global_position.y = 0
 
 func map_default_position():
-	var xr_origin_transform = %XROrigin3D.global_transform
-	var offset_vector = -xr_origin_transform.basis.z * offset_distance
-	self.global_transform.origin = xr_origin_transform.origin + offset_vector
-
-	self.rotation = Vector3(0,0,0)		
+	globals.position_relative_to_user(self)
 	self.global_position.y += 0.5
 	my_y = self.global_position.y
 	my_scale_x = 1

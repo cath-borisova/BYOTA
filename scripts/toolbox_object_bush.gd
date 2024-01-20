@@ -4,13 +4,14 @@ var camera = null
 var right_hand = null
 var left_hand = null
 var count = 0
+var globals = null
 
 func _ready():
 	camera = %XRCamera3D
 	right_hand = %RightController
 	left_hand =  %LeftController
 	self.freeze = true
-
+	globals = get_node("/root/Globals")
 
 func _process(_delta):
 	if %MapRigidBody.visible:
@@ -34,13 +35,14 @@ func _process(_delta):
 				left_hand.grabbed_object = new_shape
 		else:
 			var new_position = camera.global_position + -(camera.global_transform).basis.z.normalized() * 0.5 - -(camera.global_transform).basis.x.normalized() * 0.2
-			new_position.y = 1.4
+			new_position.y = %XROrigin3D.global_position.y + 0.7
 			
 			self.global_transform.origin = new_position
 			var projected_camera_pos = camera.global_position
-			projected_camera_pos.y = 1.2
+			projected_camera_pos.y = %XROrigin3D.global_position.y + 0.7
 			
 			self.look_at(projected_camera_pos, Vector3(0, 1, 0))
+			#globals.position_above_user(self)
 	else:
 		self.visible = false
 		
