@@ -71,14 +71,13 @@ func _process(_delta):
 			
 			#%Model.scale.x = clamp(self.position.x * 0.0065, 0.0000001, 0.0015)
 			globals.x_axis_number_symbol = [x_symbols[str(point)][0], x_symbols[str(point)][1]]
-			print(globals.x_axis_number_symbol)
 			#%Model.create_mesh(globals.y_axis_number[0], globals.x_axis_number_symbol[2] * PI, globals.z_axis_number_symbol[2] * PI)
 		if selector == "Y":
 			var right_pos = self.to_local(%RightController.global_position)
 			self.position.y = clamp(right_pos.y, 0,  0.23)
 			#%Model.scale.y = clamp(self.position.y * 0.0065, 0.0000001, 0.0015)
-			var scaled_point = clamp(round(self.position.y * 43.48), 0, 10)
-			globals.y_axis_number = [scaled_point, clamp(round(scaled_point * 5.13), 0, 51)]
+			var scaled_point = clamp(round(self.position.y * 87), 0, 20)
+			globals.y_axis_number = [scaled_point, clamp(round(scaled_point * globals.hterrain_constant), 0, 103)]
 			#%Model.create_mesh(globals.y_axis_number[0], globals.x_axis_number_symbol[2] * PI, globals.z_axis_number_symbol[2] * PI)
 		if selector == "Z":
 			var z_fixed_points = [Vector3(self.position.x, self.position.y, -0.23),

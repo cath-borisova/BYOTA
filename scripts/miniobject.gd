@@ -27,7 +27,7 @@ func _ready():
 func _process(_delta):
 	if released && !in_map:
 		if area3d.overlaps_body(mapRigidBody):
-			print("here")
+			#print("collision")
 			if first:
 				var position = self.global_position
 				self.get_parent().remove_child(self)
@@ -37,9 +37,12 @@ func _process(_delta):
 				map.add_child(self)
 				self.global_position = position
 			self.freeze = true
-
-			if self.position.x < -0.25 || self.position.x > 0.25 || self.position.z < -0.25 || self.position.z > 0.25:
-				print("did i get deleted?")
+			#print(self.position)
+			if self.position.x < -0.5 || self.position.x > 0.5 || self.position.z < -0.5 || self.position.z > 0.5:
+				#print("here")
+				if copy != null:
+					copy.queue_free()
+					copy = null
 				self.queue_free()
 			self.position.y = 0.001
 			self.rotation = Vector3(0,0,0)
@@ -51,38 +54,30 @@ func _process(_delta):
 			copy.name = "Large - " + self.name
 			get_node("/root/Main").add_child(copy)
 			copy.add_to_group("large_objects")
-			var big_position = Vector3((200 * self.position.x), 0.1, (200* self.position.z))
+			var big_position = globals.map_local_to_global_pos(self.position.x, self.position.z)
+			#var big_position = Vector3((200 * self.position.x), 0.1, (200* self.position.z))
 			copy.scale = Vector3($Object.scale.x * 100, $Object.scale.y * 100, $Object.scale.z * 100)
 			copy.rotation = $Object.rotation
 			var globals = get_node("/root/Globals")
 			var terrain_data = globals.terrian_info
-			var big_height = terrain_data.get_height_at((big_position.x+50)*5.13,(big_position.z+50)*5.13)
+			var big_height = globals.get_height(big_position.x, big_position.z)
 			
-			if big_height > 0:
+			if big_height != 0:
 				copy.global_position = big_position
-				copy.global_position.y = big_height / 5.13 + 0.2
-			elif big_height < 0:
-				copy.global_position = big_position
-				copy.global_position.y = big_height / 5.13 - 0.2
+				copy.global_position.y = big_height / globals.hterrain_constant
+			#elif big_height < 0:
+				#copy.global_position = big_position
+				#copy.global_position.y = big_height / globals.hterrain_constant - 0.2
 			else:
 				copy.global_position = big_position
 			# y = equations[x][z][0] * sin(equations[x][z][1] * x) * cos(equations[x][z][2] * z)
-			var equation = globals.get_equation((big_position.x+50)*5.13,(big_position.z+50)*5.13)
+			var equation = globals.get_equation(globals.global_to_hterrain(big_position.x, big_position.y))
 			#print("y = ", equation[0], " * sin(",equation[1]," * ", copy.global_position.x, ") * cos(", equation[2], " * ", copy.global_position.z, ")") 
 			get_node("/root/Main/"+copy.name+"/equation").text = "y = "+ str(equation[0]) + " * sin(" + str(equation[1]) + " * " + str(round(copy.global_position.x*pow(10,3))/pow(10,3)) + ") * cos("+ str(equation[2])+ " * "+ str(round(copy.global_position.z*pow(10,3))/pow(10,3)) + ")"
 			#.get_child("equation").text = "y = "+ str(equation[0]) + " * sin(" + str(equation[1]) + " * " + str(new_shape.global_position.x) + ") * cos("+ str(equation[2])+ " * "+ str(new_shape.global_position.z) + ")"
-		elif area3d.overlaps_body(ground):
-			self.queue_free()
 				
-				
-	if area3d.overlaps_body(ground):
-		print("am i hitting ground?")
-		if copy != null:
-			copy.queue_free()
-			copy = null
-		self.queue_free()
 	if right_hand_grabbed && left_hand_grabbed:
-		print("two hands")
+		#print("two hands")
 		var difference = globals.spindle(self)
 		$Object.scale = Vector3(difference, difference, difference)
 		$CollisionShape3D.scale = Vector3(difference, difference, difference)

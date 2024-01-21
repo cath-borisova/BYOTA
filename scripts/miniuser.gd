@@ -26,10 +26,10 @@ func _process(delta):
 		globals.transform(self, left_controller)
 		
 func teleport():
-	if self.position.x < -0.25 || self.position.x > 0.25 || self.position.z < -0.25 || self.position.z > 0.25:
+	if self.position.x < -0.5 || self.position.x > 0.5 || self.position.z < -0.5 || self.position.z > 0.5:
 		self.position = Vector3(0, 0, 0)
 	else:
 		self.position.y = 0
 	map.visible = false
-	xr_origin.global_position = Vector3((200 * self.position.x), 0, (200* self.position.z))
+	xr_origin.global_position = globals.map_local_to_global_pos(self.position.x, self.position.z)
 	$compass.visible = true

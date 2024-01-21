@@ -20,8 +20,8 @@ func _ready():
 	self.set_surface_override_material(0, material)
 
 func create_mesh(amplitude, width, length):
-	print("width: ", width)
-	print("length: ", length)
+	#print("width: ", width)
+	#print("length: ", length)
 	amplitude *= 5
 	var model_mesh = SurfaceTool.new()
 	model_mesh.begin(Mesh.PRIMITIVE_TRIANGLES)
