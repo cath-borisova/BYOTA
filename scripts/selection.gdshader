@@ -8,6 +8,10 @@ void vertex() {
 	vec2 relative_displacement = VERTEX.xz - top_left;
 	vec2 displacement = corner2 - corner1;
 	VERTEX.xz =  corner1 + mix(vec2(0, 0), displacement, relative_displacement / (vec2(0.256, 0.256)));
+	//vec2 top_left = vec2(-0.25, -0.25);
+	//vec2 relative_displacement = VERTEX.xz - top_left;
+	//vec2 displacement = corner2 - corner1;
+	//VERTEX.xz =  corner1 + mix(vec2(0, 0), displacement, relative_displacement / (vec2(0.5, 0.5)));
 }
 
 void fragment() {

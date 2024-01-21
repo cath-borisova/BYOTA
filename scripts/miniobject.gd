@@ -24,6 +24,7 @@ func _ready():
 	left_controller = get_node("../XROrigin3D/LeftController")
 	self.can_sleep = true
 	globals = get_node("/root/Globals")
+
 func _process(_delta):
 	if released && !in_map:
 		if area3d.overlaps_body(mapRigidBody):
@@ -69,7 +70,7 @@ func _process(_delta):
 			# y = equations[x][z][0] * sin(equations[x][z][1] * x) * cos(equations[x][z][2] * z)
 			var equation = globals.get_equation((big_position.x+50)*5.13,(big_position.z+50)*5.13)
 			#print("y = ", equation[0], " * sin(",equation[1]," * ", copy.global_position.x, ") * cos(", equation[2], " * ", copy.global_position.z, ")") 
-			get_node("/root/Main/"+copy.name+"/equation").text = "y = "+ str(equation[0]) + " * sin(" + str(equation[1]) + " * " + str(round(copy.global_position.x*pow(10,3))/pow(10,3)) + ") * cos("+ str(equation[2])+ " * "+ str(round(copy.global_position.z*pow(10,3))/pow(10,3)) + ")"
+			get_node("/root/Main/"+copy.name+"/equation").text = globals.get_equation(self.global_position.x, self.global_position.z)
 			copy.find_child("equation").visible = false
 				
 		elif area3d.overlaps_body(ground):
@@ -92,12 +93,5 @@ func _process(_delta):
 	elif left_hand_grabbed:
 		globals.transform(self, left_controller)
 	
-	var large_objects = get_tree().get_nodes_in_group("large_objects")
-	var closest_object = large_objects[0]
-	for object in large_objects:
-		if user.global_position.distance_to(object.global_position) <= user.global_position.distance_to(closest_object.global_position) and object.name != "node_large_objects":
-			closest_object = object
-			closest_object.find_child("equation").visible = true
-		elif object.name != "node_large_objects":
-			object.find_child("equation").visible = false
+
 	

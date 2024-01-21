@@ -13,6 +13,8 @@ var my_scale_x = 1
 var my_scale_z = 1
 
 var my_y = 1
+var my_x = 0
+var my_z = 0
 
 var offset_distance = 0.1
 
@@ -35,10 +37,15 @@ func _process(_delta):
 			elif right_hold_graph:
 				globals.transform(self, %RightController)
 				my_y = %RightController.global_position.y
+			else:
+				self.global_position.x = my_x
+				self.global_position.z = my_z
 		self.rotation = my_rotation
 		self.global_position.y = my_y
 		self.scale.x = my_scale_x
 		self.scale.z = my_scale_z
+		self.global_position.x = my_x
+		self.global_position.z = my_z
 
 func _on_left_button_pressed(button_name):
 	if button_name == "grip_click" && %LeftController/Area3D.overlaps_body(self):
@@ -77,7 +84,7 @@ func _on_right_button_released(button_name):
 func create():
 	self.visible = false
 	var globals = get_node("/root/Globals")
-	%MapRigidBody.generate_terrain(globals.y_axis_number[1], globals.x_axis_number_symbol[1], globals.z_axis_number_symbol[1], globals.x_axis_number_symbol[0], globals.z_axis_number_symbol[0])
+	%MapRigidBody.generate_terrain(globals.y_axis_number[0], globals.x_axis_number_symbol[1], globals.z_axis_number_symbol[1], globals.x_axis_number_symbol[0], globals.z_axis_number_symbol[0])
 
 func cancel():
 	self.visible = false
@@ -87,3 +94,5 @@ func graph_default_position():
 	self.global_position = %XROrigin3D.global_position
 	self.global_position.y += 0.5
 	my_y = self.global_position.y
+	my_x = self.global_position.x
+	my_z = self.global_position.z

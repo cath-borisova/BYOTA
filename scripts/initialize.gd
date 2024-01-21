@@ -23,6 +23,9 @@ var arrowhead = null
 var compass
 
 var globals = null
+var user = null
+
+var curr_object_displaying_equation = null
 func _ready():
 	xr_interface = XRServer.find_interface("OpenXR")
 	if xr_interface and xr_interface.is_initialized():
@@ -90,6 +93,8 @@ func _ready():
 	%GraphRigidBody/X_selector.position.x = 0.115
 	%GraphRigidBody/Z_selector.position.z = -0.115
 	%GraphRigidBody/Y_selector.position.y = 0.115
+	
+	user = %XROrigin3D
 #y = a * sin(b * (x)) where b is 2pi/b
 
 func _edit(z_start, z_end, x_start, x_end, amplitude, width, length, string_width, string_length):
@@ -179,3 +184,18 @@ func _process(_delta):
 	mini_user.position = Vector3((user_pos.x)/200, 0, (user_pos.z)/200)
 	mini_user.rotation.x = 0
 	mini_user.rotation.z = 0
+	
+	var large_objects = get_tree().get_nodes_in_group("large_objects")
+	if large_objects.size() > 0:
+		var closest_object = large_objects[0]
+		for object in large_objects:
+			if user.global_position.distance_to(object.global_position) <= user.global_position.distance_to(closest_object.global_position):
+				closest_object = object
+				#closest_object.find_child("equation").visible = true
+			elif curr_object_displaying_equation != null && object == curr_object_displaying_equation:
+				object.find_child("equation").visible = false
+		if user.global_position.distance_to(closest_object.global_position) < 10:
+			curr_object_displaying_equation = closest_object
+			closest_object.find_child("equation").visible = true
+		else:
+			curr_object_displaying_equation = null

@@ -248,13 +248,15 @@ func generate_terrain(amplitude, width, length, string_width, string_length):
 	for object in large_objects:
 		var globals = get_node("/root/Globals")
 		var terrain_data = globals.terrian_info
-		var big_height =  terrain_data.get_height_at((object.global_position.x+50)*5.13, (object.global_position.z+50)*5.13)
+		var new_coordinates = globals.global_to_hterrain(object.global_position.x, object.global_position.z)
+		var big_height =  terrain_data.get_height_at(new_coordinates.x, new_coordinates.y)
 		if big_height > 0:
 			object.global_position.y = big_height / 5.13 + 0.2
 		elif big_height < 0:
 			object.global_position.y = big_height / 5.13 - 0.2
 		else:
 			object.global_position.y = 0
+		object.find_child("equation").text = globals.get_equation(object.global_position.x, object.global_position.z)
 
 func map_default_position():
 	globals.position_relative_to_user(self)
