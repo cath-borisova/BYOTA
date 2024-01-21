@@ -100,7 +100,6 @@ func _on_left_button_pressed(button_name):
 						%Rock.visible = true
 	if button_name == "by_button":
 		if %Tree.visible:
-			
 			%Tree.visible = false
 			%Rock.visible = false
 			%Bush.visible = false
@@ -112,6 +111,9 @@ func _on_left_button_pressed(button_name):
 		if map_visible:
 			map_visible = false
 			self.visible = map_visible
+			%Tree.visible = false
+			%Rock.visible = false
+			%Bush.visible = false
 		else:
 			map_visible = true
 			self.visible = map_visible
@@ -135,6 +137,9 @@ func _on_left_button_released(button_name):
 		$Map/SelectionBox.visible = false
 		map_visible = false
 		self.visible = map_visible
+		%Tree.visible = false
+		%Rock.visible = false
+		%Bush.visible = false
 	if button_name == "grip_click" && hand_grabbed_user:
 		hand_grabbed_user = false
 		$Map/MiniUser.grabbed_left = false
@@ -178,6 +183,9 @@ func _on_right_button_pressed(button_name):
 		if map_visible:
 			map_visible = false
 			self.visible = map_visible
+			%Tree.visible = false
+			%Rock.visible = false
+			%Bush.visible = false
 		else:
 			map_visible = true
 			self.visible = map_visible
@@ -202,6 +210,9 @@ func _on_right_button_released(button_name):
 		$Map/SelectionBox.visible = false
 		map_visible = false 
 		self.visible = map_visible
+		%Tree.visible = false
+		%Rock.visible = false
+		%Bush.visible = false
 	if button_name == "grip_click" && hand_grabbed_user:
 		$Map/MiniUser.grabbed_right = false
 		$Map/MiniUser.teleport()
@@ -250,13 +261,14 @@ func generate_terrain(amplitude, width, length, string_width, string_length):
 		var terrain_data = globals.terrian_info
 		var new_coordinates = globals.global_to_hterrain(object.global_position.x, object.global_position.z)
 		var big_height =  terrain_data.get_height_at(new_coordinates.x, new_coordinates.y)
-		if big_height > 0:
-			object.global_position.y = big_height / 5.13 + 0.2
-		elif big_height < 0:
-			object.global_position.y = big_height / 5.13 - 0.2
-		else:
+		if big_height != 0:
+			object.global_position.y = (big_height / 5.13) + 0.2
+		#elif big_height < 0:
+			#object.global_position.y = (big_height / 5.13) - 0.2
+		#else:
 			object.global_position.y = 0
 		object.find_child("equation").text = globals.get_equation(object.global_position.x, object.global_position.z)
+		print(object.find_child("equation").text)
 
 func map_default_position():
 	globals.position_relative_to_user(self)

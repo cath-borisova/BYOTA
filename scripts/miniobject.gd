@@ -59,18 +59,18 @@ func _process(_delta):
 			var terrain_data = globals.terrian_info
 			var big_height = terrain_data.get_height_at((big_position.x+50)*5.13,(big_position.z+50)*5.13)
 			
-			if big_height > 0:
+			if big_height != 0:
 				copy.global_position = big_position
-				copy.global_position.y = big_height / 5.13 + 0.2
-			elif big_height < 0:
-				copy.global_position = big_position
-				copy.global_position.y = big_height / 5.13 - 0.2
+				copy.global_position.y = (big_height / 5.13) + 0.2
+			#elif big_height < 0:
+				#copy.global_position = big_position
+				#copy.global_position.y = big_height / 5.13 - 0.2
 			else:
 				copy.global_position = big_position
 			# y = equations[x][z][0] * sin(equations[x][z][1] * x) * cos(equations[x][z][2] * z)
 			var equation = globals.get_equation((big_position.x+50)*5.13,(big_position.z+50)*5.13)
 			#print("y = ", equation[0], " * sin(",equation[1]," * ", copy.global_position.x, ") * cos(", equation[2], " * ", copy.global_position.z, ")") 
-			get_node("/root/Main/"+copy.name+"/equation").text = globals.get_equation(self.global_position.x, self.global_position.z)
+			get_node("/root/Main/"+copy.name+"/equation").text = globals.get_equation(big_position.x, big_position.z)
 			copy.find_child("equation").visible = false
 				
 		elif area3d.overlaps_body(ground):

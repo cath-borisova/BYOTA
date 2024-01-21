@@ -14,8 +14,7 @@ func _ready():
 	globals = get_node("/root/Globals")
 
 func _process(_delta):
-	if %MapRigidBody.visible:
-		self.visible = true
+	if self.visible:
 		if self == right_hand.grabbed_object or self == left_hand.grabbed_object:
 			var new_shape_scene = load("res://scenes/mini_bush.tscn")
 			var new_shape = new_shape_scene.instantiate()
@@ -35,15 +34,14 @@ func _process(_delta):
 				left_hand.grabbed_object = new_shape
 		else:
 			var new_position = camera.global_position + -(camera.global_transform).basis.z.normalized() * 0.5 - -(camera.global_transform).basis.x.normalized() * 0.2
-			new_position.y = %XROrigin3D.global_position.y + 0.7
+			new_position.y = %XROrigin3D.global_position.y + 0.9
 			
 			self.global_transform.origin = new_position
 			var projected_camera_pos = camera.global_position
-			projected_camera_pos.y = %XROrigin3D.global_position.y + 0.7
+			projected_camera_pos.y = %XROrigin3D.global_position.y + 0.9
 			
 			self.look_at(projected_camera_pos, Vector3(0, 1, 0))
 			#globals.position_above_user(self)
-	else:
-		self.visible = false
+
 		
 	

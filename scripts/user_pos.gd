@@ -1,7 +1,7 @@
 extends Label3D
 
 var camera = null
-var equation = null
+var equation = 0
 var globals = null
 
 # Called when the node enters the scene tree for the first time.
@@ -13,7 +13,7 @@ func _ready():
 func _process(delta):
 	if %Tree.visible == false && %GraphRigidBody.visible == false:
 		self.visible = true
-		if !equation:
+		if equation == 0:
 			#change text to user position
 			#self.text = "X: " + str(round(%XROrigin3D.global_position.x*pow(10,2))/pow(10,2)) + "\nY: " + str(round(%XROrigin3D.global_position.y*pow(10,2))/pow(10,2)) + "\nZ: " + str(round(%XROrigin3D.global_position.z*pow(10,2))/pow(10,2))
 			var x_z = globals.global_to_hterrain(self.global_position.x, self.global_position.z)
@@ -21,17 +21,19 @@ func _process(delta):
 			var new_coordinates = globals.global_to_hterrain(self.global_position.x, self.global_position.z)
 			var y =  round(terrain_data.get_height_at(new_coordinates.x, new_coordinates.y))
 			self.text = "X: " + str(x_z.x) + "\nY: " + str(y) + "\nZ: " + str(x_z.y)
-		elif equation:
+		elif equation == 1:
 			
 			#var globals = get_node("/root/Globals")
 			#var equation = globals.get_equation(clamp(round((%XROrigin3D.global_position.x+50)*5.13), 0, 512), clamp(round((%XROrigin3D.global_position.z+50)*5.13), 0, 512))
 			#self.text = "y = "+ str(equation[0]) + " * sin(" + str(equation[1]) + " * " + str(round(%XROrigin3D.global_position.x*pow(10,2))/pow(10,2)) + ") * cos("+ str(equation[2])+ " * "+ str(round(%XROrigin3D.global_position.z*pow(10,2))/pow(10,2)) + ")"
-			self.text = globals.get_equation(self.global_position.x, self.global_position.z)	
+			self.text = globals.get_equation(self.global_position.x, self.global_position.z)
+		else:
+			self.visible = false	
 		var new_position = camera.global_position + -(camera.global_transform).basis.z.normalized() * 0.5
-		new_position.y = %XROrigin3D.global_position.y + 0.9
+		new_position.y = %XROrigin3D.global_position.y + 1.0
 		self.global_transform.origin = new_position
 		var projected_camera_pos = camera.global_position
-		projected_camera_pos.y = %XROrigin3D.global_position.y + 0.9
+		projected_camera_pos.y = %XROrigin3D.global_position.y + 1.0
 		self.look_at(projected_camera_pos, Vector3(0, 1, 0))
 	else:
 		self.visible = false
@@ -39,8 +41,10 @@ func _process(delta):
 	
 func _on_right_controller_button_pressed(button_name):
 	if button_name == "trigger_click" and !%MapRigidBody.visible:
-		equation = !equation
+		equation = (equation + 1) % 3
+		self.visible = true
 
 func _on_left_controller_button_pressed(button_name):
 	if button_name == "trigger_click" and !%MapRigidBody.visible:
-		equation = !equation
+		equation = (equation + 1) % 3
+		self.visible = true

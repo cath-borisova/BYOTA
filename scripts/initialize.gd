@@ -175,15 +175,17 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length, string_widt
 func _process(_delta):
 	var user_pos = %XROrigin3D.global_position
 	var height = terrain_data.get_height_at((user_pos.x+50)*5.13,(user_pos.z+50)*5.13)
-	if height != 0:
-		%XROrigin3D.global_position.y = (height / 5.13) + 1.0
-	else:
-		%XROrigin3D.global_position.y = 1.0
-	
 	mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)
 	mini_user.position = Vector3((user_pos.x)/200, 0, (user_pos.z)/200)
 	mini_user.rotation.x = 0
 	mini_user.rotation.z = 0
+	if height != 0:
+		%XROrigin3D.global_position.y = (height / 5.13) + 1.0
+		mini_user.position.y = (%XROrigin3D.global_position.y - 1.0) / 100
+	else:
+		%XROrigin3D.global_position.y = 1.0
+	
+	
 	
 	var large_objects = get_tree().get_nodes_in_group("large_objects")
 	if large_objects.size() > 0:
