@@ -230,9 +230,9 @@ func release_mini_object():
 	left_hand_grabbed_mini = false
 	mini_object.right_hand_grabbed = false
 	mini_object.left_hand_grabbed = false
-	if mini_object.copy != null:
-		mini_object.copy.queue_free()
-	mini_object.copy = null
+	#if mini_object.copy != null:
+		#mini_object.copy.queue_free()
+	#mini_object.copy = null
 	mini_object.released = true
 	mini_object.freeze = false
 	mini_object.linear_velocity = Vector3(0, -0.1, 0)

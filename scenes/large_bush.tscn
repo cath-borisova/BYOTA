@@ -1,11 +1,13 @@
-[gd_scene load_steps=3 format=3 uid="uid://brnfc2yho4siu"]
+[gd_scene load_steps=4 format=3 uid="uid://brnfc2yho4siu"]
 
+[ext_resource type="Script" path="res://scripts/largeobject.gd" id="1_ijd7i"]
 [ext_resource type="PackedScene" uid="uid://dx8axs4bepxp5" path="res://FBX/BushBerries_2.fbx" id="1_nqpss"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_oscsn"]
 size = Vector3(0.872753, 0.916838, 1)
 
 [node name="Large Bush" type="StaticBody3D"]
+script = ExtResource("1_ijd7i")
 
 [node name="BushBerries_2" parent="." instance=ExtResource("1_nqpss")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0385039, 0)
