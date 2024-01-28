@@ -30,13 +30,19 @@ func _process(_delta):
 			my_scale_z = difference
 			my_rotation = self.rotation
 			my_y = self.global_position.y
+			my_x = self.global_position.x
+			my_z = self.global_position.z
 		else:
 			if left_hold_graph:
 				globals.transform(self, %LeftController)
 				my_y = %LeftController.global_position.y
+				my_x = self.global_position.x
+				my_z = self.global_position.z
 			elif right_hold_graph:
 				globals.transform(self, %RightController)
 				my_y = %RightController.global_position.y
+				my_x = self.global_position.x
+				my_z = self.global_position.z
 			else:
 				self.global_position.x = my_x
 				self.global_position.z = my_z

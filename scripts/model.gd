@@ -20,8 +20,8 @@ func _ready():
 	self.set_surface_override_material(0, material)
 
 func create_mesh(amplitude, width, length):
-	print("width: ", width)
-	print("length: ", length)
+	#print("width: ", width)
+	#print("length: ", length)
 	amplitude *= 5
 	var model_mesh = SurfaceTool.new()
 	model_mesh.begin(Mesh.PRIMITIVE_TRIANGLES)
@@ -69,4 +69,4 @@ func _process(_delta):
 			amplitude = globals.y_axis_number[0]
 			width = globals.x_axis_number_symbol[1]
 			length = globals.z_axis_number_symbol[1] 
-			create_mesh(amplitude, width * PI, length * PI)
+			create_mesh(round(amplitude * 0.6), width * PI, length * PI)

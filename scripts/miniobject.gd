@@ -28,7 +28,7 @@ func _ready():
 func _process(_delta):
 	if released && !in_map:
 		if area3d.overlaps_body(mapRigidBody):
-			print("here")
+			#print("here")
 			if first:
 				var position = self.global_position
 				self.get_parent().remove_child(self)
@@ -40,7 +40,7 @@ func _process(_delta):
 			self.freeze = true
 
 			if self.position.x < -0.25 || self.position.x > 0.25 || self.position.z < -0.25 || self.position.z > 0.25:
-				print("did i get deleted?")
+				#print("did i get deleted?")
 				self.queue_free()
 			self.position.y = 0.001
 			self.rotation = Vector3(0,0,0)
@@ -78,13 +78,13 @@ func _process(_delta):
 				
 				
 	if area3d.overlaps_body(ground):
-		print("am i hitting ground?")
+		#print("am i hitting ground?")
 		if copy != null:
 			copy.queue_free()
 			copy = null
 		self.queue_free()
 	if right_hand_grabbed && left_hand_grabbed:
-		print("two hands")
+		#print("two hands")
 		var difference = globals.spindle(self)
 		$Object.scale = Vector3(difference, difference, difference)
 		$CollisionShape3D.scale = Vector3(difference, difference, difference)

@@ -71,7 +71,7 @@ func _process(_delta):
 			
 			#%Model.scale.x = clamp(self.position.x * 0.0065, 0.0000001, 0.0015)
 			globals.x_axis_number_symbol = [x_symbols[str(point)][0], x_symbols[str(point)][1]]
-			print(globals.x_axis_number_symbol)
+			#print(globals.x_axis_number_symbol)
 			#%Model.create_mesh(globals.y_axis_number[0], globals.x_axis_number_symbol[2] * PI, globals.z_axis_number_symbol[2] * PI)
 		if selector == "Y":
 			var right_pos = self.to_local(%RightController.global_position)
