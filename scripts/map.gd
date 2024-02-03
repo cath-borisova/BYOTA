@@ -121,25 +121,26 @@ func _on_left_button_pressed(button_name):
 			%Bush.visible = true
 			%Rock.visible = true
 			map_default_position()
-	if !left_hold_map && button_name == "trigger_click":
+	if !left_hold_map && button_name == "trigger_click" && map_visible:
 		left_selecting = true
 		set_corner(2, %LeftController.global_position)
-		set_corner(1, %RightController.global_position)
+		set_corner(1, %LeftController.global_position)
 		$Map/SelectionBox.visible = true
 		
 
 func _on_left_button_released(button_name):
-	if button_name == "trigger_click" && left_selecting:
+	if button_name == "trigger_click" && left_selecting && map_visible:
 		left_selecting = false
-		set_corner(2, %LeftController.global_position)		
-		%GraphRigidBody.visible = true
-		%GraphRigidBody.graph_default_position()
+		set_corner(2, %LeftController.global_position)	
+		if corner1.distance_to(corner2) > 0.1:	
+			%GraphRigidBody.visible = true
+			%GraphRigidBody.graph_default_position()
+			map_visible = false
+			self.visible = map_visible
+			%Tree.visible = false
+			%Rock.visible = false
+			%Bush.visible = false
 		$Map/SelectionBox.visible = false
-		map_visible = false
-		self.visible = map_visible
-		%Tree.visible = false
-		%Rock.visible = false
-		%Bush.visible = false
 	if button_name == "grip_click" && hand_grabbed_user:
 		hand_grabbed_user = false
 		$Map/MiniUser.grabbed_left = false
@@ -205,14 +206,16 @@ func _on_right_button_released(button_name):
 	if button_name == "trigger_click" && right_selecting:
 		right_selecting = false
 		set_corner(2, %RightController.global_position)
-		%GraphRigidBody.visible = true
-		%GraphRigidBody.graph_default_position()
+		print(corner1.distance_to(corner2))
+		if corner1.distance_to(corner2) > 0.1:
+			%GraphRigidBody.visible = true
+			%GraphRigidBody.graph_default_position()
+			map_visible = false 
+			self.visible = map_visible
+			%Tree.visible = false
+			%Rock.visible = false
+			%Bush.visible = false
 		$Map/SelectionBox.visible = false
-		map_visible = false 
-		self.visible = map_visible
-		%Tree.visible = false
-		%Rock.visible = false
-		%Bush.visible = false
 	if button_name == "grip_click" && hand_grabbed_user:
 		$Map/MiniUser.grabbed_right = false
 		$Map/MiniUser.teleport()

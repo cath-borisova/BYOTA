@@ -272,6 +272,7 @@ script = ExtResource("12_fc24a")
 
 [node name="SelectionBox" type="MeshInstance3D" parent="MapRigidBody"]
 unique_name_in_owner = true
+visible = false
 mesh = SubResource("PlaneMesh_pb36r")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="MapRigidBody"]
