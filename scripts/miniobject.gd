@@ -21,6 +21,7 @@ func _ready():
 	map = get_node("../MapRigidBody/Map")
 	area3d = $Area3D
 	ground = get_node("../Ground")
+	#/XRUser/
 	right_controller = get_node("../XROrigin3D/RightController")
 	left_controller = get_node("../XROrigin3D/LeftController")
 	self.can_sleep = true

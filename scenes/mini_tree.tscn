@@ -8,6 +8,7 @@ height = 4.5
 radius = 0.197945
 
 [node name="Mini Tree" type="RigidBody3D" groups=["grabbable"]]
+collision_mask = 7
 script = ExtResource("1_esyew")
 
 [node name="Object" parent="." instance=ExtResource("1_18yq0")]

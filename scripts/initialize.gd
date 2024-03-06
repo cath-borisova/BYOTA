@@ -35,6 +35,8 @@ var map_heightmap: Image = null
 var map_normalmap: Image = null
 var map_colormap: Image = null
 
+var rigid_body = null
+var collision_shape = null
 
 func _ready():
 	xr_interface = XRServer.find_interface("OpenXR")
@@ -60,6 +62,8 @@ func _ready():
 	terrain.position = Vector3(-50, 0,-50)
 	terrain.map_scale = Vector3(0.2, 0.2, 0.2)
 	terrain.name = "Ground"
+	#terrain.set_collision_mask_value(2, true)
+	#terrain.set_collision_mask_value(3, true)
 	add_child(terrain)
 	
 	
@@ -114,6 +118,27 @@ func _ready():
 	%GraphRigidBody/Y_selector.position.y = 0.115
 	
 	user = %XROrigin3D
+	#make new rigid body
+#	rigid_body = RigidBody3D.new()
+#	rigid_body.name = "XRUser"
+#	#rigid_body.freeze = true
+#	#rigid_body.set_collision_layer_value(1,	false)
+#	rigid_body.set_collision_layer_value(3,	true)
+#	rigid_body.set_collision_mask_value(2, true)
+#	rigid_body.set_collision_mask_value(3, true)
+#	add_child(rigid_body)
+#	#0.5, 1.5 0.5
+#	var shape = BoxShape3D.new()
+#	shape.extents = Vector3(0.25, 0.75, 0.25)
+#	#edit size
+#	collision_shape = CollisionShape3D.new()
+#	collision_shape.shape = shape
+#	collision_shape.global_position.y = 0.75
+#	$XRUser.add_child(collision_shape)
+#	var xrorigin = get_node("XROrigin3D")
+#	xrorigin.get_parent().remove_child(xrorigin)
+#	$XRUser.add_child(xrorigin)
+#	print(xrorigin.name)
 #y = a * sin(b * (x)) where b is 2pi/b
 
 func _edit(z_start, z_end, x_start, x_end, amplitude, width, length, string_width, string_length):
@@ -229,6 +254,7 @@ func _edit(z_start, z_end, x_start, x_end, amplitude, width, length, string_widt
 		#t.set_data(data)
 
 func _process(_delta):
+#Uncomment
 	var user_pos = %XROrigin3D.global_position
 	var height = terrain_data.get_height_at((user_pos.x+50)*5.13,(user_pos.z+50)*5.13)
 	mini_user.position = Vector3((user_pos.x + 50)/200, 0, (user_pos.z + 50)/200)

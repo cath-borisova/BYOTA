@@ -5,11 +5,12 @@ var right_hand = null
 var left_hand = null
 var count = 0
 var globals = null
-
+var xrorigin = null
 func _ready():
 	camera = %XRCamera3D
 	right_hand = %RightController
 	left_hand =  %LeftController
+	xrorigin = %XROrigin3D
 	self.freeze = true
 	globals = get_node("/root/Globals")
 
@@ -35,10 +36,10 @@ func _process(_delta):
 				left_hand.grabbed_object = new_shape
 		else:
 			var new_position = camera.global_position + -(camera.global_transform).basis.z.normalized() * 0.5
-			new_position.y = %XROrigin3D.global_position.y + 0.9
+			new_position.y = xrorigin.global_position.y + 0.9
 			self.global_transform.origin = new_position
 			var projected_camera_pos = camera.global_position
-			projected_camera_pos.y = %XROrigin3D.global_position.y + 0.9
+			projected_camera_pos.y = xrorigin.global_position.y + 0.9
 			self.look_at(projected_camera_pos, Vector3(0, 1, 0))
 		
 	

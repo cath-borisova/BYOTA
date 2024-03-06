@@ -7,6 +7,7 @@
 size = Vector3(0.35, 4, 0.315)
 
 [node name="mini_rock" type="RigidBody3D" groups=["grabbable"]]
+collision_mask = 7
 script = ExtResource("1_c4w16")
 
 [node name="Object" parent="." instance=ExtResource("2_6b1xx")]

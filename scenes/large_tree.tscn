@@ -8,6 +8,7 @@ height = 3.6366
 
 [node name="Large Tree" type="StaticBody3D" groups=["grabbable"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.823, 0.134069, 0)
+collision_mask = 7
 script = ExtResource("1_pci1f")
 
 [node name="Tree" parent="." instance=ExtResource("2_c48ya")]
@@ -18,6 +19,7 @@ transform = Transform3D(2, 0, 0, 0, 2, 0, 0, 0, 2, 0, 3.58159, 0)
 shape = SubResource("CylinderShape3D_mvuvt")
 
 [node name="equation" type="Label3D" parent="."]
+unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.499182, 4.20012, 1.4584)
 billboard = 2
 font_size = 24

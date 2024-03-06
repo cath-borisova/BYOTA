@@ -7,6 +7,7 @@
 size = Vector3(1, 4, 1)
 
 [node name="mini_bush" type="RigidBody3D" groups=["grabbable"]]
+collision_mask = 7
 script = ExtResource("1_n4c5r")
 
 [node name="Object" parent="." instance=ExtResource("2_i1srw")]

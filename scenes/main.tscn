@@ -1,4 +1,4 @@
-[gd_scene load_steps=65 format=3 uid="uid://d46wrkgdeynk"]
+[gd_scene load_steps=66 format=3 uid="uid://d46wrkgdeynk"]
 
 [ext_resource type="Script" path="res://scripts/initialize.gd" id="1_xecma"]
 [ext_resource type="Script" path="res://scripts/locomotion.gd" id="2_wmrq2"]
@@ -7,6 +7,7 @@
 [ext_resource type="Script" path="res://scripts/grabber.gd" id="4_chvv8"]
 [ext_resource type="Script" path="res://scripts/laser.gd" id="5_06lph"]
 [ext_resource type="Script" path="res://scripts/toolbox_object.gd" id="6_oq7cr"]
+[ext_resource type="Script" path="res://addons/godot-xr-tools/player/player_body.gd" id="7_1eqmn"]
 [ext_resource type="PackedScene" uid="uid://cae7cbybsmbd3" path="res://FBX/CommonTree_Snow_3.fbx" id="7_6frer"]
 [ext_resource type="Script" path="res://scripts/toolbox_object_bush.gd" id="8_0e0tr"]
 [ext_resource type="PackedScene" uid="uid://dx8axs4bepxp5" path="res://FBX/BushBerries_2.fbx" id="8_gsa2q"]
@@ -172,6 +173,7 @@ script = ExtResource("2_wmrq2")
 
 [node name="XRCamera3D" type="XRCamera3D" parent="XROrigin3D"]
 unique_name_in_owner = true
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1.6, 0)
 near = 0.01
 far = 1000.0
 
@@ -224,6 +226,12 @@ transform = Transform3D(0.001, 0, 0, 0, 0.001, 0, 0, 0, 1, 0.0108683, 0, -0.4634
 mesh = SubResource("BoxMesh_gcgl2")
 script = ExtResource("5_06lph")
 
+[node name="XRToolsPlayerBody" type="CharacterBody3D" parent="XROrigin3D"]
+top_level = true
+script = ExtResource("7_1eqmn")
+player_radius = 0.2
+push_rigid_bodies = true
+
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_pi0m0")
 
@@ -234,6 +242,8 @@ shadow_enabled = true
 [node name="Tree" type="RigidBody3D" parent="." groups=["grabbable"]]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.2, 0, 0)
+collision_layer = 2
+collision_mask = 7
 script = ExtResource("6_oq7cr")
 
 [node name="CommonTree_Snow_3" parent="Tree" instance=ExtResource("7_6frer")]
@@ -245,6 +255,8 @@ shape = SubResource("CylinderShape3D_mvuvt")
 
 [node name="Bush" type="RigidBody3D" parent="." groups=["grabbable"]]
 unique_name_in_owner = true
+collision_layer = 2
+collision_mask = 7
 script = ExtResource("8_0e0tr")
 
 [node name="BushBerries_2" parent="Bush" instance=ExtResource("8_gsa2q")]
@@ -257,6 +269,8 @@ shape = SubResource("BoxShape3D_otrah")
 [node name="Rock" type="RigidBody3D" parent="." groups=["grabbable"]]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, 0)
+collision_layer = 2
+collision_mask = 7
 script = ExtResource("10_vjn4b")
 
 [node name="Rock_Moss_1" parent="Rock" instance=ExtResource("11_t863o")]
@@ -268,6 +282,8 @@ shape = SubResource("BoxShape3D_6hb2v")
 
 [node name="MapRigidBody" type="RigidBody3D" parent="."]
 unique_name_in_owner = true
+collision_layer = 2
+collision_mask = 7
 script = ExtResource("12_fc24a")
 
 [node name="SelectionBox" type="MeshInstance3D" parent="MapRigidBody"]
@@ -281,6 +297,8 @@ shape = SubResource("HeightMapShape3D_gop3s")
 [node name="MiniUser" type="RigidBody3D" parent="."]
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.01, 0)
+collision_layer = 2
+collision_mask = 7
 script = ExtResource("15_4sv18")
 
 [node name="UserCircle" type="MeshInstance3D" parent="MiniUser"]
@@ -315,7 +333,7 @@ outline_size = 0
 unique_name_in_owner = true
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
 collision_layer = 2
-collision_mask = 3
+collision_mask = 7
 script = ExtResource("14_07dmt")
 
 [node name="X_selector" type="RigidBody3D" parent="GraphRigidBody" groups=["selected"]]
@@ -457,6 +475,7 @@ script = ExtResource("17_t7ggc")
 
 [node name="Create" type="RigidBody3D" parent="ExtraGraph" groups=["button"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.1, 0, 0)
+collision_mask = 7
 freeze = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ExtraGraph/Create"]
@@ -479,6 +498,7 @@ text = "filler"
 font_size = 14
 
 [node name="Cancel" type="RigidBody3D" parent="ExtraGraph" groups=["button"]]
+collision_mask = 7
 freeze = true
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="ExtraGraph/Cancel"]
