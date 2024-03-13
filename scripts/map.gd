@@ -72,6 +72,9 @@ func _process(_delta):
 		self.global_position.y = my_y
 		self.scale.x = my_scale_x
 		self.scale.z = my_scale_z
+	#else:
+		#if globals.item_showing == 3 :
+			#globals.item_showing = 0
 
 func _on_left_button_pressed(button_name):
 	if button_name == "grip_click":
@@ -95,31 +98,24 @@ func _on_left_button_pressed(button_name):
 						left_hold_map = true
 						map_visible = true
 						self.visible = map_visible
-						%Tree.visible = true
-						%Bush.visible = true
-						%Rock.visible = true
-	if button_name == "by_button":
-		if %Tree.visible:
-			%Tree.visible = false
-			%Rock.visible = false
-			%Bush.visible = false
-		else:
-			%Tree.visible = true
-			%Rock.visible = true
-			%Bush.visible = true
+						#%Tree.visible = true
+						#%Bush.visible = true
+						#%Rock.visible = true
+	#if button_name == "by_button":
+		#globals.item_showing = (globals.item_showing + 1/4)
 	if button_name == "ax_button"  && !%GraphRigidBody.visible:
 		if map_visible:
 			map_visible = false
 			self.visible = map_visible
-			%Tree.visible = false
-			%Rock.visible = false
-			%Bush.visible = false
+			#%Tree.visible = false
+			#%Rock.visible = false
+			#%Bush.visible = false
 		else:
 			map_visible = true
 			self.visible = map_visible
-			%Tree.visible = true
-			%Bush.visible = true
-			%Rock.visible = true
+			#%Tree.visible = true
+			#%Bush.visible = true
+			#%Rock.visible = true
 			map_default_position()
 	if !left_hold_map && button_name == "trigger_click" && map_visible:
 		left_selecting = true
@@ -137,9 +133,9 @@ func _on_left_button_released(button_name):
 			%GraphRigidBody.graph_default_position()
 			map_visible = false
 			self.visible = map_visible
-			%Tree.visible = false
-			%Rock.visible = false
-			%Bush.visible = false
+			#%Tree.visible = false
+			#%Rock.visible = false
+			#%Bush.visible = false
 		$Map/SelectionBox.visible = false
 	if button_name == "grip_click" && hand_grabbed_user:
 		hand_grabbed_user = false
@@ -176,23 +172,23 @@ func _on_right_button_pressed(button_name):
 						right_hold_map = true
 						map_visible = true
 						self.visible = map_visible
-						%Tree.visible = true
-						%Bush.visible = true
-						%Rock.visible = true
+						#%Tree.visible = true
+						#%Bush.visible = true
+						#%Rock.visible = true
 
 	if button_name == "ax_button" && !%GraphRigidBody.visible:
 		if map_visible:
 			map_visible = false
 			self.visible = map_visible
-			%Tree.visible = false
-			%Rock.visible = false
-			%Bush.visible = false
+			#%Tree.visible = false
+			#%Rock.visible = false
+			#%Bush.visible = false
 		else:
 			map_visible = true
 			self.visible = map_visible
-			%Tree.visible = true
-			%Bush.visible = true
-			%Rock.visible = true
+			#%Tree.visible = true
+			#%Bush.visible = true
+			#%Rock.visible = true
 			map_default_position()
 	if !right_hold_map && button_name == "trigger_click" && map_visible:
 		right_selecting = true
@@ -212,9 +208,9 @@ func _on_right_button_released(button_name):
 			%GraphRigidBody.graph_default_position()
 			map_visible = false 
 			self.visible = map_visible
-			%Tree.visible = false
-			%Rock.visible = false
-			%Bush.visible = false
+			#%Tree.visible = false
+			#%Rock.visible = false
+			#%Bush.visible = false
 		$Map/SelectionBox.visible = false
 	if button_name == "grip_click" && hand_grabbed_user:
 		$Map/MiniUser.grabbed_right = false

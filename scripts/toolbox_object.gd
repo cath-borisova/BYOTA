@@ -14,7 +14,8 @@ func _ready():
 	globals = get_node("/root/Globals")
 
 func _process(_delta):
-	if self.visible:
+	if globals.item_showing == 3 && %MapRigidBody.visible:
+		self.visible = true
 		if self == right_hand.grabbed_object or self == left_hand.grabbed_object:
 			var new_shape_scene = load("res://scenes/mini_tree.tscn")
 			var new_shape = new_shape_scene.instantiate()
@@ -40,5 +41,9 @@ func _process(_delta):
 			var projected_camera_pos = camera.global_position
 			projected_camera_pos.y = %XROrigin3D.global_position.y + 0.9
 			self.look_at(projected_camera_pos, Vector3(0, 1, 0))
+	else:
+		if globals.item_showing == 3:
+			globals.item_showing = 0
+		self.visible = false
 		
 	

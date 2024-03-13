@@ -257,3 +257,7 @@ func _process(_delta):
 			closest_object.find_child("equation").visible = true
 		else:
 			curr_object_displaying_equation = null
+
+
+func _on_left_controller_button_released(name):
+	pass # Replace with function body.

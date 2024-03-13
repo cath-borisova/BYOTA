@@ -14,7 +14,7 @@ var camera = null
 var equations = initializeArray() #[amplitude, width, length]
 
 var main = null
-
+var item_showing = 0 #0: nothing, 1: equation, 2: coordinates, 3: toolbox (if map open)
 func _ready():
 	xrorigin3d = get_node("/root/Main/XROrigin3D")
 	left = get_node("/root/Main/XROrigin3D/LeftController")
