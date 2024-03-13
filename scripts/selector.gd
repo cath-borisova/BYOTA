@@ -1,7 +1,7 @@
 extends RigidBody3D
 var selector = null
-var right_hand = null
 var equation = null
+var globals = null
 
 var x_symbols = {"0": ["2π", 2.0],
 	"0.02875": ["7π/4", 1.75],
@@ -25,9 +25,8 @@ var z_symbols = {"0": ["2π", 2.0],
 
 func _ready():
 	selector = self.name.substr(0, 1)
-	right_hand = %RightController
 	equation = %Equation
-	var globals = get_node("/root/Globals")
+	globals = get_node("/root/Globals")
 
 #find closest point from array 
 func find_closest_node_to_point(array, point):
@@ -41,8 +40,12 @@ func find_closest_node_to_point(array, point):
 	return closest
 
 func _process(_delta):
-	var globals = get_node("/root/Globals")
-	if self == right_hand.selected_object:
+	var controller = null
+	if self == %RightController.selected_object:
+		controller = %RightController
+	elif self == %LeftController.selected_object:
+		controller = %LeftController
+	if controller != null:
 		if selector == "X":
 			# 2pi = 0.23
 			# 7pi/4 = 0.20125
@@ -62,8 +65,8 @@ func _process(_delta):
 				Vector3(0.0575, self.position.y, self.position.z),
 				Vector3(0.02875, self.position.y, self.position.z),
 				Vector3(0, self.position.y, self.position.z)]
-			var right_pos = %GraphRigidBody.to_local(%RightController.global_position)
-			var closest_point = self.find_closest_node_to_point(x_fixed_points, right_pos)
+			var pos = %GraphRigidBody.to_local(controller.global_position)
+			var closest_point = self.find_closest_node_to_point(x_fixed_points, pos)
 			self.position = closest_point
 			var point = 0
 			if closest_point[0] != 0:
@@ -74,8 +77,8 @@ func _process(_delta):
 			#print(globals.x_axis_number_symbol)
 			#%Model.create_mesh(globals.y_axis_number[0], globals.x_axis_number_symbol[2] * PI, globals.z_axis_number_symbol[2] * PI)
 		if selector == "Y":
-			var right_pos = self.to_local(%RightController.global_position)
-			self.position.y = clamp(right_pos.y, 0,  0.23)
+			var pos = self.to_local(controller.global_position)
+			self.position.y = clamp(pos.y, 0,  0.23)
 			#%Model.scale.y = clamp(self.position.y * 0.0065, 0.0000001, 0.0015)
 			var scaled_point = clamp(round(self.position.y * 217.39), 0, 50)
 			globals.y_axis_number = [scaled_point]
@@ -91,8 +94,8 @@ func _process(_delta):
 				Vector3(self.position.x, self.position.y, -0.02875),
 				Vector3(self.position.x, self.position.y, 0)]
 				
-			var right_pos = %GraphRigidBody.to_local(%RightController.global_position)
-			var closest_point = self.find_closest_node_to_point(z_fixed_points, right_pos)
+			var pos = %GraphRigidBody.to_local(controller.global_position)
+			var closest_point = self.find_closest_node_to_point(z_fixed_points, pos)
 			self.position = closest_point
 			var point = 0
 			if closest_point[2] != 0:
