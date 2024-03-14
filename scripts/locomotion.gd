@@ -16,13 +16,25 @@ var snap_turn = true
 var returned_to_dead_zone = true
 
 var rotation_position = 0
+var previous_rotation = 0
 
 #1 = radians 2 = NESW 3=Coordinates
 var compass_mode = 1
 func _ready():
+	previous_rotation =  rad_to_deg($XRCamera3D.global_transform.basis.get_euler().y)
 	pass 
 
 func _process(_delta):
+	#camera movement
+	var camera_transform = $XRCamera3D.global_transform
+	var camera_rotation = rad_to_deg(camera_transform.basis.get_euler().y)
+#	#delta: get prevous - camera_rotation
+	var delta_rotation = previous_rotation - camera_rotation
+	
+	#rotate compass
+	%MapRigidBody/Map/MiniUser.rotate(Vector3.UP, deg_to_rad(delta_rotation))
+	previous_rotation = camera_rotation
+	
 	if self.input_vector.y > self.dead_zone || self.input_vector.y < -self.dead_zone:
 		var movement_vector = Vector3(0, 0, max_speed * -self.input_vector.y * _delta)
 		if camera_view:
