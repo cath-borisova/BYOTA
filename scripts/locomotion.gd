@@ -21,7 +21,7 @@ var previous_rotation = 0
 #1 = radians 2 = NESW 3=Coordinates
 var compass_mode = 1
 func _ready():
-	previous_rotation =  rad_to_deg($XRCamera3D.global_transform.basis.get_euler().y)
+	print(previous_rotation)
 	pass 
 
 func _process(_delta):
@@ -30,9 +30,12 @@ func _process(_delta):
 	var camera_rotation = rad_to_deg(camera_transform.basis.get_euler().y)
 #	#delta: get prevous - camera_rotation
 	var delta_rotation = previous_rotation - camera_rotation
-	
+	#var mini_user_transform = %MapRigidBody/Map/MiniUser.global_transform.basis.get_euler().y
 	#rotate compass
-	%MapRigidBody/Map/MiniUser.rotate(Vector3.UP, deg_to_rad(delta_rotation))
+	#%MapRigidBody/Map/MiniUser.rotation.y = %MapRigidBody/Map/MiniUser.rotation.y + delta_rotation
+	
+	#off by 45degrees?
+	%MapRigidBody/Map/MiniUser.rotate(Vector3.UP, deg_to_rad(-delta_rotation))
 	previous_rotation = camera_rotation
 	
 	if self.input_vector.y > self.dead_zone || self.input_vector.y < -self.dead_zone:
