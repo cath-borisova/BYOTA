@@ -245,6 +245,7 @@ shape = SubResource("CylinderShape3D_mvuvt")
 
 [node name="Bush" type="RigidBody3D" parent="." groups=["grabbable"]]
 unique_name_in_owner = true
+visible = false
 script = ExtResource("8_0e0tr")
 
 [node name="BushBerries_2" parent="Bush" instance=ExtResource("8_gsa2q")]
@@ -294,12 +295,12 @@ transform = Transform3D(0.01, 0, 0, 0, 0.01, 0, 0, 0, 0.01, 0, 0, 0)
 shape = SubResource("SphereShape3D_bk2rj")
 
 [node name="ArrowStem" type="MeshInstance3D" parent="MiniUser" groups=["arrow"]]
-transform = Transform3D(-8.74228e-11, 0.01, -4.37114e-11, 0, -4.37114e-10, -0.001, -0.002, -4.37114e-10, 1.91069e-18, -0.005, 0.001, 0)
+transform = Transform3D(0.002, 0, 0, 0, -4.37114e-10, -0.001, 0, 0.01, -4.37114e-11, 0, 0, -0.00848935)
 mesh = SubResource("CylinderMesh_374y2")
 
 [node name="ArrowHead" type="MeshInstance3D" parent="MiniUser" groups=["arrow"]]
 unique_name_in_owner = true
-transform = Transform3D(-2.18557e-10, -0.01, -4.37114e-11, 0, -4.37114e-10, 0.001, -0.005, 4.37114e-10, 1.91069e-18, -0.02, 0.001, 0)
+transform = Transform3D(0.005, 0, 0, 0, -4.37114e-10, 0.001, 0, -0.01, -4.37114e-11, 0, 0, -0.0229432)
 mesh = SubResource("PrismMesh_3bf6w")
 skeleton = NodePath("../ArrowStem")
 

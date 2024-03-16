@@ -16,28 +16,14 @@ var snap_turn = true
 var returned_to_dead_zone = true
 
 var rotation_position = 0
-var previous_rotation = 0
+#var previous_rotation = 0
 
 #1 = radians 2 = NESW 3=Coordinates
 var compass_mode = 1
 func _ready():
-	print(previous_rotation)
 	pass 
 
 func _process(_delta):
-	#camera movement
-	var camera_transform = $XRCamera3D.global_transform
-	var camera_rotation = rad_to_deg(camera_transform.basis.get_euler().y)
-#	#delta: get prevous - camera_rotation
-	var delta_rotation = previous_rotation - camera_rotation
-	#var mini_user_transform = %MapRigidBody/Map/MiniUser.global_transform.basis.get_euler().y
-	#rotate compass
-	#%MapRigidBody/Map/MiniUser.rotation.y = %MapRigidBody/Map/MiniUser.rotation.y + delta_rotation
-	
-	#off by 45degrees?
-	%MapRigidBody/Map/MiniUser.rotate(Vector3.UP, deg_to_rad(-delta_rotation))
-	previous_rotation = camera_rotation
-	
 	if self.input_vector.y > self.dead_zone || self.input_vector.y < -self.dead_zone:
 		var movement_vector = Vector3(0, 0, max_speed * -self.input_vector.y * _delta)
 		if camera_view:
@@ -49,7 +35,8 @@ func _process(_delta):
 		if returned_to_dead_zone && (self.input_vector.x > self.snap_turn_dead_zone || self.input_vector.x < -self.snap_turn_dead_zone):
 			self.rotate(Vector3.UP, deg_to_rad(snap_turn_speed) * -self.input_vector.x)
 			%MapRigidBody/Map.rotate(Vector3.UP, deg_to_rad(snap_turn_speed) * -self.input_vector.x)
-			%MapRigidBody/Map/MiniUser.rotate(Vector3.UP, (deg_to_rad(snap_turn_speed) * -self.input_vector.x))
+			#bottom line commented out since it is updated now based on where user is looking in miniuser script
+#			%MapRigidBody/Map/MiniUser.rotate(Vector3.UP, (deg_to_rad(snap_turn_speed) * -self.input_vector.x))
 			if (deg_to_rad(snap_turn_speed) * -self.input_vector.x) < 0:
 				rotation_position += snap_turn_speed
 				if rotation_position == 360:
