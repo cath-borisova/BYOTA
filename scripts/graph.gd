@@ -98,7 +98,7 @@ func cancel():
 func graph_default_position():
 	globals.position_relative_to_user(self)
 	self.global_position = %XROrigin3D.global_position
-	self.global_position.y += 0.5
+	self.global_position.y += 0.8
 	my_y = self.global_position.y
 	my_x = self.global_position.x
 	my_z = self.global_position.z
