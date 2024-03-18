@@ -67,12 +67,13 @@ func position_relative_to_user(object):
 	var xr_origin_transform = xrorigin3d.global_transform
 	var offset_vector = -xr_origin_transform.basis.z * 0.1
 	object.global_transform.origin = xr_origin_transform.origin + offset_vector
-	object.rotation = Vector3(0,0,0)		
+	object.rotation = Vector3(0,0,0)
+	#object.position.y += 0.2
 
 func position_above_user(object):
 	var new_position = camera.global_position + -(camera.global_transform).basis.z.normalized() * 0.5
-	new_position.y = xrorigin3d.global_position.y + 0.9
+	new_position.y = xrorigin3d.global_position.y + 1.2
 	object.global_transform.origin = new_position
 	var projected_camera_pos = camera.global_position
-	projected_camera_pos.y = xrorigin3d.global_position.y + 0.9
+	projected_camera_pos.y = xrorigin3d.global_position.y + 1.2
 	object.look_at(projected_camera_pos, Vector3(0, 1, 0))

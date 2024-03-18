@@ -271,7 +271,7 @@ func generate_terrain(amplitude, width, length, string_width, string_length):
 
 func map_default_position():
 	globals.position_relative_to_user(self)
-	self.global_position.y += 0.5
+	self.global_position.y += 0.8
 	my_y = self.global_position.y
 	my_scale_x = 1
 	my_scale_z = 1

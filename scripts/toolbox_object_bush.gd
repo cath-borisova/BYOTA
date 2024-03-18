@@ -42,7 +42,7 @@ func _process(_delta):
 			projected_camera_pos.y = %XROrigin3D.global_position.y + 0.9
 			
 			self.look_at(projected_camera_pos, Vector3(0, 1, 0))
-			#globals.position_above_user(self)
+		
 	else:
 		if globals.item_showing == 3:
 			globals.item_showing = 0
