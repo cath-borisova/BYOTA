@@ -23,6 +23,10 @@ Globals="*res://scripts/globals.gd"
 
 enabled=PackedStringArray("res://addons/zylann.hterrain/plugin.cfg")
 
+[rendering]
+
+textures/vram_compression/import_etc2_astc=true
+
 [xr]
 
 openxr/enabled=true
